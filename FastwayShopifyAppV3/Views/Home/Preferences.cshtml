@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Preferences";
+}
+
+
+<div class="container mainContainer">
+    <div class="row">
+        <div id="leftside" class="col-md-3"></div>
+        <div id="rightside" class="col-xs-12 col-sm-12 col-md-9" style="min-height:836px">
+            <h1 id="pageTitle" class="article-title">Preferences</h1>
+            <h3 class="header">Welcome to the set up page for Shopify Fastway App!</h3>
+            <p>Please configure the below settings accordingly</p>
+            <div class="panel panel-body">
+                <div class="panel-body" style="padding:3px">
+                    <label id="warning1" style="display:none;padding:1px;width:500px" class="label-warning">Test</label>
+                </div>
+            </div>
+            <table style="width:100%">
+                <tbody>
+                    <tr>
+                        <td class="TableLinesHZFWparaBlu" colspan="2">Store details</td>
+                    </tr>
+                    <tr>
+                        <td>Store Name:<span style="color:red;font-weight:bold">*</span></td>
+                        <td><input id="tbxStoreName" class="form-control" placeholder="Store Name" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>Address:<span style="color:red;font-weight:bold">*</span></td>
+                        <td><input id="tbxStoreAddress1" class="form-control" placeholder="Address" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>Suburb:<span style="color:red;font-weight:bold">*</span></td>
+                        <td><input id="tbxStoreSuburb" class="form-control" placeholder="Suburb" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>PostCode:<span style="color:red;font-weight:bold">*</span></td>
+                        <td><input id="tbxStorePostcode" class="form-control" placeholder="Postcode" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td class="TableLinesHZFWparaBlu" colspan="2">Fastway API Settings</td>
+                    </tr>
+                    <tr>
+                        <td>API Key:<span style="color:red;font-weight:bold">*</span></td>
+                        <td><input id="tbxApiKey" class="form-control" placeholder="API Key" type="text" /></td>
+                    </tr>
+                    <tr id="countryCodeRow">
+                        <td>Country:<span style="color:red;font-weight:bold">*</span></td>
+                        <td><select id="slcCountry" class="form-control" >
+                            <option disabled selected> -- select an option -- </option>
+                            <option value="1">Australia</option>
+                            <option value="6">New Zealand</option>
+                            <option value="11">Ireland or N.Ireland</option>
+                            <option value="24">South Africa</option>
+                            </select></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-xs-6">
+                    <a class="btn btn-primary" onclick="updatePreferences()">
+                        Update Preferences
+                    </a>
+                </div>
+            </div>
+            <script type="text/javascript">
+                //populating store details
+                var shopDetails = JSON.parse(document.getElementById('shopDetails').value);
+                document.getElementById("tbxStoreName").value = shopDetails.StoreName;
+                document.getElementById("tbxStoreAddress1").value = shopDetails.StoreAddress1;
+                document.getElementById("tbxStoreSuburb").value = shopDetails.Suburb;
+                document.getElementById("tbxStorePostcode").value = shopDetails.Postcode;
+                document.getElementById("tbxApiKey").value = shopDetails.FastwayApiKey;
+
+                if (shopDetails.CountryCode != -1) {
+                    document.getElementById("slcCountry").value = shopDetails.CountryCode;
+                }
+            </script>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    function updatePreferences() { var e = JSON.parse(document.getElementById("shopDetails").value); if (document.getElementById("tbxStoreName").value != e.StoreName || document.getElementById("tbxStoreAddress1").value != e.StoreAddress1 || document.getElementById("tbxStoreSuburb").value != e.Suburb || document.getElementById("tbxStorePostcode").value != e.Postcode || document.getElementById("tbxApiKey").value != e.FastwayApiKey || document.getElementById("slcCountry").value != e.CountryCode) { document.getElementById("warning1").style.display = "none"; var t = { ShopUrl: e.StoreUrl, StoreName: document.getElementById("tbxStoreName").value, StoreAddress1: document.getElementById("tbxStoreAddress1").value, Suburb: document.getElementById("tbxStoreSuburb").value, Postcode: document.getElementById("tbxStorePostcode").value, ApiKey: document.getElementById("tbxApiKey").value, CountryCode: document.getElementById("slcCountry").value }; $.ajax({ type: "POST", url: "/Home/UpdatePreferences", data: JSON.stringify(t), dataType: "json", contentType: "application/json; charset=utf-8", success: function (e) { document.getElementById("warning1").innerText = "Details have been updated", document.getElementById("shopDetails").value = e.Updated, document.getElementById("warning1").style.display = "block" }, error: function () { document.getElementById("warning1").innerText = "There was an error updating your details, please try again", document.getElementById("warning1").style.display = "block" } }) } else document.getElementById("warning1").innerText = "No change made", document.getElementById("warning1").style.display = "block" }
+</script>

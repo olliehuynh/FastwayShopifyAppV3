@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Fastway Shopify App V.3</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/site.css">
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/site.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+
+
+
+    <script type="text/javascript">
+        function Nav(nav) {//navigate within app
+            var Url = document.getElementById('shopUrl').value;
+            window.location.href = '/Home/' + nav + '?shopUrl=' + Url;
+        }
+
+    </script>
+</head>
+<body style="padding-top:15px">
+    <div id="header" class="container hidden-sm hidden-xs">
+        <div id="headerlogo">
+            <a id="logo" title="Homepage" onclick="Nav('Index')" href="javascript:void(0);"></a>
+        </div>
+    </div>
+    <div class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav" style="align-content: center">
+                    <li><a onclick="Nav('Index')" href="javascript:void(0);">Home</a></li>
+                    <li><a onclick="Nav('Preferences')" href="javascript:void(0);">Preferences</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    @*@Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")*@
+</body>
+</html>

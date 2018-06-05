@@ -1,0 +1,171 @@
+﻿
+@{
+    ViewBag.Title = "NewConsignment";
+}
+
+
+<div id="mainContainer" class="container">
+    <div class="row">
+        <div id="rightside" class="col-xs-12 col-sm-12 col-md-12" style="min-height:836px;">
+            <div id="load"></div>
+            <div id="pageTitle" class="article-header"><h1 style="color:#003184">New Consignment</h1></div>
+            <div class="panel panel-body" style="padding:0">
+                <div class="panel-body" style="padding:3px">
+                    <label id="warning1" style="display:none;padding:1px;width:500px" class="label-warning">Test</label>
+                    <label id="warning2" style="display:none;padding:1px;width:500px" class="label-warning">Test</label>
+                    <label id="warning3" style="display:none;padding:1px;width:500px" class="label-warning">Test</label>
+                </div>
+            </div>
+            <div class="col-md-6" style="padding-left: 0">
+                <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-weight:bold">
+                        Receiver Details <span style="color:red">** Max length for these fields is 30 charaters **</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="address">
+                            <label>Name:<span style="color:red;font-weight:bold">*</span></label>
+                            <input id="tbxCustomerName" class="form-control" placeholder="Company or Name" type="text" style="" />
+                        </div>
+                        <div class="address">
+                            <label>Address line 1:</label><span style="color:red">** Street numbers and street names only **</span>
+                            <input id="tbxDeliveryAddress" class="form-control" placeholder="Address line 1" type="text" style="" />
+                        </div>
+                        <div class="address">
+                            <label>Address line 2:</label>
+                            <input id="tbxDeliveryAddress1" class="form-control" placeholder="Address line 2" type="text" style="" />
+                        </div>
+                        <div class="row">
+                            <div class="address col-md-6">
+                                <label>Suburb:<span style="color:red;font-weight:bold">*</span></label>
+                                <input id="tbxDeliveryCity" class="form-control" placeholder="Suburb" type="text" style="" />
+                            </div>
+                            <div class="address col-md-6">
+                                <label>Postcode:<span style="color:red;font-weight:bold">*</span></label>
+                                <input id="tbxDeliveryPostcode" class="form-control" placeholder="Postcode" type="text" maxlength="4" style="" />
+                            </div>
+                        </div>
+                        <div class="address">
+                            <label>Region:</label>
+                            <input id="tbxRegion" class="form-control" placeholder="Region:" type="text" style="" />
+                        </div>
+                    </div>
+                    <div id="satFooter" class="panel-footer" style="display:none">
+                        <label>
+                            <input id="satCbx" name="satCbx" type="checkbox" />
+                            Saturday Service
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="padding-right: 0">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Options</div>
+                    <div class="panel-body">
+                        <div class="address">
+                            <label>Contact Name:</label>
+                            <input id="tbContactName" class="form-control" type="text" style="width:100%" />
+                        </div>
+                        <div class="address">
+                            <label>Email:</label>
+                            <input id="tbEmail" class="form-control" type="text" />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Phone Number:</label>
+                                <input id="tbPhone" class="form-control" type="text" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Mobile:</label>
+                                <input id="tbMobilePhone" class="form-control" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width:100%">
+                    <label>Special Instructions</label>
+                    <input id="tbInstructions" class="form-control" style="width:100%" type="text" />
+                    <label style="margin-top: 5px">
+                        <input id="notifyCbx" name="notifyCbx" type="checkbox" checked/>
+                        Notify Customer
+                    </label>
+                </div>
+            </div>
+            <table class="table-spacing pad-bottom-50 pad-top-10" style="border-collapse:separate; width:100%">
+                <tbody>
+                    <tr>
+                        <td colspan="3">
+                            <table id="tblItems" class="list" style="width:100%">
+                                <tbody>
+                                    <tr class="headerFullBox">
+                                        <td>Reference</td>
+                                        <td>Packaging</td>
+                                        <td>Items</td>
+                                        <td>Weight(kg)</td>
+                                        <td>Cubic(m<sup>3</sup>)</td>
+                                        <td>Length(cm)</td>
+                                        <td>Width(cm)</td>
+                                        <td>Height(cm)</td>
+                                        <td>Cost</td>
+                                        <td>Extra</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-xs-6">
+                    <a class="btn btn-primary" onclick="printLabels()">
+                        Print labels
+                    </a>
+                    <a class="btn btn-primary" onclick="addPackage()">
+                        Add package
+                    </a>
+                    <a id="reset-button" class="btn btn-danger" onclick="reset()">
+                        Reset
+                    </a>
+                </div>
+                <div class="col-xs-6">
+                    <div class="pull-right" style="width:120px">
+                        <table style="text-align:right;vertical-align:top" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h6>Ex GST:</h6>
+                                    </td>
+                                    <td>
+                                        $
+                                        <label id="spanExGST">0.00</label>
+                                    </td>
+                                </tr>
+                                <tr style="border-top:1px solid black">
+                                    <td>
+                                        <h6>GST:</h6>
+                                    </td>
+                                    <td>
+                                        $
+                                        <label id="spanGST">0.00</label>
+                                    </td>
+                                </tr>
+                                <tr style="height: 20px">
+                                    <td style="border-top: 1px solid black; border-bottom: 1px double black">
+                                        <h4>Total:</h4>
+                                    </td>
+                                    <td style="border-top: 1px solid black; border-bottom: 1px double black">
+                                        $
+                                        <label id="spanTotal">0.00</label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/site.js"></script>
