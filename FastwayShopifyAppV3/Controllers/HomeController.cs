@@ -215,7 +215,20 @@ namespace FastwayShopifyAppV3.Controllers
                             service = services.First();
                         } else
                         {//type was NOT "Parcel", get service based on value of Type
-                            service = services[services.FindIndex(a => a.BaseLabelColour == Type)];
+                            if (Type == "SAT-NAT-A3")
+                            {
+                                if (services.First().BaseLabelColour == "BROWN")
+                                {
+                                    service = services[services.FindIndex(a => a.BaseLabelColour == "SAT-LOC-A3")];
+                                } else
+                                {
+                                    service = services[services.FindIndex(a => a.BaseLabelColour == Type)];
+                                }
+                            } else
+                            {
+                                service = services[services.FindIndex(a => a.BaseLabelColour == Type)];
+                            }
+                            
                         }
                         return Json(new
                         {//return details about availabel service
@@ -454,7 +467,6 @@ namespace FastwayShopifyAppV3.Controllers
         /// <param name="LabelNumbers">Label numbers to be added</param>
         /// <returns></returns>
         public async Task<ActionResult> OrdersFulfillment(string ShopUrl, string OrderIds, string LabelNumbers, string NotifyFlag)
-        //public async Task<ActionResult> OrdersFulfillment(string ShopUrl, string OrderIds, string LabelNumbers)
         {
             //Db connection to query store details
             DbEngine conn = new DbEngine();

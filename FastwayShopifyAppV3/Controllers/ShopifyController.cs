@@ -46,6 +46,7 @@ namespace FastwayShopifyAppV3.Controllers
                 var permissions = new List<string>()
             {
                 "read_orders",
+                "read_all_orders",
                 "write_orders",
                 "read_fulfillments",
                 "write_fulfillments",

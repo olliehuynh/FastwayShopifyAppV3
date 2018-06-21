@@ -273,7 +273,6 @@ namespace FastwayShopifyAppV3.Engine
                     {
                         fulfillmentIds += ","+f.Id;
                     }
-                    
                 }
             }
             return fulfillmentIds;
@@ -287,7 +286,6 @@ namespace FastwayShopifyAppV3.Engine
         /// <param name="labelNumbers">a string contains label number(s) to be added to the fulfillment </param>
         /// <returns>fulfillment id as string</returns>
         public async Task<string> NewFulfillment(string shop, string token, string orderId, string labelNumbers, string notifyCustomer)
-        //public async Task<string> NewFulfillment(string shop, string token, string orderId, string labelNumbers)
         {
             var trackingCompany = "";
             var trackingUrl = "";
@@ -371,6 +369,11 @@ namespace FastwayShopifyAppV3.Engine
                     break;
             }
 
+            //var f1 = await service.GetAsync(Convert.ToInt64(orderId), Convert.ToInt64(fulfillmentId));
+
+            //f1.TrackingNumbers = f1.TrackingNumbers.Concat(new[] { labelNumbers });
+            //f1.TrackingUrls = f1.TrackingUrls.Concat(new[] { trackingUrl });
+            
 
             //Fulfillment template
             var fulfillment = new Fulfillment()
@@ -394,7 +397,7 @@ namespace FastwayShopifyAppV3.Engine
                 fulfillment.TrackingNumber = labelNumbers;
                 fulfillment.TrackingUrl = trackingUrl + labelNumbers;
             }
-            //update fulfillment with privided data
+            //update fulfillment with provided data
             if (notifyCustomer == "1") { fulfillment = await service.UpdateAsync(Convert.ToInt64(orderId), Convert.ToInt64(fulfillmentId), fulfillment, true); }
             else {fulfillment = await service.UpdateAsync(Convert.ToInt64(orderId), Convert.ToInt64(fulfillmentId), fulfillment, false); }
 
@@ -548,7 +551,7 @@ namespace FastwayShopifyAppV3.Engine
                 //add all Satchel options to the list
                 for (var i = 0; i < test.Count; i++)
                 {
-                    if (test[i]["base_label_colour"].ToString().Contains("SAT-NAT-"))
+                    if (test[i]["base_label_colour"].ToString().Contains("SAT-NAT-") || test[i]["base_label_colour"].ToString().Contains("SAT-LOC-"))
                     {
                         UsableLabel s = new UsableLabel();
                         s.BaseLabelColour = test[i]["base_label_colour"].ToString();
