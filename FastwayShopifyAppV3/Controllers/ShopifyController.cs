@@ -106,7 +106,9 @@ namespace FastwayShopifyAppV3.Controllers
                 }
             } else
             {//initiat a webhook to manage uninstalls
+                //adding new record in database for new shop.
                 DBConnection.InsertNewShop(shop, accessToken);
+                //creating new webhook to manage uninstalls
                 var service = new WebhookService(shop, accessToken);
                 var hook = new Webhook()
                 {

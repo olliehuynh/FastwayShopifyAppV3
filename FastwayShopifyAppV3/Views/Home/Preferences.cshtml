@@ -63,6 +63,13 @@
                     </a>
                 </div>
             </div>
+            @*<table style="width:10%">
+                <tbody>
+                    <tr>
+                        <td class="TableLinesHZFWparaBlu" colspan="2">Custom Parcels</td>
+                    </tr>
+                </tbody>
+            </table>*@
             <script type="text/javascript">
                 //populating store details
                 var shopDetails = JSON.parse(document.getElementById('shopDetails').value);
@@ -75,6 +82,10 @@
                 if (shopDetails.CountryCode != -1) {
                     document.getElementById("slcCountry").value = shopDetails.CountryCode;
                 }
+
+                //if (shopDetails.CustomParcels != "") {
+                //    alert("CUSTOM PARCELS");
+                //}
             </script>
         </div>
     </div>

@@ -9,6 +9,7 @@
         <div id="rightside" class="col-xs-12 col-sm-12 col-md-12" style="min-height:836px;">
             <div id="load"></div>
             <div id="pageTitle" class="article-header"><h1 style="color:#003184">New Consignment</h1></div>
+            <div id="pageTitleBulk" class="article-header" style="display:none"><h1 style="color:#003184">Fulfill Multiple Orders</h1></div>
             <div class="panel panel-body" style="padding:0">
                 <div class="panel-body" style="padding:3px">
                     <label id="warning1" style="display:none;padding:1px;width:500px" class="label-warning">Test</label>
@@ -16,7 +17,7 @@
                     <label id="warning3" style="display:none;padding:1px;width:500px" class="label-warning">Test</label>
                 </div>
             </div>
-            <div class="col-md-6" style="padding-left: 0">
+            <div class="col-md-6" id="leftMainPanel" style="padding-left: 0">
                 <div class="panel panel-primary">
                     <div class="panel-heading" style="font-weight:bold">
                         Receiver Details <span style="color:red">** Max length for these fields is 30 charaters **</span>
@@ -57,7 +58,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6" style="padding-right: 0">
+            <div class="col-md-6" id="rightMainPanel" style="padding-right: 0">
                 <div class="panel panel-default">
                     <div class="panel-heading">Options</div>
                     <div class="panel-body">
@@ -86,12 +87,12 @@
                     <label>Special Instructions</label>
                     <input id="tbInstructions" class="form-control" style="width:100%" type="text" />
                     <label style="margin-top: 5px">
-                        <input id="notifyCbx" name="notifyCbx" type="checkbox" checked/>
+                        <input id="notifyCbx" name="notifyCbx" type="checkbox" checked />
                         Notify Customer
                     </label>
                 </div>
             </div>
-            <table class="table-spacing pad-bottom-50 pad-top-10" style="border-collapse:separate; width:100%">
+            <table class="table-spacing pad-bottom-50 pad-top-10" id="packageTablePanel" style="border-collapse:separate; width:100%">
                 <tbody>
                     <tr>
                         <td colspan="3">
@@ -115,7 +116,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="row">
+            <div class="row" id="mainControlPanel">
                 <div class="col-xs-6">
                     <a class="btn btn-primary" onclick="printLabels()">
                         Print labels

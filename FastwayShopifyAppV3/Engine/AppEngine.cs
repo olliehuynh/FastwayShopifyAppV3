@@ -111,6 +111,7 @@ namespace FastwayShopifyAppV3.Engine
                             i.FastwayApiKey = result[result.GetOrdinal("FastwayApiKey")] as string;
                             i.ShopifyToken = result[result.GetOrdinal("ShopifyToken")] as string;
                             i.CountryCode = result[result.GetOrdinal("CountryCode")] as int? ?? -1;
+                            //i.CustomParcels = result[result.GetOrdinal("CustomParcels")] as string;
                             thisShop.Add(i);
                         }
                         result.Close();
@@ -225,6 +226,7 @@ namespace FastwayShopifyAppV3.Engine
         public int AppInstalled { get; set; }
         public int AppRemoved { get; set; }
         public int CountryCode { get; set; }
+        //public string CustomParcels { get; set; }
     }
     /// <summary>
     /// Class to manage Shopify API calls
@@ -329,6 +331,12 @@ namespace FastwayShopifyAppV3.Engine
             }
             //fulfillmentservice object to create fulfillment
             var service = new FulfillmentService(shop, token);
+            //get location id
+            var locService = new LocationService(shop, token);
+            var locations = await locService.ListAsync();
+            string locationId = locations.First().Id.ToString();
+            fulfillment.LocationId = locationId;
+
             //creating fulfillment to fulfill order
             if (notifyCustomer == "1") { fulfillment = await service.CreateAsync(Convert.ToInt64(orderId), fulfillment, true); }
             else { fulfillment = await service.CreateAsync(Convert.ToInt64(orderId), fulfillment, false); }
@@ -397,6 +405,12 @@ namespace FastwayShopifyAppV3.Engine
                 fulfillment.TrackingNumber = labelNumbers;
                 fulfillment.TrackingUrl = trackingUrl + labelNumbers;
             }
+            //get location id
+            var locService = new LocationService(shop, token);
+            var locations = await locService.ListAsync();
+            string locationId = locations.First().Id.ToString();
+
+            fulfillment.LocationId = locationId;
             //update fulfillment with provided data
             if (notifyCustomer == "1") { fulfillment = await service.UpdateAsync(Convert.ToInt64(orderId), Convert.ToInt64(fulfillmentId), fulfillment, true); }
             else {fulfillment = await service.UpdateAsync(Convert.ToInt64(orderId), Convert.ToInt64(fulfillmentId), fulfillment, false); }
@@ -1039,6 +1053,10 @@ namespace FastwayShopifyAppV3.Engine
 
             req.AddParameter("Type", "Image");
         }
+
+    }
+    public class OrderSimplifier
+    {
 
     }
     /// <summary>

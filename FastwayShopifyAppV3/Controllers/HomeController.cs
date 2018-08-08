@@ -44,6 +44,7 @@ namespace FastwayShopifyAppV3.Controllers
             Response.Write("<input id='shopUrl' type='hidden' value='" + shopUrl + "'>");
             return View();
         }
+
         /// <summary>
         /// Listen to calls from shopify admin page, receive shop url and order ids. Parse orders and pass details to View()
         /// </summary>
@@ -56,6 +57,7 @@ namespace FastwayShopifyAppV3.Controllers
             string orders = Request.QueryString["ids[]"];
             //required objects
             List<string> orderIds = new List<string>();//list of orderIds
+            List<string> processingOrderIds = new List<string>();//list of orderIds
             List<Order> orderDetails = new List<Order>();//list of order details
             List<Address> deliveryAddress = new List<Address>();//list of delivery details
             List<string> emails = new List<string>();//list of emails addresses
@@ -104,6 +106,7 @@ namespace FastwayShopifyAppV3.Controllers
                     {
                         deliveryAddress.Add(k.ShippingAddress);
                         emails.Add(k.Email);
+                        processingOrderIds.Add(orderIds[i]);
                     }
                 }
                 orderDetails.Add(k);//add order details into list of order details
@@ -118,12 +121,16 @@ namespace FastwayShopifyAppV3.Controllers
             //creating json about delivery address to pass back to View()
             string address = "";
             string note = "";
+            string addresses = "";
+            string strOrderIds = "";
             if (deliveryAddress.Count == 0)
             {//No delivery address found
                 address = "NoAddress";
             } else if (deliveryAddress.Count > 1)
             {//More than one addresses found
                 address = "MoreThanOne";
+                addresses = jsonSerialiser.Serialize(deliveryAddress);
+                strOrderIds = jsonSerialiser.Serialize(processingOrderIds);
             } else
             {//one address
                 address = jsonSerialiser.Serialize(deliveryAddress[0]);
@@ -141,7 +148,9 @@ namespace FastwayShopifyAppV3.Controllers
             Response.Write("<input id='countryCode' type='hidden' value='" + cCode + "'>");//passing countryCode to View() for further queries
             Response.Write("<input id='orderDetails' type='hidden' value='" + orders + "'>");//passing orderIds to View() for further queries
             Response.Write("<input id='deliveryAddress' type='hidden' value='" + address + "'>");//passing address to View() for further queries
-            if(emails.Count>=1) Response.Write("<input id='emailAddress' type='hidden' value='" + emails[0] + "'>");//passing email address
+            Response.Write("<input id='ordersAddresses' type='hidden' value='" + addresses + "'>");//passing ordersdetails to View() for further queries
+            Response.Write("<input id='orderIds' type='hidden' value='" + strOrderIds + "'>");//passing ordersdetails to View() for further queries
+            if (emails.Count>=1) Response.Write("<input id='emailAddress' type='hidden' value='" + emails[0] + "'>");//passing email address
             if (note != "") Response.Write("<input id='specialInstruction' type='hidden' value='" + note + "'>");
             return View();
 
