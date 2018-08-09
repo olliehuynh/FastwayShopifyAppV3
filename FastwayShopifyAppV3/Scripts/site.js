@@ -5,14 +5,30 @@ if (addressString == "NoAddress") {
     document.getElementById('warning1').style.display = "block";
 }
 else if (addressString == "MoreThanOne") {
-    document.getElementById('warning1').innerText = "This is currently in test, please come back later. Thanks.";
-    document.getElementById('warning1').style.display = "block";
-    document.getElementById('leftMainPanel').style.display = "none";
-    document.getElementById('rightMainPanel').style.display = "none";
-    document.getElementById('packageTablePanel').style.display = "none";
-    document.getElementById('mainControlPanel').style.display = "none";
-    document.getElementById('pageTitle').style.display = "none";
-    document.getElementById('pageTitleBulk').style.display = "block";
+    if (document.getElementById("shopUrl").value == "fastway-test-2.myshopify.com") {
+        document.getElementById('leftMainPanel').style.display = "none";
+        document.getElementById('rightMainPanel').style.display = "none";
+        document.getElementById('packageTablePanel').style.display = "none";
+        document.getElementById('mainControlPanel').style.display = "none";
+        document.getElementById('pageTitle').style.display = "none";
+        document.getElementById('pageTitleBulk').style.display = "block";
+        document.getElementById('orderTablePanel').style.display = "block";
+        document.getElementById('orderControlPanel').style.display = "block";
+        loadOrders();
+    } else {
+        document.getElementById('leftMainPanel').style.display = "none";
+        document.getElementById('rightMainPanel').style.display = "none";
+        document.getElementById('packageTablePanel').style.display = "none";
+        document.getElementById('mainControlPanel').style.display = "none";
+        document.getElementById('pageTitle').style.display = "none";
+        document.getElementById('pageTitleBulk').style.display = "none";
+        document.getElementById('orderTablePanel').style.display = "none";
+        document.getElementById('orderControlPanel').style.display = "none";
+        document.getElementById('warning3').innerText = "THIS IS CURRENTLY IN TEST, PLEASE TRY AGAIN LATER";
+        document.getElementById('warning3').style.display = "block";
+    }
+
+
 }
 else {
     addPackage();
@@ -531,3 +547,84 @@ function updateTotalCost() {
     document.getElementById('warning2').style.display = "none";
     document.getElementById('warning3').style.display = "none";
 }
+
+//bulk print area
+
+function loadOrders() {
+    var orderTable = document.getElementById("tblOrders");
+    var orderString = document.getElementById("ordersAddresses").value;
+    var orderDetails = JSON.parse(orderString);
+    for (var i = 0; i < orderDetails.length; i++) {
+        loadOneOrder(orderTable, orderDetails[i],i+1);
+    }
+}
+
+function loadOneOrder(table, order, row) {
+    var row = table.insertRow(row);
+    row.classList.add('consignmentItems');
+    var cells = ["Name", "Address1", "Address2", "Suburb", "Postcode", "Label"];
+    for (var i = 0; i < cells.length; i++) {
+        var newCell = row.insertCell(-1);
+        createOrderCell(newCell, cells[i], row - 1, order);
+    }
+}
+
+function createOrderCell(cell, type, i, order) {
+    cell.style.padding = "1px";
+    var input = document.createElement('input');
+    input.classList.add('form-control');
+    input.setAttribute('type', 'text');
+    switch (type) {
+        case "Label":
+            cell.classList.add('col-xs-2');
+            input.disabled = true;
+            break;
+        case "Name":
+            cell.classList.add('col-xs-2');
+            input.value = order.Name;
+            break;
+        case "Address1":
+            cell.classList.add('col-xs-3');
+            input.value = order.Address1;
+            break;
+        case "Address2":
+            cell.classList.add('col-xs-2');
+            input.value = order.Address2;
+            break;
+        case "Suburb":
+            cell.classList.add('col-xs-2');
+            input.value = order.City;
+            break;
+        case "Postcode":
+            cell.classList.add('col-xs-1');
+            input.value = order.Zip;
+            break;
+    }
+    if (input.value.length > 30) {
+        input.style.backgroundColor = "#ff8080";
+    }
+    input.onchange = function () {
+        if (input.value.length <= 30) {
+            input.style.backgroundColor = "#ffffff";
+        } else {
+            input.style.backgroundColor = "#ff8080";
+        }
+    }
+    cell.appendChild(input);
+}
+function queryLabels() {
+}
+
+function bulkPrintLabels() {
+
+}
+
+function selectCustomType() {
+    var customParcel = document.getElementById("customType").value;
+    if (customParcel == "Parcel") {
+        document.getElementById("customWeight").value = "";
+    } else {
+        document.getElementById("customWeight").value = 5;
+    }
+}
+

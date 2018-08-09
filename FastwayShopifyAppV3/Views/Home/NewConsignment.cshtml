@@ -116,6 +116,82 @@
                     </tr>
                 </tbody>
             </table>
+
+            <table class="table-spacing pad-bottom-50 pad-top-10" id="orderTablePanel" style="border-collapse:separate; width:100%; display:none">
+                <tbody>
+                    <tr>
+                        <td colspan="3">
+                            <table id="tblOrders" class="list" style="width:100%">
+                                <tbody>
+                                    <tr class="headerFullBox">
+                                        <td>Name</td>
+                                        <td>Address</td>
+                                        <td>Address 1</td>
+                                        <td>Suburb</td>
+                                        <td>Postcode</td>
+                                        <td>Label</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row" id="orderControlPanel" style="display:none;padding-bottom:100px">
+                <div class="col-xs-8">
+                    <table class="table-spacing pad-bottom-50 pad-top-10" id="customParcelPanel" style="border-collapse:separate; width:100%">
+                        <tbody>
+                            <tr>
+                                <td colspan="3">
+                                    <table id="tblCustomParcel" class="list" style="width:100%">
+                                        <tbody>
+                                            <tr class="headerFullBox">
+                                                <td>Type(kg)</td>
+                                                <td>Weight(cm)</td>
+                                                <td>Length(cm)</td>
+                                                <td>Width(cm)</td>
+                                                <td>Height(cm)</td>
+                                            </tr>
+                                            <tr class="consignmentItems">
+                                                <td class="col-xs-2">
+                                                    <select id="customType" class="form-control" onchange="selectCustomType()">
+                                                        <option value="Parcel">Parcel</option>
+                                                        <option value="SAT-NAT-E11">Satchel DL</option>
+                                                        <option value="SAT-NAT-A5">Satchel A5</option>
+                                                        <option value="SAT-NAT-A4">Satchel A4</option>
+                                                        <option value="SAT-NAT-A3">Satchel A3</option>
+                                                        <option value="SAT-NAT-A2">Satchel A2</option>
+                                                    </select>
+                                                </td>
+                                                <td class="col-xs-1">
+                                                    <input id="customWeight" class="form-control" type="number" />
+                                                </td>
+                                                <td class="col-xs-1">
+                                                    <input id="customLength" class="form-control" type="number" />
+                                                </td>
+                                                <td class="col-xs-1">
+                                                    <input id="customWidth" class="form-control" type="number" />
+                                                </td>
+                                                <td class="col-xs-1">
+                                                    <input id="customHeight" class="form-control" type="number" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-4" style="padding-top:15px">
+                    <a id="checkBtn" class="btn btn-primary" onclick="queryLabels()">
+                        Check Labels
+                    </a>
+                    <a class="btn btn-primary" onclick="bulkPrintLabels()">
+                        Print Labels
+                    </a>
+                </div>
+            </div>
             <div class="row" id="mainControlPanel">
                 <div class="col-xs-6">
                     <a class="btn btn-primary" onclick="printLabels()">

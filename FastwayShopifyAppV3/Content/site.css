@@ -338,7 +338,9 @@ body {
 }
 
 #load, input[type=select], input[type=text] {
-    width: 100%
+    width: 100%;
+    font-size: 12px;
+    
 }
 
 .navbar-nav > li > .dropdown-menu {
@@ -594,7 +596,9 @@ body {
 }
 
 input[type=number] {
-    -moz-appearance: textfield
+    -moz-appearance: textfield;
+    font-size: 12px;
+
 }
 
     input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
@@ -750,4 +754,5 @@ input[type=number] {
     position: absolute;
     z-index: 9999;
     background: url(/Images/loading.gif) 48% 48% no-repeat rgba(0,0,0,.25)
+}
 }
