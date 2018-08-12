@@ -734,8 +734,6 @@ namespace FastwayShopifyAppV3.Engine
                 }
             }
 
-            
-
             //Execute API request, await for response
             IRestResponse response = client.Execute(request);
 
@@ -877,9 +875,129 @@ namespace FastwayShopifyAppV3.Engine
                 return doc;
                 throw e;
             }
-            
+        }
+
+        public PdfDocument PrintMultipleLabels(List<Labeldetails> labels, PdfDocument doc)
+        {
+
+
+            try
+            {
+                for (var i = 0; i < labels.Count; i++)
+                {
+
+                    var client = new RestClient();
+                    client.BaseUrl = new Uri("http://nz.api.fastway.org/v2/");
+
+                    var request = new RestRequest();
+
+                    //For printng labels
+                    request.Resource = "dynamiclabels/generatelabel";
+
+                    this.RequestPopulating(request, labels[i]);
+                    if (labels[i].toAddress2 != "")
+                    {
+                        request.AddParameter("toAddress2", labels[i].toAddress2);
+                    }
+
+                    request.AddParameter(string.Concat("items[", 0, "].colour"), labels[i].labelColour);
+                    request.AddParameter(string.Concat("items[", 0, "].labelNumber"), labels[i].labelNumber);
+                    request.AddParameter(string.Concat("items[", 0, "].weight"), labels[i].weight + " kg");
+                    request.AddParameter(string.Concat("items[", 0, "].numberOfExcess"), labels[i].excess);
+                    if (labels[i].reference != "")
+                    {
+                        request.AddParameter("customerReference", labels[i].reference);
+                    }
+
+                    //Execute API request, await for response
+                    IRestResponse response = client.Execute(request);
+
+                    //Parsing reresponse
+                    JObject o = JObject.Parse(response.Content);
+
+
+                    JArray a = JArray.Parse(o["result"]["jpegs"].ToString());
+
+                    for (int j = 0; j < a.Count; j++)
+                    {
+                        byte[] jpgByteArray = Convert.FromBase64String(a[j]["base64Utf8Bytes"].ToString());
+
+                        PdfPage page = doc.AddPage();
+
+                        page.Width = XUnit.FromInch(4);
+                        page.Height = XUnit.FromInch(6);
+
+                        MemoryStream stream = new MemoryStream(jpgByteArray);
+
+                        XImage image = XImage.FromStream(stream);
+                        XGraphics gfx = XGraphics.FromPdfPage(page);
+
+                        gfx.DrawImage(image, 0, 0, 285, 435);
+
+                        if (labels[i].ruralNumber != "")
+                        {
+                            var ruralRequest = new RestRequest();
+
+                            //For printng labels
+                            ruralRequest.Resource = "dynamiclabels/generatelabel";
+
+                            this.RequestPopulating(ruralRequest, labels[i]);
+                            if (labels[i].toAddress2 != "")
+                            {
+                                ruralRequest.AddParameter("toAddress2", labels[i].toAddress2);
+                            }
+
+                            ruralRequest.AddParameter(string.Concat("items[", 0, "].colour"), "RURAL");
+                            ruralRequest.AddParameter(string.Concat("items[", 0, "].labelNumber"), labels[i].ruralNumber);
+                            ruralRequest.AddParameter(string.Concat("items[", 0, "].weight"), labels[i].weight + " kg");
+                            ruralRequest.AddParameter(string.Concat("items[", 0, "].numberOfExcess"), labels[i].excess);
+                            if (labels[i].reference != "")
+                            {
+                                ruralRequest.AddParameter("customerReference", labels[i].reference);
+                            }
+
+                            //Execute API request, await for response
+                            IRestResponse ruralResponse = client.Execute(ruralRequest);
+
+                            //Parsing reresponse
+                            JObject oRural = JObject.Parse(ruralResponse.Content);
+
+
+                            JArray aRural = JArray.Parse(oRural["result"]["jpegs"].ToString());
+
+                            for (int k = 0; k < a.Count; k++)
+                            {
+                                byte[] jpgRuralByteArray = Convert.FromBase64String(aRural[k]["base64Utf8Bytes"].ToString());
+
+                                PdfPage ruralPage = doc.AddPage();
+
+                                ruralPage.Width = XUnit.FromInch(4);
+                                ruralPage.Height = XUnit.FromInch(6);
+
+                                MemoryStream ruralStream = new MemoryStream(jpgRuralByteArray);
+
+                                XImage ruralImage = XImage.FromStream(ruralStream);
+                                XGraphics ruralGfx = XGraphics.FromPdfPage(ruralPage);
+
+                                ruralGfx.DrawImage(ruralImage, 0, 0, 285, 435);
+                            }
+                        }
+                    }
+
+
+                }
+                return doc;
+            }
+            catch (Exception)
+            {
+                return doc;
+                throw;
+            }
+
+
 
         }
+
         /// <summary>
         /// Method to query for label numbers on provided details (addresses/serivce to be used)
         /// </summary>
@@ -1055,10 +1173,7 @@ namespace FastwayShopifyAppV3.Engine
         }
 
     }
-    public class OrderSimplifier
-    {
 
-    }
     /// <summary>
     /// Extension class to manage list value from request.Headers
     /// </summary>

@@ -126,15 +126,17 @@ namespace FastwayShopifyAppV3.Controllers
             if (deliveryAddress.Count == 0)
             {//No delivery address found
                 address = "NoAddress";
-            } else if (deliveryAddress.Count > 1)
+            }
+            else if (deliveryAddress.Count > 1)
             {//More than one addresses found
                 address = "MoreThanOne";
                 addresses = jsonSerialiser.Serialize(deliveryAddress);
-                strOrderIds = jsonSerialiser.Serialize(processingOrderIds);
-            } else
+                strOrderIds = string.Join(",", processingOrderIds);
+            }
+            else
             {//one address
                 address = jsonSerialiser.Serialize(deliveryAddress[0]);
-                for (int i = 0; i< orderDetails.Count; i++)
+                for (int i = 0; i < orderDetails.Count; i++)
                 {
                     if (orderDetails[i].Note != "")
                     {
@@ -142,7 +144,7 @@ namespace FastwayShopifyAppV3.Controllers
                     }
                 }
             }
-            
+
 
             Response.Write("<input id='shopUrl' type='hidden' value='" + shop + "'>");//passing shopUrl to View() for further queries
             Response.Write("<input id='countryCode' type='hidden' value='" + cCode + "'>");//passing countryCode to View() for further queries
@@ -150,22 +152,11 @@ namespace FastwayShopifyAppV3.Controllers
             Response.Write("<input id='deliveryAddress' type='hidden' value='" + address + "'>");//passing address to View() for further queries
             Response.Write("<input id='ordersAddresses' type='hidden' value='" + addresses + "'>");//passing ordersdetails to View() for further queries
             Response.Write("<input id='orderIds' type='hidden' value='" + strOrderIds + "'>");//passing ordersdetails to View() for further queries
-            if (emails.Count>=1) Response.Write("<input id='emailAddress' type='hidden' value='" + emails[0] + "'>");//passing email address
+            if (emails.Count >= 1) Response.Write("<input id='emailAddress' type='hidden' value='" + emails[0] + "'>");//passing email address
             if (note != "") Response.Write("<input id='specialInstruction' type='hidden' value='" + note + "'>");
             return View();
 
         }
-
-        //public async Task<ActionResult> RePrintLabels(string shop, string id)
-        //{
-
-
-
-        //    Response.Write("<input id='shopUrl' value='" + shop + "'>");
-        //    Response.Write("<input id='orderid' value='" + id + "'>");
-
-        //    return View();
-        //}
 
         /// <summary>
         /// Listen to query from NewConsignment controler, query and response with available services
@@ -206,7 +197,7 @@ namespace FastwayShopifyAppV3.Controllers
             List<UsableLabel> services = newApiCall.ServiceQuery(label);
             //UsableLabel entity to respond
             UsableLabel service = new UsableLabel();
-            
+
             try
             {
                 if (services.First().CostexgstTotalChargeToEndUser != 0)
@@ -217,27 +208,31 @@ namespace FastwayShopifyAppV3.Controllers
                         {//return an Error code
                             Error = "No Service Available"
                         });
-                    } else//service(s) available
+                    }
+                    else//service(s) available
                     {
                         if (Type == "Parcel")
                         {//type was "Parcel", assign parcel option to response json
                             service = services.First();
-                        } else
+                        }
+                        else
                         {//type was NOT "Parcel", get service based on value of Type
                             if (Type == "SAT-NAT-A3")
                             {
                                 if (services.First().BaseLabelColour == "BROWN")
                                 {
                                     service = services[services.FindIndex(a => a.BaseLabelColour == "SAT-LOC-A3")];
-                                } else
+                                }
+                                else
                                 {
                                     service = services[services.FindIndex(a => a.BaseLabelColour == Type)];
                                 }
-                            } else
+                            }
+                            else
                             {
                                 service = services[services.FindIndex(a => a.BaseLabelColour == Type)];
                             }
-                            
+
                         }
                         return Json(new
                         {//return details about availabel service
@@ -248,18 +243,21 @@ namespace FastwayShopifyAppV3.Controllers
                             Saturday = services.First().Saturday
                         });
                     }
-                } else
+                }
+                else
                 {
                     return Json(new
                     {//Error code from Fastway NOTE: will need to handle different type of error HERE
                         Error = "No Service Available"
                     });
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 //general error code Note: will need to handle these
                 throw e;
             }
-            
+
         }
         /// <summary>
         /// Listen to query from NewConsignment controller, query and response with label numbers
@@ -293,7 +291,8 @@ namespace FastwayShopifyAppV3.Controllers
             {
                 label.toCompany = d["Company"].ToString();
                 label.toContactName = d["ContactName"].ToString();
-            } else
+            }
+            else
             {
                 label.toCompany = d["ContactName"].ToString();
             }
@@ -307,7 +306,7 @@ namespace FastwayShopifyAppV3.Controllers
             List<string> labelNumbers = new List<string>();
             //TEST label with details
             //List<Labeldetails> labelDetails = new List<Labeldetails>();
-            
+
             for (int i = 0; i < p.Count; i++)
             {//loop through packaging details to query Fastway API and get label numbers //TEST details
                 for (int j = 0; j < (int)p[i]["Items"]; j++)
@@ -351,7 +350,7 @@ namespace FastwayShopifyAppV3.Controllers
             //TEST details
             //string pdfString = printLabel.PrintLabelWithDetails(labelDetails, label.apiKey);
 
-            
+
             try
             {
                 return Json(new
@@ -361,7 +360,8 @@ namespace FastwayShopifyAppV3.Controllers
                     //Test print type image
                     //JpegString = jpegString
                 });
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {//NOTE: manage exception if required
                 throw e;
             }
@@ -374,7 +374,6 @@ namespace FastwayShopifyAppV3.Controllers
         /// <param name="PackagingDetails"></param>
         /// <returns></returns>
         [HttpPost]
-        
         public JsonResult LabelPrintingV2(string ShopUrl, string DeliveryDetails, string PackagingDetails, bool Saturday)
         {
             //labeldetails object to call Fastway API
@@ -395,7 +394,7 @@ namespace FastwayShopifyAppV3.Controllers
             label.toAddress2 = d["Address2"].ToString();
             label.toPostcode = d["Postcode"].ToString();
             label.toCity = d["Suburb"].ToString();
-            
+
             label.specialInstruction1 = d["SpecialInstruction1"].ToString();
 
             if (d["Company"].ToString() != "")
@@ -418,7 +417,7 @@ namespace FastwayShopifyAppV3.Controllers
             List<Labeldetails> labelDetails = new List<Labeldetails>();
             List<string> labelNumbers = new List<string>();
 
-            
+
 
             for (int i = 0; i < p.Count; i++)
             {
@@ -429,7 +428,7 @@ namespace FastwayShopifyAppV3.Controllers
                     label.labelColour = p[i]["BaseLabel"].ToString();
                     label.reference = p[i]["Reference"].ToString();
                     label.saturday = Saturday;
-                    
+
                     //new fastwayAPI object to query
                     FastwayAPI getLabel = new FastwayAPI();
                     //get label with V2 method
@@ -494,7 +493,7 @@ namespace FastwayShopifyAppV3.Controllers
                     string fulfillmentId = await newApi.NewFulfillment(ShopUrl, token, OrderIds, LabelNumbers, NotifyFlag);
                     //string fulfillmentId = await newApi.NewFulfillment(ShopUrl, token, OrderIds, LabelNumbers);
                 }
-                else if(!fulfillments.Contains(","))
+                else if (!fulfillments.Contains(","))
                 {//if fulfilled, update tracking information
                     string fulfillmentId = await newApi.UpdateFulfillment(ShopUrl, token, OrderIds, fulfillments, LabelNumbers, NotifyFlag);
                 }
@@ -511,25 +510,29 @@ namespace FastwayShopifyAppV3.Controllers
             {//more than one order
                 //get the list of orderIds
                 List<string> orderIds = OrderIds.Split(',').ToList();
-                foreach (string id in orderIds)
+                //bulk print
+                List<string> labelNumbers = LabelNumbers.Split(',').ToList();
+
+                //foreach (string id in orderIds)
+                for (var i=0; i<orderIds.Count;i++)
                 {//loop through orderIds list and fulfill/update fulfillment as per required
                     ShopifyAPI newApi = new ShopifyAPI();
-                    string fulfillments = await newApi.GetFulfillment(ShopUrl, token, id);
+                    string fulfillments = await newApi.GetFulfillment(ShopUrl, token, orderIds[i]);
                     if (fulfillments == "")
                     {//if not fulfilled yet, fulfill it
-                        string fulfillmentId = await newApi.NewFulfillment(ShopUrl, token, id, LabelNumbers, NotifyFlag);
+                        string fulfillmentId = await newApi.NewFulfillment(ShopUrl, token, orderIds[i], labelNumbers[i], NotifyFlag);
                         //string fulfillmentId = await newApi.NewFulfillment(ShopUrl, token, id, LabelNumbers);
                     }
                     else if (!fulfillments.Contains(","))
                     {//if fulfilled, update tracking information
-                        string fulfillmentId = await newApi.UpdateFulfillment(ShopUrl, token, OrderIds, fulfillments, LabelNumbers, NotifyFlag);
+                        string fulfillmentId = await newApi.UpdateFulfillment(ShopUrl, token, orderIds[i], fulfillments, labelNumbers[i], NotifyFlag);
                     }
                     else
                     {
                         List<string> fulfillmentIds = fulfillments.Split(',').ToList();
                         foreach (string fId in fulfillmentIds)
                         {
-                            string fulfillmentId = await newApi.UpdateFulfillment(ShopUrl, token, OrderIds, fId, LabelNumbers, NotifyFlag);
+                            string fulfillmentId = await newApi.UpdateFulfillment(ShopUrl, token, orderIds[i], fId, labelNumbers[i], NotifyFlag);
                         }
                     }
                 }
@@ -554,7 +557,7 @@ namespace FastwayShopifyAppV3.Controllers
             //from store data forming json for front-end
             JavaScriptSerializer jsonSerialiser = new JavaScriptSerializer();
             string storeDetails = jsonSerialiser.Serialize(details);
-            
+
             Response.Write("<input id='shopUrl' type='hidden' value='" + shopUrl + "'>");
             Response.Write("<input id='shopDetails' type='hidden' value='" + storeDetails + "'>");
             return View();
@@ -591,14 +594,203 @@ namespace FastwayShopifyAppV3.Controllers
                 {//return status success
                     Updated = storeDetails
                 });
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {//error
                 throw e;
             }
-            
+
 
 
         }
-               
+        /// <summary>
+        /// Query Labels for multi print
+        /// </summary>
+        /// <param name="ShopUrl"></param>
+        /// <param name="Address1"></param>
+        /// <param name="Address2"></param>
+        /// <param name="Suburb"></param>
+        /// <param name="Postcode"></param>
+        /// <param name="Weight"></param>
+        /// <param name="Instruction"></param>
+        /// <param name="Type"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult MultiLabelQuery(string ShopUrl, string Address1, string Address2, string Suburb, string Postcode, float Weight, string Instruction, string Type)
+        {
+            //DB connection to query store details
+            DbEngine newDB = new DbEngine();
+            //get store details with provided url
+            StoreRecord storeDetails = newDB.GetShopRecord(ShopUrl);
+            //Labeldetails entity to query
+            Labeldetails label = new Labeldetails();
+            //populate store details for query
+            label.apiKey = storeDetails.FastwayApiKey;
+            label.fromAddress1 = storeDetails.StoreAddress1;
+            label.fromCity = storeDetails.Suburb;
+            label.fromPostcode = storeDetails.Postcode;
+            //populate delivery details for query
+            label.toAddress1 = Address1;
+            label.toAddress2 = Address2;
+            label.toCity = Suburb;
+            label.toPostcode = Postcode;
+            //populate parcel details for query
+            label.weight = (double)Weight;
+            label.countryCode = storeDetails.CountryCode;
+
+            List<string> labelNumbers = new List<string>();
+
+            try
+            {
+                if (Type != "Parcel")
+                {
+                    if (Weight > 5)
+                    {
+                        labelNumbers.Add("No Service Found");
+                    }
+                    else
+                    {
+                        label.specialInstruction1 = Instruction;
+
+                        //new fastwayAPI object to query
+                        FastwayAPI getLabel = new FastwayAPI();
+                        //get label with V2 method
+                        Labeldetails l = new Labeldetails();
+
+                        if (Type == "SAT-NAT-A3")
+                        {
+                            List<UsableLabel> services = getLabel.ServiceQuery(label);
+                            if (services.First().BaseLabelColour == "BROWN")
+                            {
+                                label.labelColour = services[services.FindIndex(a => a.BaseLabelColour == "SAT-LOC-A3")].BaseLabelColour;
+                            }
+                            else
+                            {
+                                label.labelColour = Type;
+                            }
+                        }
+                        else
+                        {
+                            label.labelColour = Type;
+                        }
+                        l = getLabel.LabelQueryV2(label);
+                        labelNumbers.Add(l.labelNumber);
+                        labelNumbers.Add(l.ruralNumber);
+                    }
+                }
+                else
+                {
+                    //new fastwayAPI object to query
+                    FastwayAPI getLabel = new FastwayAPI();
+                    //get label with V2 method
+                    Labeldetails l = new Labeldetails();
+                    List<UsableLabel> services = getLabel.ServiceQuery(label);
+                    label.labelColour = services.First().BaseLabelColour;
+                    l = getLabel.LabelQueryV2(label);
+                    labelNumbers.Add(l.labelNumber);
+                    labelNumbers.Add(l.ruralNumber);
+                }
+            }
+            catch (Exception)
+            {
+                labelNumbers.Add("No Service Found");
+            }
+            return Json(new
+            {//return details about availabel service
+                BaseLabel = labelNumbers[0],
+                RuralLabel = labelNumbers[1],
+                Service = label.labelColour
+            });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ShopUrl"></param>
+        /// <param name="DeliveryDetails"></param>
+        /// <param name="PackagingDetails"></param>
+        /// <param name="Saturday"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult MultiLabelPrinting(string ShopUrl, string Instruction, float Weight, string Labels, string FullDetails)
+        {
+            //DB connection to query store details
+            DbEngine newDB = new DbEngine();
+            //get store details with provided url
+            StoreRecord storeDetails = newDB.GetShopRecord(ShopUrl);
+            //Labeldetails entity to query
+            Labeldetails label = new Labeldetails();
+            ///populate store details for query
+            label.apiKey = storeDetails.FastwayApiKey;
+            label.fromAddress1 = storeDetails.StoreAddress1;
+            label.fromCity = storeDetails.Suburb;
+            label.fromPostcode = storeDetails.Postcode;
+            //populate parcel details for query
+            label.weight = (double)Weight;
+            label.specialInstruction1 = Instruction;
+            label.countryCode = storeDetails.CountryCode;
+            //parsing the labels addresses details
+            JArray ls = JArray.Parse(Labels);
+            JArray fds = JArray.Parse(FullDetails);
+
+            List<Labeldetails> labelDetails = new List<Labeldetails>();
+
+            for (var i = 0; i < ls.Count; i++)
+            {
+                if (ls[i]["BaseLabel"].ToString() != "")
+                {
+                    Labeldetails l = label;
+                    if (ls[i]["Company"].ToString() != "")
+                    {
+                        l.toCompany = ls[i]["Company"].ToString();
+                        l.toContactName = ls[i]["Name"].ToString();
+                    }
+                    else
+                    {
+                        l.toCompany = ls[i]["Name"].ToString();
+                    }
+                    //label.toContactPhone = fds[i]["ContactPhone"].ToString();
+                    ////pull through email address for expect messaging
+                    //label.toEmail = fds[i]["ContactEmail"].ToString();
+
+                    l.toAddress1 = ls[i]["Address1"].ToString();
+                    l.toAddress2 = ls[i]["Address2"].ToString();
+                    l.toPostcode = ls[i]["Postcode"].ToString();
+                    l.toCity = ls[i]["Suburb"].ToString();
+
+                    l.labelColour = ls[i]["Service"].ToString();
+                    l.labelNumber = ls[i]["BaseLabel"].ToString();
+                    l.ruralNumber = ls[i]["RuralLabel"].ToString();
+
+                    labelDetails.Add(l);
+                }
+                
+            }
+
+            PdfDocument doc = new PdfDocument();
+            if (labelDetails.Count > 0)
+            {
+                FastwayAPI getBase = new FastwayAPI();
+                doc = getBase.PrintMultipleLabels(labelDetails, doc);
+            }
+
+            MemoryStream pdfStream = new MemoryStream();
+            doc.Save(pdfStream, false);
+            byte[] pdfBytes = pdfStream.ToArray();
+
+            var pdfString = Convert.ToBase64String(pdfBytes);
+
+            try
+            {
+                return Json(new
+                {//return status success
+                    PdfBase64Stream = pdfString
+                });
+            }
+            catch (Exception e)
+            {//error
+                throw e;
+            }
+        }
     }
 }

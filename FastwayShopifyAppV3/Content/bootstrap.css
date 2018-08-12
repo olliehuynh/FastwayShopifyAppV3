@@ -159,7 +159,7 @@ input[type=search]::-webkit-search-cancel-button, input[type=search]::-webkit-se
 
 table {
     border-spacing: 0;
-    border-collapse: collapse
+    border-collapse: collapse;
 }
 
 td, th {

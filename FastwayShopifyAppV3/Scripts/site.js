@@ -1,53 +1,52 @@
-﻿document.getElementById('load').style.visibility = "hidden";
-var addressString = document.getElementById('deliveryAddress').value;
-if (addressString == "NoAddress") {
-    document.getElementById('warning1').innerText = "No delivery address found, please check with customer and input accordingly";
-    document.getElementById('warning1').style.display = "block";
-}
-else if (addressString == "MoreThanOne") {
-    if (document.getElementById("shopUrl").value == "fastway-test-2.myshopify.com") {
-        document.getElementById('leftMainPanel').style.display = "none";
-        document.getElementById('rightMainPanel').style.display = "none";
-        document.getElementById('packageTablePanel').style.display = "none";
-        document.getElementById('mainControlPanel').style.display = "none";
-        document.getElementById('pageTitle').style.display = "none";
-        document.getElementById('pageTitleBulk').style.display = "block";
-        document.getElementById('orderTablePanel').style.display = "block";
-        document.getElementById('orderControlPanel').style.display = "block";
+﻿/*jslint browser: true*/
+/*global document, $*/
+document.getElementById("load").style.visibility = "hidden";
+var addressString = document.getElementById("deliveryAddress").value;
+if (addressString === "NoAddress") {
+    document.getElementById("warning1").innerText = "No delivery address found, please check with customer and input accordingly";
+    document.getElementById("warning1").style.display = "block";
+} else if (addressString === "MoreThanOne") {
+    if (document.getElementById("shopUrl").value === "fastway-test-2.myshopify.com") {
+        document.getElementById("leftMainPanel").style.display = "none";
+        document.getElementById("rightMainPanel").style.display = "none";
+        document.getElementById("packageTablePanel").style.display = "none";
+        document.getElementById("mainControlPanel").style.display = "none";
+        document.getElementById("pageTitle").style.display = "none";
+        document.getElementById("pageTitleBulk").style.display = "block";
+        document.getElementById("tblOrders").style.display = "block";
+        document.getElementById("orderControlPanel").style.display = "block";
+        document.getElementById("multiLabelControlPanel").style.display = "block";
         loadOrders();
     } else {
-        document.getElementById('leftMainPanel').style.display = "none";
-        document.getElementById('rightMainPanel').style.display = "none";
-        document.getElementById('packageTablePanel').style.display = "none";
-        document.getElementById('mainControlPanel').style.display = "none";
-        document.getElementById('pageTitle').style.display = "none";
-        document.getElementById('pageTitleBulk').style.display = "none";
-        document.getElementById('orderTablePanel').style.display = "none";
-        document.getElementById('orderControlPanel').style.display = "none";
-        document.getElementById('warning3').innerText = "THIS IS CURRENTLY IN TEST, PLEASE TRY AGAIN LATER";
-        document.getElementById('warning3').style.display = "block";
+        document.getElementById("leftMainPanel").style.display = "none";
+        document.getElementById("rightMainPanel").style.display = "none";
+        document.getElementById("packageTablePanel").style.display = "none";
+        document.getElementById("mainControlPanel").style.display = "none";
+        document.getElementById("pageTitle").style.display = "none";
+        document.getElementById("pageTitleBulk").style.display = "none";
+        document.getElementById("orderTablePanel").style.display = "none";
+        document.getElementById("orderControlPanel").style.display = "none";
+        document.getElementById("multiLabelControlPanel").style.display = "none";
+        document.getElementById("warning3").innerText = "THIS IS CURRENTLY IN TEST, PLEASE TRY AGAIN LATER";
+        document.getElementById("warning3").style.display = "block";
     }
-
-
-}
-else {
+} else {
     addPackage();
     var addressDetails = JSON.parse(addressString);
-    if (addressDetails.Company != "" && addressDetails.Company != null) {
-        document.getElementById('tbxCustomerName').value = addressDetails.Company;
-        document.getElementById('tbContactName').value = addressDetails.Name;
+    if (addressDetails.Company !== "" && addressDetails.Company !== null) {
+        document.getElementById("tbxCustomerName").value = addressDetails.Company;
+        document.getElementById("tbContactName").value = addressDetails.Name;
+    } else {
+        document.getElementById("tbxCustomerName").value = addressDetails.Name;
     }
-    else {
-        document.getElementById('tbxCustomerName').value = addressDetails.Name;
-    }
-    document.getElementById('tbxDeliveryAddress').value = addressDetails.Address1;
-    document.getElementById('tbxDeliveryAddress1').value = addressDetails.Address2;
-    document.getElementById('tbxDeliveryCity').value = addressDetails.City;
-    document.getElementById('tbxDeliveryPostcode').value = addressDetails.Zip;
-    document.getElementById('tbxRegion').value = addressDetails.Province;
-    document.getElementById('tbPhone').value = addressDetails.Phone;
-    document.getElementById('tbEmail').value = document.getElementById('emailAddress').value;
-    document.getElementById('tbInstructions').value = document.getElementById('specialInstruction').value;
+    document.getElementById("tbxDeliveryAddress").value = addressDetails.Address1;
+    document.getElementById("tbxDeliveryAddress1").value = addressDetails.Address2;
+    document.getElementById("tbxDeliveryCity").value = addressDetails.City;
+    document.getElementById("tbxDeliveryPostcode").value = addressDetails.Zip;
+    document.getElementById("tbxRegion").value = addressDetails.Province;
+    document.getElementById("tbPhone").value = addressDetails.Phone;
+    document.getElementById("tbEmail").value = document.getElementById("emailAddress").value;
+    document.getElementById("tbInstructions").value = document.getElementById("specialInstruction").value;
 }
 
 function resetDetails(ele) {
@@ -63,8 +62,7 @@ function reCalculate(ele) {
     if (ele.value <= 0) {
         document.getElementById("totalCost" + item).value = "";
         document.getElementById("extra" + item).innerHTML = "";
-    }
-    else if (document.getElementById("weight" + item).value > 0 && document.getElementById("weight" + item).value != "") {
+    } else if (document.getElementById("weight" + item).value > 0 && document.getElementById("weight" + item).value !== "") {
         serviceQuery(document.getElementById("weight" + item));
         updateTotalCost();
     }
@@ -72,13 +70,12 @@ function reCalculate(ele) {
 
 function serviceQuery(ele) {
     var item = $(ele).attr("id").replace('weight', '');
-    if (ele.value <= 0 || ele.value == "") {
+    if (ele.value <= 0 || ele.value === "") {
         document.getElementById('extra' + item).innerHTML = "";
         document.getElementById('totalCost' + item).value = "";
-    }
-    else {
+    } else {
         var weight = ele.value;
-        if (document.getElementById('cubic' + item).value != "") {
+        if (document.getElementById('cubic' + item).value !== "") {
             var cubicWeight = document.getElementById('cubic' + item).value * 200;
             if (cubicWeight > weight) {
                 weight = cubicWeight;
@@ -103,23 +100,22 @@ function serviceQuery(ele) {
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    if (data.Error == "No Service Available") {
+                    if (data.Error === "No Service Available") {
                         document.getElementById('extra' + item).innerHTML = data.Error;
                         document.getElementById('totalCost' + item).value = "";
                         updateTotalCost();
-                    }
-                    else {
+                    } else {
                         var result = (parseFloat(data.TotalCost) * parseFloat(document.getElementById("items" + item).value)).toFixed(2);
                         document.getElementById('totalCost' + item).value = result;
-                        var extra = data.BaseLabelColour + "<br>"
+                        var extra = data.BaseLabelColour + "<br>";
                         if (data.Rural) {
-                            extra = extra + "Rural <br>"
+                            extra = extra + "Rural <br>";
                         }
                         if (data.Excess > 0) {
-                            extra = extra + data.Excess + " Excess"
+                            extra = extra + data.Excess + " Excess";
                         }
                         document.getElementById('extra' + item).innerHTML = extra;
-                        if (data.Saturday == "True") {
+                        if (data.Saturday === "True") {
                             document.getElementById("satFooter").style.display = "block";
                         }
                         updateTotalCost();
@@ -127,18 +123,19 @@ function serviceQuery(ele) {
                     document.getElementById('load').style.visibility = "hidden";
                 },
                 error: function () {
-                    document.getElementById('extra' + item).innerHTML = "There was an error, please try again later"
+                    document.getElementById('extra' + item).innerHTML = "There was an error, please try again later";
                     document.getElementById('totalCost' + item).value = "";
                     updateTotalCost();
                     document.getElementById('load').style.visibility = "hidden";
                 }
-            });
+            }
+        );
     }
 }
 
 function addPackage() {
-    var itemTable = document.getElementById("tblItems");
-    var i = itemTable.getElementsByTagName("tr").length;
+    var itemTable = document.getElementById("tblItems"),
+        i = itemTable.getElementsByTagName("tr").length;
     if (i >= 2) {
         var check = true;
         for (var k = 0; k < (i - 1); k++) {
@@ -549,7 +546,6 @@ function updateTotalCost() {
 }
 
 //bulk print area
-
 function loadOrders() {
     var orderTable = document.getElementById("tblOrders");
     var orderString = document.getElementById("ordersAddresses").value;
@@ -562,7 +558,7 @@ function loadOrders() {
 function loadOneOrder(table, order, row) {
     var row = table.insertRow(row);
     row.classList.add('consignmentItems');
-    var cells = ["Name", "Address1", "Address2", "Suburb", "Postcode", "Label"];
+    var cells = ["Name", "Address1", "Address2", "Suburb", "Postcode", "Label", "Rural", "Service"];
     for (var i = 0; i < cells.length; i++) {
         var newCell = row.insertCell(-1);
         createOrderCell(newCell, cells[i], row - 1, order);
@@ -575,29 +571,37 @@ function createOrderCell(cell, type, i, order) {
     input.classList.add('form-control');
     input.setAttribute('type', 'text');
     switch (type) {
-        case "Label":
-            cell.classList.add('col-xs-2');
-            input.disabled = true;
-            break;
         case "Name":
             cell.classList.add('col-xs-2');
             input.value = order.Name;
             break;
         case "Address1":
-            cell.classList.add('col-xs-3');
+            cell.classList.add('col-xs-2');
             input.value = order.Address1;
             break;
         case "Address2":
-            cell.classList.add('col-xs-2');
+            cell.classList.add('col-xs-1');
             input.value = order.Address2;
             break;
         case "Suburb":
-            cell.classList.add('col-xs-2');
+            cell.classList.add('col-xs-1');
             input.value = order.City;
             break;
         case "Postcode":
             cell.classList.add('col-xs-1');
             input.value = order.Zip;
+            break;
+        case "Label":
+            cell.classList.add('col-xs-2');
+            input.disabled = true;
+            break;
+        case "Rural":
+            cell.classList.add('col-xs-2');
+            input.disabled = true;
+            break;
+        case "Service":
+            cell.classList.add('col-xs-1');
+            input.disabled = true;
             break;
     }
     if (input.value.length > 30) {
@@ -612,12 +616,6 @@ function createOrderCell(cell, type, i, order) {
     }
     cell.appendChild(input);
 }
-function queryLabels() {
-}
-
-function bulkPrintLabels() {
-
-}
 
 function selectCustomType() {
     var customParcel = document.getElementById("customType").value;
@@ -628,3 +626,173 @@ function selectCustomType() {
     }
 }
 
+function queryLabels() {
+    var orderTable = document.getElementById("tblOrders"),
+        parcelType = document.getElementById("customType").value,
+        trs = orderTable.getElementsByTagName("tr"),
+        rowCount = trs.length,
+        weight = 0,
+        weightInput = document.getElementById("customWeight").value,
+        lengthInput = document.getElementById("customLength").value,
+        widthInput = document.getElementById("customWidth").value,
+        heightInput = document.getElementById("customHeight").value;
+
+    if (lengthInput && widthInput && heightInput) {
+        var cubicweight = lengthInput * lengthInput * heightInput / 5000;
+        weight = Math.max(weightInput, cubicweight);
+    } else {
+        weight = weightInput;
+    }
+
+    if (weight) {
+        for (var i = 1; i < rowCount; i++) {
+            var tds = trs[i].getElementsByTagName("td");
+            if (tds[5].children[0].value === "" || tds[5].children[0].value === null) {
+                //preparing data to query labels
+                queryCallback(tds, i, weight);
+            }
+        }
+    } else {
+        document.getElementById("customWeight").backgroundColor = "#ff8080";
+    }
+
+    
+}
+
+function queryCallback(tds, i, weight) {
+    var parcelDetails = {
+        ShopUrl: document.getElementById('shopUrl').value,
+        Address1: tds[1].children[0].value,
+        Address2: tds[2].children[0].value,
+        Suburb: tds[3].children[0].value,
+        Postcode: tds[4].children[0].value,
+        Weight: weight,
+        Instruction: document.getElementById('customInstruction').value,
+        Type: document.getElementById('customType').value
+    };
+    document.getElementById('load').style.visibility = "visible";
+    $.ajax(
+        {
+            type: "POST",
+            url: "/Home/MultiLabelQuery",
+            data: JSON.stringify(parcelDetails),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                tds[5].children[0].value = data.BaseLabel;
+                tds[6].children[0].value = data.RuralLabel;
+                tds[7].children[0].value = data.Service;
+                document.getElementById('load').style.visibility = "hidden";
+            },
+            error: function () {
+                tds[5].children[0].value = "ERROR";
+                document.getElementById('load').style.visibility = "hidden";
+            }
+        }
+    );
+}
+
+function weightError() {
+    var weightInput = document.getElementById("customWeight");
+    if (weightInput.value === 0 || weightInput.value == null || weightInput.value == "") {
+        weightInput.backgroundColor == "#ffffff";
+    } else {
+        weightInput.backgroundColor == "#ff8080";
+    }
+}
+
+function bulkPrintLabels() {
+    var orderTable = document.getElementById("tblOrders"),
+        addresses = JSON.parse(document.getElementById("ordersAddresses").value),
+        orderIds = document.getElementById("orderIds").value,
+        parcelType = document.getElementById("customType").value,
+        trs = orderTable.getElementsByTagName("tr"),
+        rowCount = trs.length,
+        weight = 0,
+        weightInput = document.getElementById("customWeight").value,
+        lengthInput = document.getElementById("customLength").value,
+        widthInput = document.getElementById("customWidth").value,
+        heightInput = document.getElementById("customHeight").value;
+
+    if (lengthInput && widthInput && heightInput) {
+        var cubicweight = lengthInput * lengthInput * heightInput / 5000;
+        weight = Math.max(weightInput, cubicweight);
+    } else {
+        weight = weightInput;
+    }
+
+    var labelDetails = '[';
+    for (var i = 1; i < rowCount; i++) {
+        var tds = trs[i].getElementsByTagName("td");
+        labelDetails += '{' +
+            '"Company":"' + addresses[i - 1].Company + '",' +
+            '"Name":"' + tds[0].children[0].value + '",' +
+            '"Address1":"' + tds[1].children[0].value + '",' +
+            '"Address2":"' + tds[2].children[0].value + '",' +
+            '"Suburb":"' + tds[3].children[0].value + '",' +
+            '"Postcode":"' + tds[4].children[0].value + '",' +
+            '"BaseLabel":"' + tds[5].children[0].value + '",' +
+            '"RuralLabel":"' + tds[6].children[0].value + '",' +
+            '"Service":"' + tds[7].children[0].value + '"' +
+            '}';
+        if (i != rowCount - 1) {
+            labelDetails += ',';
+        }
+    }
+    labelDetails += "]";
+
+
+    var multiLabelDetails = {
+        ShopUrl : document.getElementById("shopUrl").value,
+        Instruction : document.getElementById("customInstruction").value,
+        Weight : weight,
+        Labels : labelDetails,
+        FullDetails: document.getElementById("ordersAddresses").value
+    };
+
+    document.getElementById('load').style.visibility = "visible";
+    $.ajax(
+        {
+            type: "POST",
+            url: "/Home/MultiLabelPrinting",
+            data: JSON.stringify(multiLabelDetails),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                document.getElementById('load').style.visibility = "hidden";
+                window.open("data:application/pdf;base64, " + data.PdfBase64Stream, '', "height=600,width=800");
+            },
+            error: function () {
+                document.getElementById('load').style.visibility = "hidden";
+                alert("There was an error!");
+            }
+        }
+    );
+}
+    
+function fulfillOrders(){
+    var orderTable = document.getElementById("tblOrders"),
+        orderIds = document.getElementById("orderIds").value,
+        trs = orderTable.getElementsByTagName("tr"),
+        rowCount = trs.length,
+        labelnumbers = "";
+
+    orderIds = orderIds.replace("[", "");
+    orderIds = orderIds.replace("]", "");
+
+    for (var i = 1; i < rowCount; i++) {
+        var tds = trs[i].getElementsByTagName("td");
+        labelnumbers += tds[5].children[0].value;
+        if (i !== rowCount - 1) {
+            labelnumbers += ",";
+        }
+    }
+
+    var notifyFlag = "0";
+    if (document.getElementById('notifyBlukCbx').checked) {
+        notifyFlag = "1"
+    };
+
+    window.location = "OrdersFulfillment?shopUrl=" + document.getElementById("shopUrl").value + "&orderIds=" + orderIds + "&labelNumbers=" + labelnumbers + "&notifyFlag=" + notifyFlag;
+
+}
