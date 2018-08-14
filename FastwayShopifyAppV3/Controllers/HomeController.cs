@@ -136,6 +136,21 @@ namespace FastwayShopifyAppV3.Controllers
             else
             {//one address
                 address = jsonSerialiser.Serialize(deliveryAddress[0]);
+                switch (cCode)
+                {
+                    case 6:
+                        if (deliveryAddress[0].Country !="New Zealand")
+                        {
+                            address = "International";
+                        }
+                        break;
+                    case 1:
+                        if (deliveryAddress[0].Country != "Australia")
+                        {
+                            address = "International";
+                        }
+                        break;
+                }
                 for (int i = 0; i < orderDetails.Count; i++)
                 {
                     if (orderDetails[i].Note != "")

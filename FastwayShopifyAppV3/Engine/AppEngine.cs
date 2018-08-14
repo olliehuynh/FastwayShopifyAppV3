@@ -879,8 +879,6 @@ namespace FastwayShopifyAppV3.Engine
 
         public PdfDocument PrintMultipleLabels(List<Labeldetails> labels, PdfDocument doc)
         {
-
-
             try
             {
                 for (var i = 0; i < labels.Count; i++)
