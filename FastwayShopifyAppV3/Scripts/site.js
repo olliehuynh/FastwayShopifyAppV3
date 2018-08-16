@@ -3,10 +3,10 @@
 document.getElementById("load").style.visibility = "hidden";
 var addressString = document.getElementById("deliveryAddress").value;
 if (addressString === "NoAddress") {
-    document.getElementById("warning1").innerText = "No delivery address found, please check with customer and input accordingly";
+    document.getElementById("warning1").innerText = "NO DELIVERY ADDRESS FOUND, PLEASE CHECK WITH YOUR CUSTOMER AND INPUT ACCORDINGLY";
     document.getElementById("warning1").style.display = "block";
 } else if (addressString === "MoreThanOne") {
-    if (document.getElementById("shopUrl").value === "fastway-test-2.myshopify.com") {
+    if (document.getElementById("shopUrl").value === "fastway-test-2.myshopify.com" || document.getElementById("shopUrl").value === "mytreat-co-nz.myshopify.com") {
         enableBulkPrint();
         loadOrders();
     } else {
@@ -658,7 +658,7 @@ function queryLabels() {
         document.getElementById("warning2").style.display = "none";
         for (var i = 1; i < rowCount; i++) {
             var tds = trs[i].getElementsByTagName("td");
-            if (tds[5].children[0].value === "" || tds[5].children[0].value === null) {
+            if (!tds[7].children[0].value) {
                 //preparing data to query labels
                 queryCallback(tds, i, weight);
             }

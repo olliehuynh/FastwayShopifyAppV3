@@ -1093,6 +1093,8 @@ namespace FastwayShopifyAppV3.Engine
 
             request.AddParameter("WeightInKg", details.weight);
             request.AddParameter("CountryCode", details.countryCode);
+            //This is currently not supported by Fastway API.
+            request.AddParameter("CustomerReference", details.reference);
 
             if (details.toContactName != "")
             {
