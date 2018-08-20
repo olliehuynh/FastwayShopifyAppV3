@@ -876,7 +876,12 @@ namespace FastwayShopifyAppV3.Engine
                 throw e;
             }
         }
-
+        /// <summary>
+        /// Method to query for pdf version of labels for Bulk Print features
+        /// </summary>
+        /// <param name="labels"></param>
+        /// <param name="doc"></param>
+        /// <returns></returns>
         public PdfDocument PrintMultipleLabels(List<Labeldetails> labels, PdfDocument doc)
         {
             try

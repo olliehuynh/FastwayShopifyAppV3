@@ -105,7 +105,7 @@ namespace FastwayShopifyAppV3.Controllers
                     DBConnection.UpdateStringValues(shop, "ShopifyToken", accessToken);
                 }
             } else
-            {//initiat a webhook to manage uninstalls
+            {//initiate a webhook to manage uninstalls
                 //adding new record in database for new shop.
                 DBConnection.InsertNewShop(shop, accessToken);
                 //creating new webhook to manage uninstalls
@@ -149,6 +149,10 @@ namespace FastwayShopifyAppV3.Controllers
                         {
                             DBConnection.UpdateIntergerValues(shopUrl, "AppInstalled", 0);//reset indicator
                         }
+                        //Send emails
+                        //Send to customer
+
+                        //Send to fastway
                     }
                 } catch (Exception e)
                 {

@@ -412,7 +412,7 @@ namespace FastwayShopifyAppV3.Controllers
 
             label.specialInstruction1 = d["SpecialInstruction1"].ToString();
 
-            if (d["Company"].ToString() != "")
+            if (d["Company"].ToString() != ""&& d["Company"].ToString() != null)
             {
                 label.toCompany = d["Company"].ToString();
                 label.toContactName = d["ContactName"].ToString();
@@ -755,7 +755,7 @@ namespace FastwayShopifyAppV3.Controllers
                 if (ls[i]["BaseLabel"].ToString() != "")
                 {
                     Labeldetails l = label;
-                    if (ls[i]["Company"].ToString() != "")
+                    if (ls[i]["Company"].ToString() != "" && ls[i]["Company"].ToString() != null)
                     {
                         l.toCompany = ls[i]["Company"].ToString();
                         l.toContactName = ls[i]["Name"].ToString();

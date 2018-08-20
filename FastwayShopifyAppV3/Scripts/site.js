@@ -6,7 +6,9 @@ if (addressString === "NoAddress") {
     document.getElementById("warning1").innerText = "NO DELIVERY ADDRESS FOUND, PLEASE CHECK WITH YOUR CUSTOMER AND INPUT ACCORDINGLY";
     document.getElementById("warning1").style.display = "block";
 } else if (addressString === "MoreThanOne") {
-    if (document.getElementById("shopUrl").value === "fastway-test-2.myshopify.com" || document.getElementById("shopUrl").value === "mytreat-co-nz.myshopify.com") {
+    if (document.getElementById("shopUrl").value === "fastway-test-2.myshopify.com" ||
+        document.getElementById("shopUrl").value === "mytreat-co-nz.myshopify.com" ||
+        document.getElementById("shopUrl").value === "fastway-test-sa.myshopify.com") {
         enableBulkPrint();
         loadOrders();
     } else {
@@ -205,7 +207,7 @@ function createCell(cell, type, k) {
                                 break;
                         }
                         break;
-                    case "6":
+                    default:
                         document.getElementById("weight" + k).value = 5;
                         break;
                 }
@@ -235,6 +237,9 @@ function createCell(cell, type, k) {
         switch (countryCode) {
             case "1":
                 var options = ["Parcel", "Satchel A5", "Satchel A4", "Satchel A3", "Satchel A2"];
+                break;
+            case "24":
+                var options = ["Parcel", "Satchel A4", "Satchel A3", "Satchel A2"];
                 break;
             default:
                 options = ["Parcel", "Satchel DL", "Satchel A5", "Satchel A4", "Satchel A3", "Satchel A2"];
@@ -695,14 +700,13 @@ function queryCallback(tds, i, weight) {
                 tds[5].children[0].value = data.BaseLabel;
                 tds[6].children[0].value = data.RuralLabel;
                 tds[7].children[0].value = data.Service;
-                document.getElementById('load').style.visibility = "hidden";
             },
             error: function () {
                 tds[5].children[0].value = "ERROR";
-                document.getElementById('load').style.visibility = "hidden";
             }
         }
     );
+    document.getElementById('load').style.visibility = "hidden";
 }
 
 function weightError() {
