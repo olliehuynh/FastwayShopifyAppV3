@@ -274,113 +274,116 @@ namespace FastwayShopifyAppV3.Controllers
             }
 
         }
-        /// <summary>
-        /// Listen to query from NewConsignment controller, query and response with label numbers
-        /// </summary>
-        /// <param name="ShopUrl">web url of the store</param>
-        /// <param name="DeliveryDetails">delivery details from front-end</param>
-        /// <param name="PackagingDetails">packaging details from front-end</param>
-        /// <returns></returns>
-        [HttpPost]
-        public JsonResult LabelPrinting(string ShopUrl, string DeliveryDetails, string PackagingDetails)
-        {
-            //labeldetails object to call Fastway API
-            Labeldetails label = new Labeldetails();
-            //DB connection to query sender details
-            DbEngine conn = new DbEngine();
-            label.apiKey = conn.GetStringValues(ShopUrl, "FastwayApiKey");
-            //assign sender details
-            label.fromAddress1 = conn.GetStringValues(ShopUrl, "StoreAddress1");
-            label.fromPostcode = conn.GetStringValues(ShopUrl, "Postcode");
-            label.fromCity = conn.GetStringValues(ShopUrl, "Suburb");
-            label.fromCompany = conn.GetStringValues(ShopUrl, "StoreName");
-            label.countryCode = conn.GetIntergerValues(ShopUrl, "CountryCode");
-            //parse delivery details            
-            JObject d = JObject.Parse(DeliveryDetails);
-            //assign receiver details
-            label.toAddress1 = d["Address1"].ToString();
-            label.toPostcode = d["Postcode"].ToString();
-            label.toCity = d["Suburb"].ToString();
 
-            if (d["Company"].ToString() != "")
-            {
-                label.toCompany = d["Company"].ToString();
-                label.toContactName = d["ContactName"].ToString();
-            }
-            else
-            {
-                label.toCompany = d["ContactName"].ToString();
-            }
+        ///// <summary>
+        ///// Listen to query from NewConsignment controller, query and response with label numbers
+        ///// </summary>
+        ///// <param name="ShopUrl">web url of the store</param>
+        ///// <param name="DeliveryDetails">delivery details from front-end</param>
+        ///// <param name="PackagingDetails">packaging details from front-end</param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //public JsonResult LabelPrinting(string ShopUrl, string DeliveryDetails, string PackagingDetails)
+        //{
+        //    //labeldetails object to call Fastway API
+        //    Labeldetails label = new Labeldetails();
+        //    //DB connection to query sender details
+        //    DbEngine conn = new DbEngine();
+        //    label.apiKey = conn.GetStringValues(ShopUrl, "FastwayApiKey");
+        //    //assign sender details
+        //    label.fromAddress1 = conn.GetStringValues(ShopUrl, "StoreAddress1");
+        //    label.fromPostcode = conn.GetStringValues(ShopUrl, "Postcode");
+        //    label.fromCity = conn.GetStringValues(ShopUrl, "Suburb");
+        //    label.fromCompany = conn.GetStringValues(ShopUrl, "StoreName");
+        //    label.countryCode = conn.GetIntergerValues(ShopUrl, "CountryCode");
+        //    //parse delivery details            
+        //    JObject d = JObject.Parse(DeliveryDetails);
+        //    //assign receiver details
+        //    label.toAddress1 = d["Address1"].ToString();
+        //    label.toPostcode = d["Postcode"].ToString();
+        //    label.toCity = d["Suburb"].ToString();
 
-            label.toContactPhone = d["ContactPhone"].ToString();
-            label.toEmail = d["ContactEmail"].ToString();
+        //    if (d["Company"].ToString() != "")
+        //    {
+        //        label.toCompany = d["Company"].ToString();
+        //        label.toContactName = d["ContactName"].ToString();
+        //    }
+        //    else
+        //    {
+        //        label.toCompany = d["ContactName"].ToString();
+        //    }
 
-            //parse packaging details
-            JArray p = JArray.Parse(PackagingDetails);
-            //object to store labelNumbers
-            List<string> labelNumbers = new List<string>();
-            //TEST label with details
-            //List<Labeldetails> labelDetails = new List<Labeldetails>();
+        //    label.toContactPhone = d["ContactPhone"].ToString();
+        //    label.toEmail = d["ContactEmail"].ToString();
 
-            for (int i = 0; i < p.Count; i++)
-            {//loop through packaging details to query Fastway API and get label numbers //TEST details
-                for (int j = 0; j < (int)p[i]["Items"]; j++)
-                {//repeat this steps for number of item on each parcel type
-                    //package details
-                    label.weight = (double)p[i]["Weight"];
-                    label.labelColour = p[i]["BaseLabel"].ToString();
-                    //new fastwayAPI object to query
-                    FastwayAPI getLabel = new FastwayAPI();
-                    //a string object to hold label numbers
-                    string labelNumber = getLabel.LabelQuery(label);
-                    //TEST details, a LabelDetails oblect to hold labelDetails
-                    //Labeldetails details = getLabel.LabelsQueryWithDetails(label);
+        //    //parse packaging details
+        //    JArray p = JArray.Parse(PackagingDetails);
+        //    //object to store labelNumbers
+        //    List<string> labelNumbers = new List<string>();
+        //    //TEST label with details
+        //    //List<Labeldetails> labelDetails = new List<Labeldetails>();
 
-
-                    //NOTE: reference
-                    //label.reference = p["Reference"].ToString();
-
-                    if (labelNumber.Contains(','))
-                    {//if rural label exist
-                        List<string> labelNumbersList = labelNumber.Split(',').ToList();
-                        foreach (string st in labelNumbersList)
-                        {//add multiple labels to result
-                            labelNumbers.Add(st);
-                        }
-                    }
-                    else
-                    {//only one label
-                        labelNumbers.Add(labelNumber);
-                    }
-                    //TEST details
-                    //labelDetails.Add(details);
-                    //labelNumbers.Add(details.labelNumber);
-                }
-            }
-
-            //new fastway api to printlabel
-            FastwayAPI printLabel = new FastwayAPI();
-
-            string pdfString = printLabel.PrintLabelNumbersPdf(labelNumbers, label.apiKey);
-            //TEST details
-            //string pdfString = printLabel.PrintLabelWithDetails(labelDetails, label.apiKey);
+        //    for (int i = 0; i < p.Count; i++)
+        //    {//loop through packaging details to query Fastway API and get label numbers //TEST details
+        //        for (int j = 0; j < (int)p[i]["Items"]; j++)
+        //        {//repeat this steps for number of item on each parcel type
+        //            //package details
+        //            label.weight = (double)p[i]["Weight"];
+        //            label.labelColour = p[i]["BaseLabel"].ToString();
+        //            //new fastwayAPI object to query
+        //            FastwayAPI getLabel = new FastwayAPI();
+        //            //a string object to hold label numbers
+        //            string labelNumber = getLabel.LabelQuery(label);
+        //            //TEST details, a LabelDetails oblect to hold labelDetails
+        //            //Labeldetails details = getLabel.LabelsQueryWithDetails(label);
 
 
-            try
-            {
-                return Json(new
-                {//returning results to front-end
-                    Labels = String.Join(",", labelNumbers),
-                    PdfBase64Stream = pdfString
-                    //Test print type image
-                    //JpegString = jpegString
-                });
-            }
-            catch (Exception e)
-            {//NOTE: manage exception if required
-                throw e;
-            }
-        }
+        //            //NOTE: reference
+        //            //label.reference = p["Reference"].ToString();
+
+        //            if (labelNumber.Contains(','))
+        //            {//if rural label exist
+        //                List<string> labelNumbersList = labelNumber.Split(',').ToList();
+        //                foreach (string st in labelNumbersList)
+        //                {//add multiple labels to result
+        //                    labelNumbers.Add(st);
+        //                }
+        //            }
+        //            else
+        //            {//only one label
+        //                labelNumbers.Add(labelNumber);
+        //            }
+        //            //TEST details
+        //            //labelDetails.Add(details);
+        //            //labelNumbers.Add(details.labelNumber);
+        //        }
+        //    }
+
+        //    //new fastway api to printlabel
+        //    FastwayAPI printLabel = new FastwayAPI();
+
+        //    string pdfString = printLabel.PrintLabelNumbersPdf(labelNumbers, label.apiKey);
+        //    //TEST details
+        //    //string pdfString = printLabel.PrintLabelWithDetails(labelDetails, label.apiKey);
+
+
+        //    try
+        //    {
+        //        return Json(new
+        //        {//returning results to front-end
+        //            Labels = String.Join(",", labelNumbers),
+        //            PdfBase64Stream = pdfString
+        //            //Test print type image
+        //            //JpegString = jpegString
+        //        });
+        //    }
+        //    catch (Exception e)
+        //    {//NOTE: manage exception if required
+        //        throw e;
+        //    }
+        //}
+
+
         /// <summary>
         /// V2 of LabelPrinting using generate-label call instead of generate-label-for-labelnumber
         /// </summary>

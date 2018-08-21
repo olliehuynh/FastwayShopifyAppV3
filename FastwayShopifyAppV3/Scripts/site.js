@@ -239,7 +239,7 @@ function createCell(cell, type, k) {
                 var options = ["Parcel", "Satchel A5", "Satchel A4", "Satchel A3", "Satchel A2"];
                 break;
             case "24":
-                var options = ["Parcel", "Satchel A4", "Satchel A3", "Satchel A2"];
+                var options = ["Parcel", "Satchel A5", "Satchel A4", "Satchel A3", "Satchel A2"];
                 break;
             default:
                 options = ["Parcel", "Satchel DL", "Satchel A5", "Satchel A4", "Satchel A3", "Satchel A2"];
@@ -569,6 +569,10 @@ function loadOrders() {
     for (var i = 0; i < orderDetails.length; i++) {
         loadOneOrder(orderTable, orderDetails[i],i+1);
     }
+    if (document.getElementById("countryCode") != 6) {
+        var x = document.getElementById("customType");
+        x.remove(1);
+    }
 }
 
 function loadOneOrder(table, order, row) {
@@ -638,7 +642,26 @@ function selectCustomType() {
     if (customParcel == "Parcel") {
         document.getElementById("customWeight").value = "";
     } else {
-        document.getElementById("customWeight").value = 5;
+        if (document.getElementById("countryCode") != 1) {
+            document.getElementById("customWeight").value = 5;
+        } else {
+            switch (customParcel){
+                case "SAT-NAT-A5":
+                    document.getElementById("customWeight").value = 0.5;
+                    break;
+                case "SAT-NAT-A4":
+                    document.getElementById("customWeight").value = 1;
+                    break;
+                case "SAT-NAT-A3":
+                    document.getElementById("customWeight").value = 3;
+                    break;
+                case "SAT-NAT-A2":
+                    document.getElementById("customWeight").value = 5;
+                    break; 
+            }
+
+        }
+        
     }
 }
 

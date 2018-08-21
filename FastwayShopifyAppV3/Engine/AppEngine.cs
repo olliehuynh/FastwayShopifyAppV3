@@ -594,110 +594,112 @@ namespace FastwayShopifyAppV3.Engine
             //returning list of usable label for process
             return labels;
         }
+
         /// <summary>
         /// Method to query for pdfstreams on label numbers
         /// </summary>
         /// <param name="labelNumbers">Fastway label numbers</param>
         /// <param name="apiKey">Fastway apiKey</param>
         /// <returns>byte content from API call response</returns>
-        public string PrintLabelNumbers(List<string> labelNumbers,string apiKey)
-        {
-            //RestClient to make API calls
-            var client = new RestClient();
-            client.BaseUrl = new Uri("http://nz.api.fastway.org/v2/");
-            //New restclient request
-            var request = new RestRequest();
-            //populate data required for API calls
-            request.Resource = "dynamiclabels/generate-label-for-labelnumber";
+        //public string PrintLabelNumbers(List<string> labelNumbers,string apiKey)
+        //{
+        //    //RestClient to make API calls
+        //    var client = new RestClient();
+        //    client.BaseUrl = new Uri("http://nz.api.fastway.org/v2/");
+        //    //New restclient request
+        //    var request = new RestRequest();
+        //    //populate data required for API calls
+        //    request.Resource = "dynamiclabels/generate-label-for-labelnumber";
 
-            for (int i = 0; i<labelNumbers.Count; i++)
-            {
-                request.AddParameter(string.Concat("LabelNumbers[", i, "]"), labelNumbers[i]);
-            }
+        //    for (int i = 0; i<labelNumbers.Count; i++)
+        //    {
+        //        request.AddParameter(string.Concat("LabelNumbers[", i, "]"), labelNumbers[i]);
+        //    }
 
-            request.AddParameter("api_key", apiKey);
+        //    request.AddParameter("api_key", apiKey);
 
-            // test print type image
-            //request.AddParameter("Type", "Image");
+        //    // test print type image
+        //    //request.AddParameter("Type", "Image");
 
-            //Execute API request, await for response
-            IRestResponse response = client.Execute(request);
-            //Convert response to rawBytes format and return
-            byte[] content = response.RawBytes;
-            var pdfBase64Code = Convert.ToBase64String(content);
+        //    //Execute API request, await for response
+        //    IRestResponse response = client.Execute(request);
+        //    //Convert response to rawBytes format and return
+        //    byte[] content = response.RawBytes;
+        //    var pdfBase64Code = Convert.ToBase64String(content);
 
-            return pdfBase64Code;
-        }
+        //    return pdfBase64Code;
+        //}
+
         /// <summary>
         /// Method to query for pdfstreams on label numbers //NOTE: Currently not active
         /// </summary>
         /// <param name="labelNumbers">Fastway label numbers</param>
         /// <param name="apiKey">Fastway apiKey</param>
         /// <returns>string content from API call response</returns>
-        public string PrintLabelNumbersPdf(List<string> labelNumbers, string apiKey)
-        {
-            //RestClient to make API calls
-            var client = new RestClient();
-            client.BaseUrl = new Uri("http://nz.api.fastway.org/v2/");
-            //New restclient request
-            var request = new RestRequest();
-            //populate data required for API calls
-            request.Resource = "dynamiclabels/generate-label-for-labelnumber";
+        //public string PrintLabelNumbersPdf(List<string> labelNumbers, string apiKey)
+        //{
+        //    //RestClient to make API calls
+        //    var client = new RestClient();
+        //    client.BaseUrl = new Uri("http://nz.api.fastway.org/v2/");
+        //    //New restclient request
+        //    var request = new RestRequest();
+        //    //populate data required for API calls
+        //    request.Resource = "dynamiclabels/generate-label-for-labelnumber";
 
-            for (int i = 0; i < labelNumbers.Count; i++)
-            {//add labels numbers
-                request.AddParameter(string.Concat("LabelNumbers[", i, "]"), labelNumbers[i]);
-            }
-            //Fastway api key
-            request.AddParameter("api_key", apiKey);
+        //    for (int i = 0; i < labelNumbers.Count; i++)
+        //    {//add labels numbers
+        //        request.AddParameter(string.Concat("LabelNumbers[", i, "]"), labelNumbers[i]);
+        //    }
+        //    //Fastway api key
+        //    request.AddParameter("api_key", apiKey);
 
-            // Get label using image type
-            request.AddParameter("Type", "Image");
+        //    // Get label using image type
+        //    request.AddParameter("Type", "Image");
 
-            //Execute API request, await for response
-            IRestResponse response = client.Execute(request);
+        //    //Execute API request, await for response
+        //    IRestResponse response = client.Execute(request);
             
-            //Parsing reresponse
-            JObject o = JObject.Parse(response.Content);
-            //Parsing result portion of response to get jpeg image strings
-            try
-            {
-                JArray a = JArray.Parse(o["result"]["jpegs"].ToString());
+        //    //Parsing reresponse
+        //    JObject o = JObject.Parse(response.Content);
+        //    //Parsing result portion of response to get jpeg image strings
+        //    try
+        //    {
+        //        JArray a = JArray.Parse(o["result"]["jpegs"].ToString());
 
-                List<string> labels = new List<string>();
+        //        List<string> labels = new List<string>();
 
-                PdfDocument doc = new PdfDocument();
+        //        PdfDocument doc = new PdfDocument();
 
-                for (int j = 0; j < a.Count; j++)
-                {
-                    byte[] jpgByteArray = Convert.FromBase64String(a[j]["base64Utf8Bytes"].ToString());
+        //        for (int j = 0; j < a.Count; j++)
+        //        {
+        //            byte[] jpgByteArray = Convert.FromBase64String(a[j]["base64Utf8Bytes"].ToString());
 
-                    PdfPage page = doc.AddPage();
+        //            PdfPage page = doc.AddPage();
 
-                    page.Width = XUnit.FromInch(4);
-                    page.Height = XUnit.FromInch(6);
+        //            page.Width = XUnit.FromInch(4);
+        //            page.Height = XUnit.FromInch(6);
 
-                    MemoryStream stream = new MemoryStream(jpgByteArray);
+        //            MemoryStream stream = new MemoryStream(jpgByteArray);
 
-                    XImage image = XImage.FromStream(stream);
-                    XGraphics gfx = XGraphics.FromPdfPage(page);
+        //            XImage image = XImage.FromStream(stream);
+        //            XGraphics gfx = XGraphics.FromPdfPage(page);
 
-                    gfx.DrawImage(image, 0, 0, 285, 435);
-                }
+        //            gfx.DrawImage(image, 0, 0, 285, 435);
+        //        }
 
-                MemoryStream pdfStream = new MemoryStream();
-                doc.Save(pdfStream, false);
-                byte[] pdfBytes = pdfStream.ToArray();
+        //        MemoryStream pdfStream = new MemoryStream();
+        //        doc.Save(pdfStream, false);
+        //        byte[] pdfBytes = pdfStream.ToArray();
 
-                var pdfBase64Code = Convert.ToBase64String(pdfBytes);
+        //        var pdfBase64Code = Convert.ToBase64String(pdfBytes);
 
-                return pdfBase64Code;
-            } catch (Exception e)
-            {
-                throw e;
-            }
+        //        return pdfBase64Code;
+        //    } catch (Exception e)
+        //    {
+        //        throw e;
+        //    }
             
-        }
+        //}
 
         /// <summary>
         /// Method to query for pdf version of labels
@@ -1006,67 +1008,68 @@ namespace FastwayShopifyAppV3.Engine
         /// </summary>
         /// <param name="details"></param>
         /// <returns>label numbers (including rural label numbers)</returns>
-        public string LabelQuery(Labeldetails details)
-        {
-            //string object to hold label numbers to be returned
-            string label = "";
-            //RestClient to make API calls
-            var client = new RestClient();
-            client.BaseUrl = new Uri("http://nz.api.fastway.org/v2/");
-            //Request object to hold data for querying
-            var request = new RestRequest();
-            //API type to call
-            request.Resource = "dynamiclabels/allocate-with-consignor-consignee-details";
+        //public string LabelQuery(Labeldetails details)
+        //{
+        //    //string object to hold label numbers to be returned
+        //    string label = "";
+        //    //RestClient to make API calls
+        //    var client = new RestClient();
+        //    client.BaseUrl = new Uri("http://nz.api.fastway.org/v2/");
+        //    //Request object to hold data for querying
+        //    var request = new RestRequest();
+        //    //API type to call
+        //    request.Resource = "dynamiclabels/allocate-with-consignor-consignee-details";
             
-            //populate parameters required
-            request.AddParameter("api_key", details.apiKey);
+        //    //populate parameters required
+        //    request.AddParameter("api_key", details.apiKey);
 
-            request.AddParameter("PickupName", details.fromCompany);
-            request.AddParameter("PickupAddr1", details.fromAddress1);
-            request.AddParameter("PickupPostcode", details.fromPostcode);
-            request.AddParameter("PickupTown", details.fromCity);
+        //    request.AddParameter("PickupName", details.fromCompany);
+        //    request.AddParameter("PickupAddr1", details.fromAddress1);
+        //    request.AddParameter("PickupPostcode", details.fromPostcode);
+        //    request.AddParameter("PickupTown", details.fromCity);
 
-            request.AddParameter("DeliveryContactName", details.toCompany);
-            request.AddParameter("DeliveryAddr1", details.toAddress1);
-            request.AddParameter("DeliveryPostcode", details.toPostcode);
-            request.AddParameter("DeliveryTown", details.toCity);
+        //    request.AddParameter("DeliveryContactName", details.toCompany);
+        //    request.AddParameter("DeliveryAddr1", details.toAddress1);
+        //    request.AddParameter("DeliveryPostcode", details.toPostcode);
+        //    request.AddParameter("DeliveryTown", details.toCity);
 
-            request.AddParameter("WeightInKg", details.weight);
-            request.AddParameter("CountryCode", details.countryCode);
+        //    request.AddParameter("WeightInKg", details.weight);
+        //    request.AddParameter("CountryCode", details.countryCode);
 
-            if (details.toContactName != "")
-            {
-                request.AddParameter("DeliveryContactName", details.toContactName);
-            }
-            if (details.toContactPhone != "")
-            {
-                request.AddParameter("DeliveryContactPhone", details.toContactPhone);
-            }
-            if (details.toEmail != "")
-            {
-                request.AddParameter("DeliveryEmailAddress", details.toEmail);
-            }
+        //    if (details.toContactName != "")
+        //    {
+        //        request.AddParameter("DeliveryContactName", details.toContactName);
+        //    }
+        //    if (details.toContactPhone != "")
+        //    {
+        //        request.AddParameter("DeliveryContactPhone", details.toContactPhone);
+        //    }
+        //    if (details.toEmail != "")
+        //    {
+        //        request.AddParameter("DeliveryEmailAddress", details.toEmail);
+        //    }
 
-            //NOTE: will turn to true in live
-            request.AddParameter("RequiresPickup", "False");
-            request.AddParameter("TestMode", "false");
-            //Service to be used, this is base on servicequery method
-            request.AddParameter("LabelColour", details.labelColour);
-            //execute API calls await for response
-            IRestResponse response = client.Execute(request);
-            //parsing response content to her labels numbers
-            JObject o = JObject.Parse(response.Content);
+        //    //NOTE: will turn to true in live
+        //    request.AddParameter("RequiresPickup", "False");
+        //    request.AddParameter("TestMode", "false");
+        //    //Service to be used, this is base on servicequery method
+        //    request.AddParameter("LabelColour", details.labelColour);
+        //    //execute API calls await for response
+        //    IRestResponse response = client.Execute(request);
+        //    //parsing response content to her labels numbers
+        //    JObject o = JObject.Parse(response.Content);
 
-            JArray test = JArray.Parse(o["result"]["usable_labels"].ToString());
-            //forming return strings containings all labels number required on this call (NOTE: excluding excess label number at this stage)
-            label = test[0]["base_label_number"].ToString();
-            if (test[0]["rural_label_number"] != null)
-            {
-                label += ',' + test[0]["rural_label_number"].ToString();
-            }
+        //    JArray test = JArray.Parse(o["result"]["usable_labels"].ToString());
+        //    //forming return strings containings all labels number required on this call (NOTE: excluding excess label number at this stage)
+        //    label = test[0]["base_label_number"].ToString();
+        //    if (test[0]["rural_label_number"] != null)
+        //    {
+        //        label += ',' + test[0]["rural_label_number"].ToString();
+        //    }
             
-            return label;
-        }
+        //    return label;
+        //}
+
         /// <summary>
         /// Method to query for labels details V2 to use generate-label call instead of generate-label-for-labelnumbers
         /// </summary>
