@@ -304,6 +304,10 @@ namespace FastwayShopifyAppV3.Engine
                     trackingCompany = "Fastway Couriers (NZ) Ltd.";
                     trackingUrl = "https://www.fastway.co.nz/track/track-your-parcel?l=";
                     break;
+                case 24:
+                    trackingCompany = "Fastway Couriers (South Africa) Ltd.";
+                    trackingUrl = "http://www.fastway.co.za/our-services/track-your-parcel?l=";
+                    break;
             }
             
             //creating template for fulfillment details
@@ -334,8 +338,27 @@ namespace FastwayShopifyAppV3.Engine
             //get location id
             var locService = new LocationService(shop, token);
             var locations = await locService.ListAsync();
-            string locationId = locations.First().Id.ToString();
-            fulfillment.LocationId = locationId;
+
+            //check locations to match
+            if (locations.Count() == 1)
+            {
+                string locationId = locations.First().Id.ToString();
+                fulfillment.LocationId = locationId;
+            } else if (locations.Count() > 1 && shop == "don-deal.myshopify.com")
+            {
+                var ls = locations.ToList();
+                var db = new DbEngine();
+                string city = db.GetStringValues(shop, "Suburb");
+                for (var i = 0; i < locations.Count(); i++)
+                {
+                    if (ls[i].City == city)
+                    {
+                        fulfillment.LocationId = ls[i].Id.ToString();
+                        break;
+                    }                
+                }
+            }
+            
 
             //creating fulfillment to fulfill order
             if (notifyCustomer == "1") { fulfillment = await service.CreateAsync(Convert.ToInt64(orderId), fulfillment, true); }
@@ -409,7 +432,6 @@ namespace FastwayShopifyAppV3.Engine
             var locService = new LocationService(shop, token);
             var locations = await locService.ListAsync();
             string locationId = locations.First().Id.ToString();
-
             fulfillment.LocationId = locationId;
             //update fulfillment with provided data
             if (notifyCustomer == "1") { fulfillment = await service.UpdateAsync(Convert.ToInt64(orderId), Convert.ToInt64(fulfillmentId), fulfillment, true); }

@@ -8,6 +8,7 @@ if (addressString === "NoAddress") {
 } else if (addressString === "MoreThanOne") {
     if (document.getElementById("shopUrl").value === "fastway-test-2.myshopify.com" ||
         document.getElementById("shopUrl").value === "mytreat-co-nz.myshopify.com" ||
+        document.getElementById("shopUrl").value === "boltofcloth.myshopify.com" ||
         document.getElementById("shopUrl").value === "fastway-test-sa.myshopify.com") {
         enableBulkPrint();
         loadOrders();
@@ -569,7 +570,7 @@ function loadOrders() {
     for (var i = 0; i < orderDetails.length; i++) {
         loadOneOrder(orderTable, orderDetails[i],i+1);
     }
-    if (document.getElementById("countryCode") != 6) {
+    if (document.getElementById("countryCode").value !== "6") {
         var x = document.getElementById("customType");
         x.remove(1);
     }
@@ -642,7 +643,7 @@ function selectCustomType() {
     if (customParcel == "Parcel") {
         document.getElementById("customWeight").value = "";
     } else {
-        if (document.getElementById("countryCode") != 1) {
+        if (document.getElementById("countryCode").value !== "1") {
             document.getElementById("customWeight").value = 5;
         } else {
             switch (customParcel){
@@ -659,9 +660,7 @@ function selectCustomType() {
                     document.getElementById("customWeight").value = 5;
                     break; 
             }
-
         }
-        
     }
 }
 
@@ -687,6 +686,9 @@ function queryLabels() {
         for (var i = 1; i < rowCount; i++) {
             var tds = trs[i].getElementsByTagName("td");
             if (!tds[7].children[0].value) {
+                if (tds[5].children[0].value === "No service found") {
+                    tds[5].children[0].value = "";
+                }
                 //preparing data to query labels
                 queryCallback(tds, i, weight);
             }
@@ -696,8 +698,6 @@ function queryLabels() {
         document.getElementById("warning2").innerText = "Please select parcels type and weight";
         document.getElementById("warning2").style.display = "block";
     }
-
-    
 }
 
 function queryCallback(tds, i, weight) {
@@ -723,13 +723,15 @@ function queryCallback(tds, i, weight) {
                 tds[5].children[0].value = data.BaseLabel;
                 tds[6].children[0].value = data.RuralLabel;
                 tds[7].children[0].value = data.Service;
+                document.getElementById('load').style.visibility = "hidden";
             },
             error: function () {
-                tds[5].children[0].value = "ERROR";
+                tds[5].children[0].value = "No service found";
+                document.getElementById('load').style.visibility = "hidden";
             }
         }
     );
-    document.getElementById('load').style.visibility = "hidden";
+    
 }
 
 function weightError() {
