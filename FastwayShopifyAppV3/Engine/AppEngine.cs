@@ -105,13 +105,12 @@ namespace FastwayShopifyAppV3.Engine
                             i.StoreUrl = result[result.GetOrdinal("StoreUrl")] as string;
                             i.StoreName = result[result.GetOrdinal("StoreName")] as string;
                             i.StoreAddress1 = result[result.GetOrdinal("StoreAddress1")] as string;
-                            //i.StoreAddress2 = result[result.GetOrdinal("StoreAddress2")] as string;
                             i.Suburb = result[result.GetOrdinal("Suburb")] as string;
                             i.Postcode = result[result.GetOrdinal("Postcode")] as string;
+                            i.Phone = result[result.GetOrdinal("Phone")] as string;
                             i.FastwayApiKey = result[result.GetOrdinal("FastwayApiKey")] as string;
                             i.ShopifyToken = result[result.GetOrdinal("ShopifyToken")] as string;
                             i.CountryCode = result[result.GetOrdinal("CountryCode")] as int? ?? -1;
-                            //i.CustomParcels = result[result.GetOrdinal("CustomParcels")] as string;
                             thisShop.Add(i);
                         }
                         result.Close();
@@ -149,7 +148,11 @@ namespace FastwayShopifyAppV3.Engine
                     {
                         while (shopRecord.Read())
                         {
-                            result = shopRecord.GetString(shopRecord.GetOrdinal(column));
+                            if (!shopRecord.IsDBNull(shopRecord.GetOrdinal(column)))
+                            {
+                                result = shopRecord.GetString(shopRecord.GetOrdinal(column));
+                            }
+                            else result = "";
                         }
                     }
 
@@ -219,6 +222,7 @@ namespace FastwayShopifyAppV3.Engine
         public string StoreName { get; set; }
         public string StoreAddress1 { get; set; }
         //public string StoreAddress2 { get; set; }
+        public string Phone { get; set; }
         public string Suburb { get; set; }
         public string Postcode { get; set; }
         public string ShopifyToken { get; set; }
@@ -397,6 +401,10 @@ namespace FastwayShopifyAppV3.Engine
                 case 6:
                     trackingCompany = "Fastway Couriers (NZ) Ltd.";
                     trackingUrl = "https://www.fastway.co.nz/track/track-your-parcel?l=";
+                    break;
+                case 24:
+                    trackingCompany = "Fastway Couriers (South Africa) Ltd.";
+                    trackingUrl = "http://www.fastway.co.za/our-services/track-your-parcel?l=";
                     break;
             }
 
@@ -1194,7 +1202,8 @@ namespace FastwayShopifyAppV3.Engine
             req.AddParameter("fromCompanyName", label.fromCompany);
             req.AddParameter("fromAddress1", label.fromAddress1);
             req.AddParameter("fromCity", label.fromCity);
-            
+            req.AddParameter("fromPhone", label.fromPhone);
+
 
             req.AddParameter("labelDate", DateTime.Now.AddMinutes(720).ToString("dd/MM/yyyy"));
             req.AddParameter("destRF", label.toRfName);

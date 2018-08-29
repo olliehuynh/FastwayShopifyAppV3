@@ -9,6 +9,8 @@ if (addressString === "NoAddress") {
     if (document.getElementById("shopUrl").value === "fastway-test-2.myshopify.com" ||
         document.getElementById("shopUrl").value === "mytreat-co-nz.myshopify.com" ||
         document.getElementById("shopUrl").value === "boltofcloth.myshopify.com" ||
+        document.getElementById("shopUrl").value === "ejuicevapor.myshopify.com" ||
+        document.getElementById("shopUrl").value === "nzhealthclub.myshopify.com" ||
         document.getElementById("shopUrl").value === "fastway-test-sa.myshopify.com") {
         enableBulkPrint();
         loadOrders();

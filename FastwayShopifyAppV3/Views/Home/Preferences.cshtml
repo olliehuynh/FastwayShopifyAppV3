@@ -34,8 +34,12 @@
                         <td><input id="tbxStoreSuburb" class="form-control" placeholder="Suburb" type="text" /></td>
                     </tr>
                     <tr>
-                        <td>PostCode:<span style="color:red;font-weight:bold">*</span></td>
+                        <td>Post Code:<span style="color:red;font-weight:bold">*</span></td>
                         <td><input id="tbxStorePostcode" class="form-control" placeholder="Postcode" type="text" /></td>
+                    </tr>
+                    <tr>
+                        <td>Phone Number:<span style="color:red;font-weight:bold">*</span></td>
+                        <td><input id="tbxPhoneNumber" class="form-control" placeholder="Phonenumber" type="text" /></td>
                     </tr>
                     <tr>
                         <td class="TableLinesHZFWparaBlu" colspan="2">Fastway API Settings</td>
@@ -46,13 +50,15 @@
                     </tr>
                     <tr id="countryCodeRow">
                         <td>Country:<span style="color:red;font-weight:bold">*</span></td>
-                        <td><select id="slcCountry" class="form-control" >
-                            <option disabled selected> -- select an option -- </option>
-                            <option value="1">Australia</option>
-                            <option value="6">New Zealand</option>
-                            <option value="11">Ireland or N.Ireland</option>
-                            <option value="24">South Africa</option>
-                            </select></td>
+                        <td>
+                            <select id="slcCountry" class="form-control">
+                                <option disabled selected> -- select an option -- </option>
+                                <option value="1">Australia</option>
+                                <option value="6">New Zealand</option>
+                                <option value="11">Ireland or N.Ireland</option>
+                                <option value="24">South Africa</option>
+                            </select>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -78,6 +84,7 @@
                 document.getElementById("tbxStoreSuburb").value = shopDetails.Suburb;
                 document.getElementById("tbxStorePostcode").value = shopDetails.Postcode;
                 document.getElementById("tbxApiKey").value = shopDetails.FastwayApiKey;
+                document.getElementById("tbxPhoneNumber").value = shopDetails.Phone;
 
                 if (shopDetails.CountryCode != -1) {
                     document.getElementById("slcCountry").value = shopDetails.CountryCode;
@@ -91,5 +98,33 @@
 </div>
 
 <script type="text/javascript">
-    function updatePreferences() { var e = JSON.parse(document.getElementById("shopDetails").value); if (document.getElementById("tbxStoreName").value != e.StoreName || document.getElementById("tbxStoreAddress1").value != e.StoreAddress1 || document.getElementById("tbxStoreSuburb").value != e.Suburb || document.getElementById("tbxStorePostcode").value != e.Postcode || document.getElementById("tbxApiKey").value != e.FastwayApiKey || document.getElementById("slcCountry").value != e.CountryCode) { document.getElementById("warning1").style.display = "none"; var t = { ShopUrl: e.StoreUrl, StoreName: document.getElementById("tbxStoreName").value, StoreAddress1: document.getElementById("tbxStoreAddress1").value, Suburb: document.getElementById("tbxStoreSuburb").value, Postcode: document.getElementById("tbxStorePostcode").value, ApiKey: document.getElementById("tbxApiKey").value, CountryCode: document.getElementById("slcCountry").value }; $.ajax({ type: "POST", url: "/Home/UpdatePreferences", data: JSON.stringify(t), dataType: "json", contentType: "application/json; charset=utf-8", success: function (e) { document.getElementById("warning1").innerText = "Details have been updated", document.getElementById("shopDetails").value = e.Updated, document.getElementById("warning1").style.display = "block" }, error: function () { document.getElementById("warning1").innerText = "There was an error updating your details, please try again", document.getElementById("warning1").style.display = "block" } }) } else document.getElementById("warning1").innerText = "No change made", document.getElementById("warning1").style.display = "block" }
+    function updatePreferences() {
+        var e = JSON.parse(document.getElementById("shopDetails").value);
+        if (document.getElementById("tbxStoreName").value != e.StoreName || document.getElementById("tbxPhoneNumber").value != e.Phone|| document.getElementById("tbxStoreAddress1").value != e.StoreAddress1 || document.getElementById("tbxStoreSuburb").value != e.Suburb || document.getElementById("tbxStorePostcode").value != e.Postcode || document.getElementById("tbxApiKey").value != e.FastwayApiKey || document.getElementById("slcCountry").value != e.CountryCode) {
+            document.getElementById("warning1").style.display = "none";
+            var t = {
+                ShopUrl: e.StoreUrl,
+                StoreName: document.getElementById("tbxStoreName").value,
+                StoreAddress1: document.getElementById("tbxStoreAddress1").value,
+                Suburb: document.getElementById("tbxStoreSuburb").value,
+                Postcode: document.getElementById("tbxStorePostcode").value,
+                Phone: document.getElementById("tbxPhoneNumber").value,
+                ApiKey: document.getElementById("tbxApiKey").value,
+                CountryCode: document.getElementById("slcCountry").value
+            };
+            $.ajax({
+                type: "POST",
+                url: "/Home/UpdatePreferences",
+                data: JSON.stringify(t),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (e) {
+                    document.getElementById("warning1").innerText = "Details have been updated", document.getElementById("shopDetails").value = e.Updated, document.getElementById("warning1").style.display = "block"
+                },
+                error: function () {
+                    document.getElementById("warning1").innerText = "There was an error updating your details, please try again", document.getElementById("warning1").style.display = "block"
+                }
+            })
+        } else document.getElementById("warning1").innerText = "No change made", document.getElementById("warning1").style.display = "block"
+    }
 </script>

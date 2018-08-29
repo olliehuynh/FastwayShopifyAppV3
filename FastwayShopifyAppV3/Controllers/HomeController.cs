@@ -405,6 +405,10 @@ namespace FastwayShopifyAppV3.Controllers
             label.fromCity = conn.GetStringValues(ShopUrl, "Suburb");
             label.fromCompany = conn.GetStringValues(ShopUrl, "StoreName");
             label.countryCode = conn.GetIntergerValues(ShopUrl, "CountryCode");
+            label.fromPhone = conn.GetStringValues(ShopUrl, "Phone");
+
+            
+
             //parse delivery details
             JObject d = JObject.Parse(DeliveryDetails);
             //assign receiver details
@@ -415,7 +419,7 @@ namespace FastwayShopifyAppV3.Controllers
 
             label.specialInstruction1 = d["SpecialInstruction1"].ToString();
 
-            if (d["Company"].ToString() != ""&& d["Company"].ToString() != null)
+            if (d["Company"].ToString() != "" && d["Company"].ToString() != "null" && d["Company"].ToString() != null)
             {
                 label.toCompany = d["Company"].ToString();
                 label.toContactName = d["ContactName"].ToString();
@@ -591,7 +595,7 @@ namespace FastwayShopifyAppV3.Controllers
         /// <param name="ApiKey">Fastway Apikey to make calls</param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult UpdatePreferences(string ShopUrl, string StoreName, string StoreAddress1, string Suburb, string Postcode, string ApiKey, int CountryCode)
+        public JsonResult UpdatePreferences(string ShopUrl, string StoreName, string StoreAddress1, string Suburb, string Postcode,string Phone, string ApiKey, int CountryCode)
         {
             //update values
             DbEngine conn = new DbEngine();
@@ -599,6 +603,7 @@ namespace FastwayShopifyAppV3.Controllers
             conn.UpdateStringValues(ShopUrl, "StoreName", StoreName);
             conn.UpdateStringValues(ShopUrl, "StoreAddress1", StoreAddress1);
             conn.UpdateStringValues(ShopUrl, "Suburb", Suburb);
+            conn.UpdateStringValues(ShopUrl, "Phone", Phone);
             conn.UpdateStringValues(ShopUrl, "Postcode", Postcode);
             conn.UpdateIntergerValues(ShopUrl, "CountryCode", CountryCode);
             //from store data forming json for front-end
@@ -740,6 +745,12 @@ namespace FastwayShopifyAppV3.Controllers
             Labeldetails label = new Labeldetails();
             ///populate store details for query
             label.apiKey = storeDetails.FastwayApiKey;
+            label.fromCompany = storeDetails.StoreName;
+
+            if (storeDetails.Phone!="" && storeDetails.Phone != null && storeDetails.Phone != "null")
+            {
+                label.fromPhone = storeDetails.Phone;
+            }
             label.fromAddress1 = storeDetails.StoreAddress1;
             label.fromCity = storeDetails.Suburb;
             label.fromPostcode = storeDetails.Postcode;
