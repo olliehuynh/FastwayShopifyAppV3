@@ -11,6 +11,7 @@ if (addressString === "NoAddress") {
         document.getElementById("shopUrl").value === "boltofcloth.myshopify.com" ||
         document.getElementById("shopUrl").value === "ejuicevapor.myshopify.com" ||
         document.getElementById("shopUrl").value === "nzhealthclub.myshopify.com" ||
+        document.getElementById("shopUrl").value === "otago-chocolate-company.myshopify.com" ||
         document.getElementById("shopUrl").value === "fastway-test-sa.myshopify.com") {
         enableBulkPrint();
         loadOrders();
@@ -208,10 +209,16 @@ function createCell(cell, type, k) {
                             case "SAT-NAT-A2":
                                 document.getElementById("weight" + k).value = 5;
                                 break;
+                            default:
+                                document.getElementById("weight" + k).value = document.getElementById("packaging" + k).value;
+                                break;
                         }
                         break;
                     default:
-                        document.getElementById("weight" + k).value = 5;
+                        if (document.getElementById("packaging" + k).value.includes("SAT-")){
+                            document.getElementById("weight" + k).value = 5;
+                        }
+                        
                         break;
                 }
                 document.getElementById("totalCost" + k).value = "";
@@ -226,13 +233,40 @@ function createCell(cell, type, k) {
                 serviceQuery(document.getElementById("weight" + k));
             }
             else {
-                document.getElementById("weight" + k).value = "";
-                document.getElementById("totalCost" + k).value = "";
-                document.getElementById("extra" + k).innerHTML = "";
-                document.getElementById("length" + k).value = 0;
-                document.getElementById("height" + k).value = 0;
-                document.getElementById("width" + k).value = 0;
-                document.getElementById("cubic" + k).value = "";
+                var selectBox = document.getElementById("packaging" + k);
+                var index = selectBox.selectedIndex;
+                var options = selectBox.options;
+                var displayStr = options[index].text;
+                if (displayStr !== "Parcel") {
+                    var cps = JSON.parse(document.getElementById("cpStrings").value);
+                    var weight = 0;
+                    for (var m = 0; m < cps.length; m++) {
+                        if (cps[m].CPName === displayStr) {
+                            weight = cps[m].CPWeight;
+                            break;
+                        }
+                    }
+                    document.getElementById("totalCost" + k).value = "";
+                    document.getElementById("extra" + k).innerHTML = "";
+                    document.getElementById("length" + k).value = 0;
+                    document.getElementById("height" + k).value = 0;
+                    document.getElementById("width" + k).value = 0;
+                    document.getElementById("cubic" + k).value = "";
+                    if (!document.getElementById("tbxCustomerName").disabled) {
+                        disableAddress();
+                    }
+                    document.getElementById("weight" + k).value = weight;
+                    serviceQuery(document.getElementById("weight" + k));
+                } else {
+                    document.getElementById("weight" + k).value = "";
+                    document.getElementById("totalCost" + k).value = "";
+                    document.getElementById("extra" + k).innerHTML = "";
+                    document.getElementById("length" + k).value = 0;
+                    document.getElementById("height" + k).value = 0;
+                    document.getElementById("width" + k).value = 0;
+                    document.getElementById("cubic" + k).value = "";
+                }
+
             }
             updateTotalCost();
         };
@@ -272,6 +306,16 @@ function createCell(cell, type, k) {
                     break;
             }
             select.add(option);
+        }
+        if (document.getElementById("cpStrings").value !== "[]") {
+            var customParcels = JSON.parse(document.getElementById("cpStrings").value);
+
+            for (var n = 0; n < customParcels.length; n++) {
+                var cpOption = document.createElement("option");
+                cpOption.text = customParcels[n].CPName;
+                cpOption.value = customParcels[n].CPType;
+                select.add(cpOption);
+            }
         }
         cell.appendChild(select);
     }

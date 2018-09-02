@@ -82,6 +82,7 @@ namespace FastwayShopifyAppV3.Controllers
             //Get Shopify Token to access Shopify API
             string token = conn.GetStringValues(shop, "ShopifyToken");
             int cCode = conn.GetIntergerValues(shop, "CountryCode");
+            List<CustomParcel> lCustomParcels = conn.GetCustomParcel(shop);
             //ShopifyAPI object
             ShopifyAPI api = new ShopifyAPI();
             //foreach order number from list, get a list of delivery details
@@ -116,6 +117,7 @@ namespace FastwayShopifyAppV3.Controllers
             JavaScriptSerializer jsonSerialiser = new JavaScriptSerializer();
             ////creating json about orders to pass back to View()
             //string orderJson = jsonSerialiser.Serialize(orderDetails);
+            string stringCP = jsonSerialiser.Serialize(lCustomParcels);
 
 
             //creating json about delivery address to pass back to View()
@@ -162,6 +164,7 @@ namespace FastwayShopifyAppV3.Controllers
 
 
             Response.Write("<input id='shopUrl' type='hidden' value='" + shop + "'>");//passing shopUrl to View() for further queries
+            Response.Write("<input id='cpStrings' type='hidden' value='" + stringCP + "'>");//passing Custom Parcels if any to View() for further queries
             Response.Write("<input id='countryCode' type='hidden' value='" + cCode + "'>");//passing countryCode to View() for further queries
             Response.Write("<input id='orderDetails' type='hidden' value='" + orders + "'>");//passing orderIds to View() for further queries
             Response.Write("<input id='deliveryAddress' type='hidden' value='" + address + "'>");//passing address to View() for further queries
@@ -173,6 +176,36 @@ namespace FastwayShopifyAppV3.Controllers
 
         }
 
+        ///// <summary>
+        ///// Listen to calls from shopify admin page, receive shop url and order ids. Parse orders and pass details to View()
+        ///// </summary>
+        ///// <param name="shop"></param>
+        ///// <param name="id"></param>
+        ///// <returns></returns>
+        //public async Task<ActionResult> NewInternationalConsignment(string shop, string id)
+        //{
+        //    //DB connection required to query store details
+        //    DbEngine conn = new DbEngine();
+        //    //Get Shopify Token to access Shopify API
+        //    string token = conn.GetStringValues(shop, "ShopifyToken");
+        //    int cCode = conn.GetIntergerValues(shop, "CountryCode");
+        //    //ShopifyAPI object
+        //    ShopifyAPI api = new ShopifyAPI();
+
+        //    Order o = await api.GetOrder(shop, token, id);
+
+        //    string address = "";
+        //    JavaScriptSerializer jsonSerialiser = new JavaScriptSerializer();
+
+        //    if (o.ShippingAddress.Country != "New Zealand")
+        //    {
+        //        address = jsonSerialiser.Serialize(o.ShippingAddress);
+        //    }
+
+        //    Response.Write("<input id='shopUrl' type='hidden' value='" + shop + "'>");//passing shopUrl to View() for further queries
+        //    Response.Write("<input id='addString' type='hidden' value='" + address + "'>");//passing address string to View() for further queries
+        //    return View();
+        //}
         /// <summary>
         /// Listen to query from NewConsignment controler, query and response with available services
         /// </summary>
@@ -754,10 +787,10 @@ namespace FastwayShopifyAppV3.Controllers
             label.fromAddress1 = storeDetails.StoreAddress1;
             label.fromCity = storeDetails.Suburb;
             label.fromPostcode = storeDetails.Postcode;
-            //populate parcel details for query
             label.weight = (double)Weight;
             label.specialInstruction1 = Instruction;
             label.countryCode = storeDetails.CountryCode;
+
             //parsing the labels addresses details
             JArray ls = JArray.Parse(Labels);
             JArray fds = JArray.Parse(FullDetails);
@@ -778,6 +811,7 @@ namespace FastwayShopifyAppV3.Controllers
                     {
                         l.toCompany = ls[i]["Name"].ToString();
                     }
+
                     //label.toContactPhone = fds[i]["ContactPhone"].ToString();
                     ////pull through email address for expect messaging
                     //label.toEmail = fds[i]["ContactEmail"].ToString();

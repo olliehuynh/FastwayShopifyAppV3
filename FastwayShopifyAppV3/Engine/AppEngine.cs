@@ -211,7 +211,66 @@ namespace FastwayShopifyAppV3.Engine
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="shop"></param>
+        /// <returns></returns>
+        public List<CustomParcel> GetCustomParcel(string shop)
+        {
+            List<CustomParcel> customParcels = new List<CustomParcel>();
+
+            using (SqlConnection newCon = new SqlConnection(ShopifyAppEngine.ConnectionString))
+            using (SqlCommand cmd = new SqlCommand("SELECT * FROM tuochuynh.CustomParcels WHERE ShopUrl ='" + shop + "'", newCon))
+            {
+                newCon.Open();
+                using (SqlDataReader result = cmd.ExecuteReader())
+                {
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            CustomParcel i = new CustomParcel();
+                            i.CPId = result[result.GetOrdinal("CustomParcelID")] as int? ?? 0;
+                            i.CPName = result[result.GetOrdinal("CustomParcelName")] as string;
+                            i.CPType = result[result.GetOrdinal("CustomParcelType")] as string;
+                            i.CPWeight = result.GetDouble(result.GetOrdinal("CustomParcelWeight"));
+                            i.CPCubic = result.GetDouble(result.GetOrdinal("CustomParcelCubic"));
+                            i.CPLength = result.GetDouble(result.GetOrdinal("CustomParcelLength"));
+                            i.CPWidth = result.GetDouble(result.GetOrdinal("CustomParcelWidth"));
+                            i.CPHeight = result.GetDouble(result.GetOrdinal("CustomParcelHeight"));
+                            i.CPShop = result[result.GetOrdinal("ShopUrl")] as string;
+                            customParcels.Add(i);
+                        }
+                        result.Close();
+                    }
+                }
+                newCon.Close();
+            }
+
+            return customParcels;
+        }
     }
+
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class CustomParcel
+    {
+        public int CPId { get; set; }
+        public string CPName { get; set; }
+        public string CPType { get; set; }
+        public double CPWeight { get; set; }
+        public double CPCubic { get; set; }
+        public double CPLength { get; set; }
+        public double CPWidth { get; set; }
+        public double CPHeight { get; set; }
+        public string CPShop { get; set; }
+
+    }
+
     /// <summary>
     /// Simplified class for Store records from API response
     /// </summary>
