@@ -69,38 +69,60 @@
                     </a>
                 </div>
             </div>
-            @*<table style="width:10%">
-                <tbody>
-                    <tr>
-                        <td class="TableLinesHZFWparaBlu" colspan="2">Custom Parcels</td>
-                    </tr>
-                </tbody>
-            </table>*@
-            <script type="text/javascript">
-                //populating store details
-                var shopDetails = JSON.parse(document.getElementById('shopDetails').value);
-                document.getElementById("tbxStoreName").value = shopDetails.StoreName;
-                document.getElementById("tbxStoreAddress1").value = shopDetails.StoreAddress1;
-                document.getElementById("tbxStoreSuburb").value = shopDetails.Suburb;
-                document.getElementById("tbxStorePostcode").value = shopDetails.Postcode;
-                document.getElementById("tbxApiKey").value = shopDetails.FastwayApiKey;
-                document.getElementById("tbxPhoneNumber").value = shopDetails.Phone;
 
-                if (shopDetails.CountryCode != -1) {
-                    document.getElementById("slcCountry").value = shopDetails.CountryCode;
-                }
 
-                
-            </script>
         </div>
     </div>
+    <div class="row">
+        <div id="leftside" class="col-md-3"></div>
+        <div id="rightside" class="col-xs-12 col-sm-12 col-md-9" style="min-height:836px">
+            <div class="panel panel-body">
+                <div class="panel-body" style="padding:3px">
+                    <label id="warning2" style="display:none;padding:1px;width:500px" class="label-warning">Test</label>
+                </div>
+            </div>
+            <table style="width:100%">
+                <tbody>
+                    <tr>
+                        <td class="TableLinesHZFWparaBlu" colspan="2">Custom Parcels Settings</td>
+                    </tr>
+                    <tr>
+                        <td>Custom Name<span style="color:red;font-weight:bold">*</span></td>
+                        <td>Parcel Type<span style="color:red;font-weight:bold">*</span></td>
+                        <td>Custom Weight<span style="color:red;font-weight:bold">*</span></td>
+                        <td>Custom Cubic</td>
+                        <td>Custom Length</td>
+                        <td>Custom Width</td>
+                        <td>Custom Height</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
 
+    </div>
+    <script type="text/javascript">
+        //populating store details
+        var shopDetails = JSON.parse(document.getElementById('shopDetails').value);
+        document.getElementById("tbxStoreName").value = shopDetails.StoreName;
+        document.getElementById("tbxStoreAddress1").value = shopDetails.StoreAddress1;
+        document.getElementById("tbxStoreSuburb").value = shopDetails.Suburb;
+        document.getElementById("tbxStorePostcode").value = shopDetails.Postcode;
+        document.getElementById("tbxApiKey").value = shopDetails.FastwayApiKey;
+        document.getElementById("tbxPhoneNumber").value = shopDetails.Phone;
+
+        if (shopDetails.CountryCode != -1) {
+            document.getElementById("slcCountry").value = shopDetails.CountryCode;
+        }
+
+
+    </script>
 </div>
 
 <script type="text/javascript">
     function updatePreferences() {
         var e = JSON.parse(document.getElementById("shopDetails").value);
-        if (document.getElementById("tbxStoreName").value != e.StoreName || document.getElementById("tbxPhoneNumber").value != e.Phone|| document.getElementById("tbxStoreAddress1").value != e.StoreAddress1 || document.getElementById("tbxStoreSuburb").value != e.Suburb || document.getElementById("tbxStorePostcode").value != e.Postcode || document.getElementById("tbxApiKey").value != e.FastwayApiKey || document.getElementById("slcCountry").value != e.CountryCode) {
+        if (document.getElementById("tbxStoreName").value != e.StoreName || document.getElementById("tbxPhoneNumber").value != e.Phone || document.getElementById("tbxStoreAddress1").value != e.StoreAddress1 || document.getElementById("tbxStoreSuburb").value != e.Suburb || document.getElementById("tbxStorePostcode").value != e.Postcode || document.getElementById("tbxApiKey").value != e.FastwayApiKey || document.getElementById("slcCountry").value != e.CountryCode) {
             document.getElementById("warning1").style.display = "none";
             var t = {
                 ShopUrl: e.StoreUrl,

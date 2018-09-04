@@ -239,23 +239,31 @@ function createCell(cell, type, k) {
                 var displayStr = options[index].text;
                 if (displayStr !== "Parcel") {
                     var cps = JSON.parse(document.getElementById("cpStrings").value);
-                    var weight = 0;
+                    var weight = 0,
+                        height = 0,
+                        width = 0,
+                        length = 0,
+                        cubic = 0;
                     for (var m = 0; m < cps.length; m++) {
                         if (cps[m].CPName === displayStr) {
                             weight = cps[m].CPWeight;
+                            height = cps[m].CPHeight;
+                            width = cps[m].CPWidth;
+                            length = cps[m].CPLength;
+                            cubic = cps[m].CPCubic;
                             break;
                         }
                     }
                     document.getElementById("totalCost" + k).value = "";
                     document.getElementById("extra" + k).innerHTML = "";
-                    document.getElementById("length" + k).value = 0;
-                    document.getElementById("height" + k).value = 0;
-                    document.getElementById("width" + k).value = 0;
-                    document.getElementById("cubic" + k).value = "";
                     if (!document.getElementById("tbxCustomerName").disabled) {
                         disableAddress();
                     }
                     document.getElementById("weight" + k).value = weight;
+                    document.getElementById("length" + k).value = length;
+                    document.getElementById("height" + k).value = height;
+                    document.getElementById("width" + k).value = width;
+                    document.getElementById("cubic" + k).value = cubic;
                     serviceQuery(document.getElementById("weight" + k));
                 } else {
                     document.getElementById("weight" + k).value = "";
@@ -620,6 +628,18 @@ function loadOrders() {
         var x = document.getElementById("customType");
         x.remove(1);
     }
+    if (document.getElementById("cpStrings").value !== "[]") {
+        var customParcels = JSON.parse(document.getElementById("cpStrings").value);
+        var x = document.getElementById("customType");
+
+        for (var n = 0; n < customParcels.length; n++) {
+            var cpOption = document.createElement("option");
+            cpOption.text = customParcels[n].CPName;
+            cpOption.value = customParcels[n].CPType;
+            x.add(cpOption);
+        }
+    }
+    
 }
 
 function loadOneOrder(table, order, row) {
@@ -685,14 +705,33 @@ function createOrderCell(cell, type, i, order) {
 }
 
 function selectCustomType() {
-    var customParcel = document.getElementById("customType").value;
-    if (customParcel == "Parcel") {
-        document.getElementById("customWeight").value = "";
+    var selectBox = document.getElementById("customType");
+    var customParcel = selectBox.value;
+    var index = selectBox.selectedIndex;
+    var options = selectBox.options;
+    var displayStr = options[index].text;
+    if (customParcel === "Parcel") {
+        if (displayStr !== "Parcel") {
+            var cps = JSON.parse(document.getElementById("cpStrings").value);
+            var weight = 0;
+            var cubicweight = 0;
+            for (var m = 0; m < cps.length; m++) {
+                if (cps[m].CPName === displayStr) {
+                    weight = cps[m].CPWeight;
+                    var cubic = cps[m].CPCubic;
+                    cubicweight = cubic * 200;
+                    break;
+                }
+            }
+            document.getElementById("customWeight").value = Math.max(weight,cubicweight);
+        } else {
+            document.getElementById("customWeight").value = "";
+        }
     } else {
         if (document.getElementById("countryCode").value !== "1") {
             document.getElementById("customWeight").value = 5;
         } else {
-            switch (customParcel){
+            switch (customParcel) {
                 case "SAT-NAT-A5":
                     document.getElementById("customWeight").value = 0.5;
                     break;
@@ -704,7 +743,7 @@ function selectCustomType() {
                     break;
                 case "SAT-NAT-A2":
                     document.getElementById("customWeight").value = 5;
-                    break; 
+                    break;
             }
         }
     }
