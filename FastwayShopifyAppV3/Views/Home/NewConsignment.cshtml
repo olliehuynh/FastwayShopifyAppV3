@@ -3,7 +3,6 @@
     ViewBag.Title = "NewConsignment";
 }
 
-
 <div id="mainContainer" class="container">
     <div class="row">
         <div id="rightside" class="col-xs-12 col-sm-12 col-md-12" style="min-height:836px;">
@@ -194,7 +193,6 @@
                                                 <td>Length(cm)</td>
                                                 <td>Width(cm)</td>
                                                 <td>Height(cm)</td>
-                                                <td>Notify customer</td>
                                             </tr>
                                             <tr class="consignmentItems">
                                                 <td class="col-xs-3" style="padding:1px;">
@@ -222,9 +220,6 @@
                                                 <td class="col-xs-1" style="padding:1px;">
                                                     <input id="customHeight" class="form-control" type="number" />
                                                 </td>
-                                                <td class="col-xs-1" style="padding:1px;" align="center">
-                                                    <input id="notifyBlukCbx" name="notifyBulkCbx" type="checkbox" checked />
-                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -232,6 +227,16 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="col-xs-3">
+                    <label>
+                        <input id="notifyBlukCbx" name="satCbx" type="checkbox" checked/>
+                        Notify customers
+                    </label>
+                    <label style="display:none">
+                        <input id="referenceOptionCbx" name="satCbx" type="checkbox" checked/>
+                        Use order number as references
+                    </label>
                 </div>
             </div>
             <div class="row" id="multiLabelControlPanel" style="display:none;padding-bottom:50px">

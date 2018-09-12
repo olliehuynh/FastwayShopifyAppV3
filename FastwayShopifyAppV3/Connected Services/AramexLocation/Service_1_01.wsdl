@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://ws.aramex.net/ShippingAPI/v1/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ws.aramex.net/ShippingAPI/v1/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://ws.aramex.net/ShippingAPI/v1/Imports">
+      <xsd:import schemaLocation="http://ws.aramex.net/ShippingAPI.V2/Location/Service_1_0.svc?xsd=xsd0" namespace="http://ws.aramex.net/ShippingAPI/v1/" />
+      <xsd:import schemaLocation="http://ws.aramex.net/ShippingAPI.V2/Location/Service_1_0.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://ws.aramex.net/ShippingAPI.V2/Location/Service_1_0.svc?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="AddressValidationRequest">
+    <wsdl:part name="parameters" element="tns:AddressValidationRequest" />
+  </wsdl:message>
+  <wsdl:message name="AddressValidationResponse">
+    <wsdl:part name="parameters" element="tns:AddressValidationResponse" />
+  </wsdl:message>
+  <wsdl:message name="CountriesFetchingRequest">
+    <wsdl:part name="parameters" element="tns:CountriesFetchingRequest" />
+  </wsdl:message>
+  <wsdl:message name="CountriesFetchingResponse">
+    <wsdl:part name="parameters" element="tns:CountriesFetchingResponse" />
+  </wsdl:message>
+  <wsdl:message name="CountryFetchingRequest">
+    <wsdl:part name="parameters" element="tns:CountryFetchingRequest" />
+  </wsdl:message>
+  <wsdl:message name="CountryFetchingResponse">
+    <wsdl:part name="parameters" element="tns:CountryFetchingResponse" />
+  </wsdl:message>
+  <wsdl:message name="CitiesFetchingRequest">
+    <wsdl:part name="parameters" element="tns:CitiesFetchingRequest" />
+  </wsdl:message>
+  <wsdl:message name="CitiesFetchingResponse">
+    <wsdl:part name="parameters" element="tns:CitiesFetchingResponse" />
+  </wsdl:message>
+  <wsdl:message name="OfficesFetchingRequest">
+    <wsdl:part name="parameters" element="tns:OfficesFetchingRequest" />
+  </wsdl:message>
+  <wsdl:message name="OfficesFetchingResponse">
+    <wsdl:part name="parameters" element="tns:OfficesFetchingResponse" />
+  </wsdl:message>
+  <wsdl:message name="StatesFetchingRequest">
+    <wsdl:part name="parameters" element="tns:StatesFetchingRequest" />
+  </wsdl:message>
+  <wsdl:message name="StatesFetchingResponse">
+    <wsdl:part name="parameters" element="tns:StatesFetchingResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddressServiceabilityRequest">
+    <wsdl:part name="parameters" element="tns:AddressServiceabilityRequest" />
+  </wsdl:message>
+  <wsdl:message name="AddressServiceabilityResponse">
+    <wsdl:part name="parameters" element="tns:AddressServiceabilityResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Service_1_0">
+    <wsdl:operation name="ValidateAddress">
+      <wsdl:input wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/ValidateAddress" name="AddressValidationRequest" message="tns:AddressValidationRequest" />
+      <wsdl:output wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/ValidateAddressResponse" name="AddressValidationResponse" message="tns:AddressValidationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="FetchCountries">
+      <wsdl:input wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/FetchCountries" name="CountriesFetchingRequest" message="tns:CountriesFetchingRequest" />
+      <wsdl:output wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/FetchCountriesResponse" name="CountriesFetchingResponse" message="tns:CountriesFetchingResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="FetchCountry">
+      <wsdl:input wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/FetchCountry" name="CountryFetchingRequest" message="tns:CountryFetchingRequest" />
+      <wsdl:output wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/FetchCountryResponse" name="CountryFetchingResponse" message="tns:CountryFetchingResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="FetchCities">
+      <wsdl:input wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/FetchCities" name="CitiesFetchingRequest" message="tns:CitiesFetchingRequest" />
+      <wsdl:output wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/FetchCitiesResponse" name="CitiesFetchingResponse" message="tns:CitiesFetchingResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="FetchOffices">
+      <wsdl:input wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/FetchOffices" name="OfficesFetchingRequest" message="tns:OfficesFetchingRequest" />
+      <wsdl:output wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/FetchOfficesResponse" name="OfficesFetchingResponse" message="tns:OfficesFetchingResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="FetchStates">
+      <wsdl:input wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/FetchStates" name="StatesFetchingRequest" message="tns:StatesFetchingRequest" />
+      <wsdl:output wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/FetchStatesResponse" name="StatesFetchingResponse" message="tns:StatesFetchingResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="IsAddressServiced">
+      <wsdl:input wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/IsAddressServiced" name="AddressServiceabilityRequest" message="tns:AddressServiceabilityRequest" />
+      <wsdl:output wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/IsAddressServicedResponse" name="AddressServiceabilityResponse" message="tns:AddressServiceabilityResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

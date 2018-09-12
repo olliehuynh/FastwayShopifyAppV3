@@ -1,0 +1,122 @@
+
+@{
+    ViewBag.Title = "NewInternationalConsignment";
+}
+
+<div id="mainContainer" class="container">
+    <div class="row">
+        <div id="rightside" class="col-xs-12 col-sm-12 col-md-12" style="min-height:836px;">
+            <div id="load"></div>
+            <div id="pageTitle" class="article-header"><h1 style="color:#003184">New International Shipment</h1></div>
+            <div class="panel panel-body" style="padding:0">
+                <div class="panel-body" style="padding:3px">
+                    <label id="warning1" style="display:none;padding:1px;width:500px" class="label-warning">Test</label>
+                    <label id="warning2" style="display:none;padding:1px;width:500px" class="label-warning">Test</label>
+                    <label id="warning3" style="display:none;padding:1px;width:500px" class="label-warning">Test</label>
+                </div>
+            </div>
+            <div class="col-md-6" id="leftMainPanel" style="padding-left: 0">
+                <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-weight:bold">
+                        Receiver Details <span style="color:red">** Max length for these fields is 30 charaters **</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="address">
+                            <label>Company Name:<span style="color:red;font-weight:bold">*</span></label>
+                            <input id="tbxCustomerName" class="form-control" placeholder="Company or Name" type="text" style="" />
+                        </div>
+                        <div class="address">
+                            <label>Address line 1:</label><span style="color:red">** Street numbers and street names only **</span>
+                            <input id="tbxDeliveryAddress" class="form-control" placeholder="Address line 1" type="text" style="" />
+                        </div>
+                        <div class="address">
+                            <label>Address line 2:</label>
+                            <input id="tbxDeliveryAddress1" class="form-control" placeholder="Address line 2" type="text" style="" />
+                        </div>
+                        <div class="row">
+                            <div class="address col-md-4">
+                                <label>Suburb:<span style="color:red;font-weight:bold">*</span></label>
+                                <input id="tbxDeliveryCity" class="form-control" placeholder="Suburb" type="text" style="" />
+                            </div>
+                            <div class="address col-md-4">
+                                <label>Postcode:<span style="color:red;font-weight:bold">*</span></label>
+                                <input id="tbxDeliveryPostcode" class="form-control" placeholder="Postcode" type="text" maxlength="7" style="" />
+                            </div>
+                            <div class="address col-md-4">
+                                <label>Region:</label>
+                                <input id="tbxRegion" class="form-control" placeholder="Region:" type="text" style="" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="address col-md-6">
+                                <label>Country Name:</label>
+                                <input id="tbxCountry" class="form-control" placeholder="Country" type="text" style="" />
+                            </div>
+                            <div class="address col-md-6">
+                                <label>Country Code:</label>
+                                <input id="tbxCountryCode" class="form-control" placeholder="Country Code" type="text" style="" maxlength="2" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" id="rightMainPanel" style="padding-right: 0; padding-bottom: 90px">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Options</div>
+                    <div class="panel-body">
+                        <div class="address">
+                            <label>Contact Name:</label>
+                            <input id="tbContactName" class="form-control" type="text" style="width:100%" />
+                        </div>
+                        <div class="address">
+                            <label>Email:</label>
+                            <input id="tbEmail" class="form-control" type="text" />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Phone Number:</label>
+                                <input id="tbPhone" class="form-control" type="text" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Mobile:</label>
+                                <input id="tbMobilePhone" class="form-control" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width:100%">
+                    <label>Special Instructions</label>
+                    <input id="tbInstructions" class="form-control" style="width:100%" type="text" />
+                    <label style="margin-top: 5px">
+                        <input id="notifyCbx" name="notifyCbx" type="checkbox" checked />
+                        Notify Customer
+                    </label>
+                </div>
+            </div>
+            <div class="row" id="addressSelectorNotFound" style="display:none">
+
+            </div>
+            <div class="row" id="addressSelectorFound" style="display:none">
+                <div class="col-xs-6" style="padding-top:1em">
+                    
+                </div>
+            </div>
+            <div class="row" id="intLabelControlPanel" style="display:none;padding-bottom:50px">
+                <div class="col-xs-6" style="padding-top:1em">
+                    <a class="btn btn-success" onclick="printAramexLabels()">
+                        Create Shipment
+                    </a>
+                    <a class="btn btn-warning" onclick="reValidateAddress()" style="visibility:hidden">
+                        Validate Address
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<script src="~/Scripts/intSites.js"></script>

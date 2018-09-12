@@ -83,6 +83,8 @@
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -169,6 +171,21 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Connected Services\AramexLocation\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\AramexRate\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\AramexShipping\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ShopifyController.cs" />
     <Compile Include="Engine\AppEngine.cs" />
@@ -178,6 +195,120 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\AramexLocation\configuration91.svcinfo" />
+    <None Include="Connected Services\AramexLocation\configuration.svcinfo" />
+    <Content Include="Connected Services\AramexLocation\FastwayShopifyAppV3.AramexLocation.Address.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexLocation\FastwayShopifyAppV3.AramexLocation.AddressServiceabilityResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexLocation\FastwayShopifyAppV3.AramexLocation.AddressValidationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexLocation\FastwayShopifyAppV3.AramexLocation.CitiesFetchingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexLocation\FastwayShopifyAppV3.AramexLocation.CountriesFetchingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexLocation\FastwayShopifyAppV3.AramexLocation.Country.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexLocation\FastwayShopifyAppV3.AramexLocation.CountryFetchingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexLocation\FastwayShopifyAppV3.AramexLocation.Notification.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexLocation\FastwayShopifyAppV3.AramexLocation.Office.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexLocation\FastwayShopifyAppV3.AramexLocation.OfficesFetchingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexLocation\FastwayShopifyAppV3.AramexLocation.State.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexLocation\FastwayShopifyAppV3.AramexLocation.StatesFetchingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexLocation\FastwayShopifyAppV3.AramexLocation.Transaction.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\AramexLocation\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\AramexRate\configuration91.svcinfo" />
+    <None Include="Connected Services\AramexRate\configuration.svcinfo" />
+    <Content Include="Connected Services\AramexRate\FastwayShopifyAppV3.AramexRate.Money.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexRate\FastwayShopifyAppV3.AramexRate.Notification.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexRate\FastwayShopifyAppV3.AramexRate.RateCalculatorResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexRate\FastwayShopifyAppV3.AramexRate.RateDetails.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexRate\FastwayShopifyAppV3.AramexRate.Transaction.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\AramexRate\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\AramexShipping\configuration91.svcinfo" />
+    <None Include="Connected Services\AramexShipping\configuration.svcinfo" />
+    <Content Include="Connected Services\AramexShipping\FastwayShopifyAppV3.AramexShipping.HoldCreationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexShipping\FastwayShopifyAppV3.AramexShipping.LabelPrintingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexShipping\FastwayShopifyAppV3.AramexShipping.LastReservedShipmentNumberRangeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexShipping\FastwayShopifyAppV3.AramexShipping.Notification.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexShipping\FastwayShopifyAppV3.AramexShipping.PickupCancelationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexShipping\FastwayShopifyAppV3.AramexShipping.PickupCreationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexShipping\FastwayShopifyAppV3.AramexShipping.ProcessedPickup.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexShipping\FastwayShopifyAppV3.AramexShipping.ProcessedShipment.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexShipping\FastwayShopifyAppV3.AramexShipping.ProcessedShipmentHold.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexShipping\FastwayShopifyAppV3.AramexShipping.ReserveRangeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexShipping\FastwayShopifyAppV3.AramexShipping.ScheduledDeliveryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexShipping\FastwayShopifyAppV3.AramexShipping.ShipmentCreationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexShipping\FastwayShopifyAppV3.AramexShipping.ShipmentLabel.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\AramexShipping\FastwayShopifyAppV3.AramexShipping.Transaction.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\AramexShipping\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Content\bootstrap.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\loading.gif" />
@@ -193,7 +324,35 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Connected Services\AramexLocation\Service_1_0.wsdl" />
+    <None Include="Connected Services\AramexLocation\Service_1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AramexLocation\Service_1_01.wsdl" />
+    <None Include="Connected Services\AramexLocation\Service_1_01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AramexLocation\Service_1_02.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AramexRate\Service_1_0.wsdl" />
+    <None Include="Connected Services\AramexRate\Service_1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AramexRate\Service_1_01.wsdl" />
+    <None Include="Connected Services\AramexRate\Service_1_01.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AramexShipping\Service_1_0.wsdl" />
+    <None Include="Connected Services\AramexShipping\Service_1_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AramexShipping\Service_1_01.wsdl" />
+    <None Include="Connected Services\AramexShipping\Service_1_01.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\PublishProfiles\fastwayshop.com - Web Deploy.pubxml" />
+    <Content Include="Scripts\intSites.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -222,6 +381,7 @@
     <Content Include="Views\Home\NewConsignment.cshtml" />
     <Content Include="Views\Home\OrdersFulfillment.cshtml" />
     <Content Include="Views\Home\Preferences.cshtml" />
+    <Content Include="Views\Home\NewInternationalConsignment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -230,6 +390,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\AramexLocation\" />
+    <WCFMetadataStorage Include="Connected Services\AramexRate\" />
+    <WCFMetadataStorage Include="Connected Services\AramexShipping\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

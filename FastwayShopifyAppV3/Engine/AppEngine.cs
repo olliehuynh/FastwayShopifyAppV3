@@ -12,6 +12,8 @@ using Microsoft.Extensions.Primitives;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 using System.IO;
+using FastwayShopifyAppV3.AramexLocation;
+using FastwayShopifyAppV3.AramexShipping;
 
 namespace FastwayShopifyAppV3.Engine
 {
@@ -471,7 +473,7 @@ namespace FastwayShopifyAppV3.Engine
 
             //f1.TrackingNumbers = f1.TrackingNumbers.Concat(new[] { labelNumbers });
             //f1.TrackingUrls = f1.TrackingUrls.Concat(new[] { trackingUrl });
-            
+
 
             //Fulfillment template
             var fulfillment = new Fulfillment()
@@ -1270,6 +1272,55 @@ namespace FastwayShopifyAppV3.Engine
             req.AddParameter("Type", "Image");
         }
 
+    }
+
+    /// <summary>
+    /// Aramex API
+    /// </summary>
+    public class AramexAPI
+    {
+        public async Task<List<AramexLocation.Address>> AddressValidation(AramexLocation.Address add, AramexLocation.ClientInfo client)
+        {
+            List<AramexLocation.Address> result = new List<AramexLocation.Address>();
+
+            var cInfo = new AramexLocation.ClientInfo();
+            cInfo.UserName = client.UserName;
+            cInfo.Password = client.Password;
+            cInfo.AccountEntity = client.AccountEntity;
+            cInfo.AccountNumber = client.AccountNumber;
+            cInfo.AccountPin = client.AccountPin;
+            cInfo.AccountCountryCode = client.AccountCountryCode;
+            cInfo.Version = client.Version;
+
+            var trans = new AramexLocation.Transaction();
+
+            var req = new AddressValidationRequest(cInfo, trans, add);
+
+            var lService = new AramexLocation.Service_1_0Client();
+            lService.Open();
+            AddressValidationResponse res = await lService.ValidateAddressAsync(req);
+            lService.Close();
+
+            if (res.HasErrors)
+            {
+                result = res.SuggestedAddresses.ToList();
+                return result;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        public async Task<AramexShipping.ShipmentCreationResponse> CreateShipments(AramexShipping.ShipmentCreationRequest req)
+        {
+            var sService = new AramexShipping.Service_1_0Client();
+            sService.Open();
+            ShipmentCreationResponse res = await sService.CreateShipmentsAsync(req);
+            sService.Close();
+            return res;
+        }
     }
 
     /// <summary>

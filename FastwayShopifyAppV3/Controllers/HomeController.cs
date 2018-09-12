@@ -11,6 +11,7 @@ using static FastwayShopifyAppV3.Engine.FastwayAPI;
 using Newtonsoft.Json.Linq;
 using PdfSharp.Pdf;
 using System.IO;
+using FastwayShopifyAppV3.AramexShipping;
 
 namespace FastwayShopifyAppV3.Controllers
 {
@@ -58,8 +59,9 @@ namespace FastwayShopifyAppV3.Controllers
             //required objects
             List<string> orderIds = new List<string>();//list of orderIds
             List<string> processingOrderIds = new List<string>();//list of orderIds
+            List<string> processingOrderPreferences = new List<string>();//list of orderIds
             List<Order> orderDetails = new List<Order>();//list of order details
-            List<Address> deliveryAddress = new List<Address>();//list of delivery details
+            List<ShopifySharp.Address> deliveryAddress = new List<ShopifySharp.Address>();//list of delivery details
             List<string> emails = new List<string>();//list of emails addresses
 
             if (orders == null)//No order select (in case customer reach this page from outside of their admin page
@@ -108,6 +110,7 @@ namespace FastwayShopifyAppV3.Controllers
                         deliveryAddress.Add(k.ShippingAddress);
                         emails.Add(k.Email);
                         processingOrderIds.Add(orderIds[i]);
+                        processingOrderPreferences.Add(k.OrderNumber.ToString());
                     }
                 }
                 orderDetails.Add(k);//add order details into list of order details
@@ -118,6 +121,8 @@ namespace FastwayShopifyAppV3.Controllers
             ////creating json about orders to pass back to View()
             //string orderJson = jsonSerialiser.Serialize(orderDetails);
             string stringCP = jsonSerialiser.Serialize(lCustomParcels);
+
+            string stringOrderReference = string.Join(",",processingOrderPreferences);
 
 
             //creating json about delivery address to pass back to View()
@@ -165,47 +170,67 @@ namespace FastwayShopifyAppV3.Controllers
 
             Response.Write("<input id='shopUrl' type='hidden' value='" + shop + "'>");//passing shopUrl to View() for further queries
             Response.Write("<input id='cpStrings' type='hidden' value='" + stringCP + "'>");//passing Custom Parcels if any to View() for further queries
+            Response.Write("<input id='orderReference' type='hidden' value='" + stringOrderReference + "'>");//passing order reference number if any to View() for further queries
             Response.Write("<input id='countryCode' type='hidden' value='" + cCode + "'>");//passing countryCode to View() for further queries
             Response.Write("<input id='orderDetails' type='hidden' value='" + orders + "'>");//passing orderIds to View() for further queries
             Response.Write("<input id='deliveryAddress' type='hidden' value='" + address + "'>");//passing address to View() for further queries
             Response.Write("<input id='ordersAddresses' type='hidden' value='" + addresses + "'>");//passing ordersdetails to View() for further queries
             Response.Write("<input id='orderIds' type='hidden' value='" + strOrderIds + "'>");//passing ordersdetails to View() for further queries
-            if (emails.Count >= 1) Response.Write("<input id='emailAddress' type='hidden' value='" + emails[0] + "'>");//passing email address
+            if (emails.Count >= 1) Response.Write("<input id='emailAddress' type='hidden' value='" + string.Join(",", emails) + "'>");//passing email address
             if (note != "") Response.Write("<input id='specialInstruction' type='hidden' value='" + note + "'>");
             return View();
 
         }
 
-        ///// <summary>
-        ///// Listen to calls from shopify admin page, receive shop url and order ids. Parse orders and pass details to View()
-        ///// </summary>
-        ///// <param name="shop"></param>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //public async Task<ActionResult> NewInternationalConsignment(string shop, string id)
-        //{
-        //    //DB connection required to query store details
-        //    DbEngine conn = new DbEngine();
-        //    //Get Shopify Token to access Shopify API
-        //    string token = conn.GetStringValues(shop, "ShopifyToken");
-        //    int cCode = conn.GetIntergerValues(shop, "CountryCode");
-        //    //ShopifyAPI object
-        //    ShopifyAPI api = new ShopifyAPI();
+        /// <summary>
+        /// Listen to calls from shopify admin page, receive shop url and order ids. Parse orders and pass details to View()
+        /// </summary>
+        /// <param name="shop"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<ActionResult> NewInternationalConsignment(string shop, string[] ids)
+        {
+            //Get order numbers
+            string orders = Request.QueryString["ids[]"];
 
-        //    Order o = await api.GetOrder(shop, token, id);
+            if (orders.Contains(','))
+            {
+                Response.Write("<input id='shopUrl' type='hidden' value='" + shop + "'>");//passing shopUrl to View() for further queries
+                Response.Write("<input id='addString' type='hidden' value='" + "MoreThanOne" + "'>");//passing shopUrl to View() for further queries
+                return View();
+            } else
+            {
 
-        //    string address = "";
-        //    JavaScriptSerializer jsonSerialiser = new JavaScriptSerializer();
+                //DB connection required to query store details
+                DbEngine conn = new DbEngine();
+                //Get Shopify Token to access Shopify API
+                string token = conn.GetStringValues(shop, "ShopifyToken");
+                int cCode = conn.GetIntergerValues(shop, "CountryCode");
+                //ShopifyAPI object
+                ShopifyAPI api = new ShopifyAPI();
 
-        //    if (o.ShippingAddress.Country != "New Zealand")
-        //    {
-        //        address = jsonSerialiser.Serialize(o.ShippingAddress);
-        //    }
+                Order o = await api.GetOrder(shop, token, orders);
 
-        //    Response.Write("<input id='shopUrl' type='hidden' value='" + shop + "'>");//passing shopUrl to View() for further queries
-        //    Response.Write("<input id='addString' type='hidden' value='" + address + "'>");//passing address string to View() for further queries
-        //    return View();
-        //}
+                string address = "";
+                string email = "";
+                JavaScriptSerializer jsonSerialiser = new JavaScriptSerializer();
+
+
+                if (o.ShippingAddress.Country != "New Zealand")
+                {
+                    address = jsonSerialiser.Serialize(o.ShippingAddress);
+                    email = o.Email;
+                }
+
+                Response.Write("<input id='shopUrl' type='hidden' value='" + shop + "'>");//passing shopUrl to View() for further queries
+                Response.Write("<input id='emailString' type='hidden' value='" + email + "'>");//passing address string to View() for further queries
+                Response.Write("<input id='addString' type='hidden' value='" + address + "'>");//passing address string to View() for further queries
+                return View();
+            }
+
+        }
+
+
         /// <summary>
         /// Listen to query from NewConsignment controler, query and response with available services
         /// </summary>
@@ -307,115 +332,6 @@ namespace FastwayShopifyAppV3.Controllers
             }
 
         }
-
-        ///// <summary>
-        ///// Listen to query from NewConsignment controller, query and response with label numbers
-        ///// </summary>
-        ///// <param name="ShopUrl">web url of the store</param>
-        ///// <param name="DeliveryDetails">delivery details from front-end</param>
-        ///// <param name="PackagingDetails">packaging details from front-end</param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //public JsonResult LabelPrinting(string ShopUrl, string DeliveryDetails, string PackagingDetails)
-        //{
-        //    //labeldetails object to call Fastway API
-        //    Labeldetails label = new Labeldetails();
-        //    //DB connection to query sender details
-        //    DbEngine conn = new DbEngine();
-        //    label.apiKey = conn.GetStringValues(ShopUrl, "FastwayApiKey");
-        //    //assign sender details
-        //    label.fromAddress1 = conn.GetStringValues(ShopUrl, "StoreAddress1");
-        //    label.fromPostcode = conn.GetStringValues(ShopUrl, "Postcode");
-        //    label.fromCity = conn.GetStringValues(ShopUrl, "Suburb");
-        //    label.fromCompany = conn.GetStringValues(ShopUrl, "StoreName");
-        //    label.countryCode = conn.GetIntergerValues(ShopUrl, "CountryCode");
-        //    //parse delivery details            
-        //    JObject d = JObject.Parse(DeliveryDetails);
-        //    //assign receiver details
-        //    label.toAddress1 = d["Address1"].ToString();
-        //    label.toPostcode = d["Postcode"].ToString();
-        //    label.toCity = d["Suburb"].ToString();
-
-        //    if (d["Company"].ToString() != "")
-        //    {
-        //        label.toCompany = d["Company"].ToString();
-        //        label.toContactName = d["ContactName"].ToString();
-        //    }
-        //    else
-        //    {
-        //        label.toCompany = d["ContactName"].ToString();
-        //    }
-
-        //    label.toContactPhone = d["ContactPhone"].ToString();
-        //    label.toEmail = d["ContactEmail"].ToString();
-
-        //    //parse packaging details
-        //    JArray p = JArray.Parse(PackagingDetails);
-        //    //object to store labelNumbers
-        //    List<string> labelNumbers = new List<string>();
-        //    //TEST label with details
-        //    //List<Labeldetails> labelDetails = new List<Labeldetails>();
-
-        //    for (int i = 0; i < p.Count; i++)
-        //    {//loop through packaging details to query Fastway API and get label numbers //TEST details
-        //        for (int j = 0; j < (int)p[i]["Items"]; j++)
-        //        {//repeat this steps for number of item on each parcel type
-        //            //package details
-        //            label.weight = (double)p[i]["Weight"];
-        //            label.labelColour = p[i]["BaseLabel"].ToString();
-        //            //new fastwayAPI object to query
-        //            FastwayAPI getLabel = new FastwayAPI();
-        //            //a string object to hold label numbers
-        //            string labelNumber = getLabel.LabelQuery(label);
-        //            //TEST details, a LabelDetails oblect to hold labelDetails
-        //            //Labeldetails details = getLabel.LabelsQueryWithDetails(label);
-
-
-        //            //NOTE: reference
-        //            //label.reference = p["Reference"].ToString();
-
-        //            if (labelNumber.Contains(','))
-        //            {//if rural label exist
-        //                List<string> labelNumbersList = labelNumber.Split(',').ToList();
-        //                foreach (string st in labelNumbersList)
-        //                {//add multiple labels to result
-        //                    labelNumbers.Add(st);
-        //                }
-        //            }
-        //            else
-        //            {//only one label
-        //                labelNumbers.Add(labelNumber);
-        //            }
-        //            //TEST details
-        //            //labelDetails.Add(details);
-        //            //labelNumbers.Add(details.labelNumber);
-        //        }
-        //    }
-
-        //    //new fastway api to printlabel
-        //    FastwayAPI printLabel = new FastwayAPI();
-
-        //    string pdfString = printLabel.PrintLabelNumbersPdf(labelNumbers, label.apiKey);
-        //    //TEST details
-        //    //string pdfString = printLabel.PrintLabelWithDetails(labelDetails, label.apiKey);
-
-
-        //    try
-        //    {
-        //        return Json(new
-        //        {//returning results to front-end
-        //            Labels = String.Join(",", labelNumbers),
-        //            PdfBase64Stream = pdfString
-        //            //Test print type image
-        //            //JpegString = jpegString
-        //        });
-        //    }
-        //    catch (Exception e)
-        //    {//NOTE: manage exception if required
-        //        throw e;
-        //    }
-        //}
-
 
         /// <summary>
         /// V2 of LabelPrinting using generate-label call instead of generate-label-for-labelnumber
@@ -768,7 +684,7 @@ namespace FastwayShopifyAppV3.Controllers
         /// <param name="Saturday"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult MultiLabelPrinting(string ShopUrl, string Instruction, float Weight, string Labels, string FullDetails)
+        public JsonResult MultiLabelPrinting(string ShopUrl, string Instruction, float Weight, string Labels, string Reference, string FullDetails)
         {
             //DB connection to query store details
             DbEngine newDB = new DbEngine();
@@ -795,6 +711,8 @@ namespace FastwayShopifyAppV3.Controllers
             JArray ls = JArray.Parse(Labels);
             JArray fds = JArray.Parse(FullDetails);
 
+            List<string> references = Reference.Split(',').ToList();
+
             List<Labeldetails> labelDetails = new List<Labeldetails>();
 
             for (var i = 0; i < ls.Count; i++)
@@ -802,7 +720,7 @@ namespace FastwayShopifyAppV3.Controllers
                 if (ls[i]["BaseLabel"].ToString() != "")
                 {
                     Labeldetails l = label;
-                    if (ls[i]["Company"].ToString() != "" && ls[i]["Company"].ToString() != null)
+                    if (ls[i]["Company"].ToString() != "" && ls[i]["Company"].ToString() != null && ls[i]["Company"].ToString() != "null")
                     {
                         l.toCompany = ls[i]["Company"].ToString();
                         l.toContactName = ls[i]["Name"].ToString();
@@ -812,9 +730,10 @@ namespace FastwayShopifyAppV3.Controllers
                         l.toCompany = ls[i]["Name"].ToString();
                     }
 
-                    //label.toContactPhone = fds[i]["ContactPhone"].ToString();
-                    ////pull through email address for expect messaging
-                    //label.toEmail = fds[i]["ContactEmail"].ToString();
+                    if (references.Count > 0)
+                    {
+                        l.reference = references[i];
+                    }
 
                     l.toAddress1 = ls[i]["Address1"].ToString();
                     l.toAddress2 = ls[i]["Address2"].ToString();
@@ -855,5 +774,239 @@ namespace FastwayShopifyAppV3.Controllers
                 throw e;
             }
         }
+
+        //START ARAMEX
+        
+        [HttpPost]
+        public async Task<JsonResult> AddressValidation(string Address1, string Address2, string Suburb, string Postcode, string CountryCode)
+        {
+            var add = new AramexLocation.Address();
+            add.Line1 = Address1;
+            add.Line2 = Address2;
+            add.PostCode = Postcode;
+            add.City = Suburb;
+            add.CountryCode = CountryCode;
+
+            var cInfo = new AramexLocation.ClientInfo();
+            //NEED TO USE DATA FROM ARAMEX DB
+            cInfo.UserName = "ollie@fastway.co.nz";
+            cInfo.Password = "Fastway123!";
+            cInfo.AccountEntity = "AKL";
+            cInfo.AccountNumber = "152451";
+            cInfo.AccountPin = "226321";
+            cInfo.AccountCountryCode = "NZ";
+            cInfo.Version = "v1.0";
+
+            try
+            {
+                AramexAPI api = new AramexAPI();
+                var res = await api.AddressValidation(add, cInfo);
+
+                if (res != null)
+                {
+                    JavaScriptSerializer jsonSerialiser = new JavaScriptSerializer();
+                    string adds = jsonSerialiser.Serialize(res);
+                    return Json(new
+                    {
+                        Suggestions = adds
+                    });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        Suggestions = "Verified"
+                    });
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    Suggestions = e.Message
+                });
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> CreateAramexShipment(string CompanyName, string Address1, string Address2, string Suburb, string Postcode, string CountryCode, string Phone, string Email)
+        {
+            try
+            {
+                var cInfo = new AramexShipping.ClientInfo();
+                cInfo.UserName = "ollie@fastway.co.nz";
+                cInfo.Password = "Fastway123!";
+                cInfo.AccountEntity = "AKL";
+                cInfo.AccountNumber = "152451";
+                cInfo.AccountPin = "226321";
+                cInfo.AccountCountryCode = "NZ";
+                cInfo.Version = "v1.0";
+
+                var transaction = new AramexShipping.Transaction();
+
+                var lInfo = new AramexShipping.LabelInfo();
+                lInfo.ReportID = 9201;
+                lInfo.ReportType = "URL";
+
+                var shipment = new Shipment();
+
+                var shipper = new Party();
+                shipper.AccountNumber = "152451";
+                var sAdd = new AramexShipping.Address();
+                sAdd.Line1 = "1 Lever Street";
+                sAdd.Line2 = "Shed 5, Level 1";
+                sAdd.PostCode = "1010";
+                sAdd.City = "Auckland";
+                sAdd.CountryCode = "NZ";
+                shipper.PartyAddress = sAdd;
+
+                var contact = new AramexShipping.Contact();
+                contact.PersonName = "Ollie Huynh";
+                contact.CompanyName = "Fastway Test";
+                contact.CellPhone = "06 833 6333";
+                contact.EmailAddress = "ollie@fastway.co.nz";
+                contact.PhoneNumber1 = "06 833 6333";
+
+                shipper.Contact = contact;
+
+                shipment.Shipper = shipper;
+
+                var consignee = new Party();
+                var add = new AramexShipping.Address();
+                add.Line1 = Address1;
+                add.Line2 = Address2;
+                add.PostCode = Postcode;
+                add.City = Suburb;
+                add.CountryCode = CountryCode;
+
+                consignee.PartyAddress = add;
+
+                var consingeeContact = new AramexShipping.Contact();
+
+                consingeeContact.PersonName = CompanyName;
+                consingeeContact.CompanyName = CompanyName;
+                consingeeContact.CellPhone = Phone;
+                consingeeContact.EmailAddress = Email;
+                consingeeContact.PhoneNumber1 = Phone;
+
+                consignee.Contact = consingeeContact;
+
+
+                shipment.Consignee = consignee;
+
+
+                shipment.ShippingDateTime = DateTime.Now.AddDays(1);
+                shipment.DueDate = DateTime.Now.AddMonths(1);
+
+                var details = new AramexShipping.ShipmentDetails();
+                var weight = new AramexShipping.Weight();
+                weight.Unit = "KG";
+                weight.Value = 1;
+
+                details.ActualWeight = weight;
+                details.ChargeableWeight = weight;
+                details.NumberOfPieces = 1;
+                details.ProductGroup = "EXP";
+                details.ProductType = "PPX";
+                details.PaymentType = "P";
+                details.PaymentOptions = "ACCT";
+                details.DescriptionOfGoods = "Test API";
+                details.GoodsOriginCountry = "NZ";
+                
+                var money = new AramexShipping.Money();
+                money.CurrencyCode = "NZD";
+                money.Value = 10;
+
+                details.CustomsValueAmount = money;
+
+                details.CashAdditionalAmount = money;
+                details.CollectAmount = money;
+
+                var item = new AramexShipping.ShipmentItem();
+                item.Quantity = 1;
+                item.Weight = weight;
+
+                List<ShipmentItem> lItems = new List<ShipmentItem>();
+                lItems.Add(item);
+
+                details.Items = lItems.ToArray();
+
+
+                shipment.Details = details;
+
+                List<Shipment> sms = new List<Shipment>();
+                sms.Add(shipment);
+
+                var shipments = sms.ToArray();
+
+                var req = new ShipmentCreationRequest(cInfo, transaction, shipments, lInfo);
+
+                try
+                {
+                    AramexAPI api = new AramexAPI();
+
+                    AramexShipping.ShipmentCreationResponse res = await api.CreateShipments(req);
+
+                    if (res != null)
+                    {
+                        JavaScriptSerializer jsonSerialiser = new JavaScriptSerializer();
+                        string shipmentsString = jsonSerialiser.Serialize(res.Shipments.ToList());
+                        string labelString = "";
+                        for (var i = 0; i < res.Shipments.Length; i++)
+                        {
+                            if (res.Shipments[i].ShipmentLabel.LabelURL != null && res.Shipments[i].ShipmentLabel.LabelURL != "")
+                            {
+                                labelString += res.Shipments[i].ShipmentLabel.LabelURL;
+                            }
+                            if (i != res.Shipments.Length - 1)
+                            {
+                                labelString += ",";
+                            }
+                        }
+                        return Json(new
+                        {
+                            Shipments = shipmentsString,
+                            Labels = labelString
+                        });
+                    }
+                    else
+                    {
+                        string shipmentsString = "";
+                        for (var i = 0; i < res.Notifications.Length; i++)
+                        {
+                            shipmentsString += res.Notifications[i].Message.ToString();
+                            if (i != res.Notifications.Length - 1)
+                            {
+                                shipmentsString += ", ";
+                            }
+                        }
+                        return Json(new
+                        {
+                            Shipments = shipmentsString
+                        });
+                    }
+                    
+                }
+                catch (Exception e)
+                {
+                    return Json(new
+                    {
+                        Shipments = e.Message + "Inside"
+                    });
+                }
+            } catch (Exception e)
+            {
+                return Json(new
+                {
+                    Shipments = e.Message
+                });
+            }
+
+
+            
+        }
+
+        //END ARAMEX
     }
 }

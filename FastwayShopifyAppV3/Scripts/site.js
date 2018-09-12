@@ -12,6 +12,7 @@ if (addressString === "NoAddress") {
         document.getElementById("shopUrl").value === "ejuicevapor.myshopify.com" ||
         document.getElementById("shopUrl").value === "nzhealthclub.myshopify.com" ||
         document.getElementById("shopUrl").value === "otago-chocolate-company.myshopify.com" ||
+        document.getElementById("shopUrl").value === "patney.myshopify.com" ||
         document.getElementById("shopUrl").value === "fastway-test-sa.myshopify.com") {
         enableBulkPrint();
         loadOrders();
@@ -191,6 +192,7 @@ function createCell(cell, type, k) {
         select.setAttribute("id", "packaging" + k);
         select.classList.add("form-control");
         select.onchange = function () {
+            //Shouldn't reset the number of items
             document.getElementById("items" + k).value = 1;
             if (document.getElementById("packaging" + k).value != "Parcel") {
                 var cCode = document.getElementById("countryCode").value;
@@ -871,7 +873,8 @@ function bulkPrintLabels() {
         ShopUrl : document.getElementById("shopUrl").value,
         Instruction : document.getElementById("customInstruction").value,
         Weight : weight,
-        Labels : labelDetails,
+        Labels: labelDetails,
+        Reference: document.getElementById("orderReference").value,
         FullDetails: document.getElementById("ordersAddresses").value
     };
 
@@ -902,8 +905,8 @@ function fulfillOrders(){
         rowCount = trs.length,
         labelnumbers = "";
 
-    orderIds = orderIds.replace("[", "");
-    orderIds = orderIds.replace("]", "");
+    //orderIds = orderIds.replace("[", "");
+    //orderIds = orderIds.replace("]", "");
 
     for (var i = 1; i < rowCount; i++) {
         var tds = trs[i].getElementsByTagName("td");

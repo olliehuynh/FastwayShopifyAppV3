@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="1b2fb53f-0f9f-4611-b50f-f1f1b11018a3" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://ws.aramex.net/shippingapi/Location/service_1_0.svc?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Service_1_0.xsd" MetadataType="Schema" ID="ca02cd40-6008-4855-a338-fe0f406d80de" SourceId="1" SourceUrl="http://ws.aramex.net/ShippingAPI.V2/Location/Service_1_0.svc?xsd=xsd1" />
+    <MetadataFile FileName="Service_1_01.xsd" MetadataType="Schema" ID="eb2ae2d9-f257-445a-ab94-30b89bf4dfc3" SourceId="1" SourceUrl="http://ws.aramex.net/ShippingAPI.V2/Location/Service_1_0.svc?xsd=xsd0" />
+    <MetadataFile FileName="Service_1_02.xsd" MetadataType="Schema" ID="e3030758-851c-4fcc-9e4f-600ef62457bb" SourceId="1" SourceUrl="http://ws.aramex.net/ShippingAPI.V2/Location/Service_1_0.svc?xsd=xsd2" />
+    <MetadataFile FileName="Service_1_0.wsdl" MetadataType="Wsdl" ID="93aadcb0-c764-4d16-a542-53c97ba332a3" SourceId="1" SourceUrl="http://ws.aramex.net/shippingapi/Location/service_1_0.svc?wsdl" />
+    <MetadataFile FileName="Service_1_01.wsdl" MetadataType="Wsdl" ID="6b5a1a19-2c64-4dc4-9669-fc411e843a49" SourceId="1" SourceUrl="http://ws.aramex.net/ShippingAPI.V2/Location/Service_1_0.svc?wsdl=wsdl0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
