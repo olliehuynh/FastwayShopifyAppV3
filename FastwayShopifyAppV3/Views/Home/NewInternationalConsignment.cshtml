@@ -3,15 +3,14 @@
     ViewBag.Title = "NewInternationalConsignment";
 }
 
-<div id="mainContainer" class="container">
+<div id="mainContainer" class="container" style="min-height:836px">
     <div class="row">
-        <div id="rightside" class="col-xs-12 col-sm-12 col-md-12" style="min-height:836px;">
+        <div id="rightside" class="col-xs-12 col-sm-12 col-md-12">
             <div id="load"></div>
             <div id="pageTitle" class="article-header"><h1 style="color:#003184">New International Shipment</h1></div>
             <div class="panel panel-body" style="padding:0">
                 <div class="panel-body" style="padding:3px">
                     <label id="warning1" style="display:none;padding:1px;width:500px" class="label-warning">Test</label>
-                    <label id="warning2" style="display:none;padding:1px;width:500px" class="label-warning">Test</label>
                     <label id="warning3" style="display:none;padding:1px;width:500px" class="label-warning">Test</label>
                 </div>
             </div>
@@ -60,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6" id="rightMainPanel" style="padding-right: 0; padding-bottom: 90px">
+            <div class="col-md-6" id="rightMainPanel" style="padding-right:0">
                 <div class="panel panel-default">
                     <div class="panel-heading">Options</div>
                     <div class="panel-body">
@@ -84,36 +83,51 @@
                         </div>
                     </div>
                 </div>
-
                 <div style="width:100%">
-                    <label>Special Instructions</label>
-                    <input id="tbInstructions" class="form-control" style="width:100%" type="text" />
-                    <label style="margin-top: 5px">
-                        <input id="notifyCbx" name="notifyCbx" type="checkbox" checked />
-                        Notify Customer
-                    </label>
+                    <label>Shipment Descriptions</label>
+                    <textarea id="tbShipmentDescriptions" rows="2" class="form-control" style="width:100%"></textarea>
+                    <label>Products Origin</label>
+                    <input id="tbProductOrigin" class="form-control" type="text" />
                 </div>
             </div>
             <div class="row" id="addressSelectorNotFound" style="display:none">
-
             </div>
             <div class="row" id="addressSelectorFound" style="display:none">
-                <div class="col-xs-6" style="padding-top:1em">
-                    
+                <div class="col-md-9">
+                    <label id="warning2" class="col-md-12 label-warning">WE CAN'T FIND THE LOCATION PROVIDED, PLEASE SELECT CORRECT SUBURB FROM THE LIST</label>
+                    <label>Available Combination</label>
+                    <select id="suburbSelect" onchange="repopulateSelections()"></select>
                 </div>
+                
             </div>
-            <div class="row" id="intLabelControlPanel" style="display:none;padding-bottom:50px">
-                <div class="col-xs-6" style="padding-top:1em">
+            <div class="row" id="intLabelControlPanel" style="display:none">
+                <div class="col-xs-9" style="padding-top:1em">
+                    <table class="table-spacing pad-bottom-50 pad-top-10" id="packageTablePanel" style="border-collapse:separate; width:100%">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <table id="tblItems" class="list" style="width:100%">
+                                        <tbody>
+                                            <tr class="headerFullBox">
+                                                <td>Reference</td>
+                                                <td>Shipment Content</td>
+                                                <td>Items</td>
+                                                <td>Weight(kg)</td>
+                                                <td>Declared Value</td>
+                                                <td>Extra</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <a class="btn btn-success" onclick="printAramexLabels()">
                         Create Shipment
-                    </a>
-                    <a class="btn btn-warning" onclick="reValidateAddress()" style="visibility:hidden">
-                        Validate Address
                     </a>
                 </div>
             </div>
         </div>
-        
     </div>
 </div>
 

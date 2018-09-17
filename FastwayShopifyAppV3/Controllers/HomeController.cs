@@ -830,10 +830,11 @@ namespace FastwayShopifyAppV3.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> CreateAramexShipment(string CompanyName, string Address1, string Address2, string Suburb, string Postcode, string CountryCode, string Phone, string Email)
+        public async Task<JsonResult> CreateAramexShipment(string CompanyName, string Address1, string Address2, string Suburb, string Postcode, string CountryCode, string Phone, string Email, string Descriptions)
         {
             try
             {
+                //Get from DB
                 var cInfo = new AramexShipping.ClientInfo();
                 cInfo.UserName = "ollie@fastway.co.nz";
                 cInfo.Password = "Fastway123!";
@@ -843,14 +844,18 @@ namespace FastwayShopifyAppV3.Controllers
                 cInfo.AccountCountryCode = "NZ";
                 cInfo.Version = "v1.0";
 
+                //can be left empty
                 var transaction = new AramexShipping.Transaction();
-
+                
+                //default
                 var lInfo = new AramexShipping.LabelInfo();
                 lInfo.ReportID = 9201;
                 lInfo.ReportType = "URL";
 
+                //shipment
                 var shipment = new Shipment();
 
+                //shipper
                 var shipper = new Party();
                 shipper.AccountNumber = "152451";
                 var sAdd = new AramexShipping.Address();
@@ -860,7 +865,7 @@ namespace FastwayShopifyAppV3.Controllers
                 sAdd.City = "Auckland";
                 sAdd.CountryCode = "NZ";
                 shipper.PartyAddress = sAdd;
-
+                //shipper contact
                 var contact = new AramexShipping.Contact();
                 contact.PersonName = "Ollie Huynh";
                 contact.CompanyName = "Fastway Test";
@@ -869,10 +874,13 @@ namespace FastwayShopifyAppV3.Controllers
                 contact.PhoneNumber1 = "06 833 6333";
 
                 shipper.Contact = contact;
+                //end shipper
 
                 shipment.Shipper = shipper;
-
+                
+                //consignee
                 var consignee = new Party();
+                //delivery add
                 var add = new AramexShipping.Address();
                 add.Line1 = Address1;
                 add.Line2 = Address2;
@@ -881,7 +889,8 @@ namespace FastwayShopifyAppV3.Controllers
                 add.CountryCode = CountryCode;
 
                 consignee.PartyAddress = add;
-
+                //end delivery add
+                //consignee contact
                 var consingeeContact = new AramexShipping.Contact();
 
                 consingeeContact.PersonName = CompanyName;
@@ -891,19 +900,22 @@ namespace FastwayShopifyAppV3.Controllers
                 consingeeContact.PhoneNumber1 = Phone;
 
                 consignee.Contact = consingeeContact;
-
-
+                //end consignee contact
                 shipment.Consignee = consignee;
+                //end consignee
 
-
+                //default - NOT SURE
                 shipment.ShippingDateTime = DateTime.Now.AddDays(1);
                 shipment.DueDate = DateTime.Now.AddMonths(1);
+                
 
+                //shipment details USER INPUT
                 var details = new AramexShipping.ShipmentDetails();
                 var weight = new AramexShipping.Weight();
                 weight.Unit = "KG";
                 weight.Value = 1;
 
+                //NEED TO HAVE A LOGIC TO DETERMINE THESE PARAMETERS
                 details.ActualWeight = weight;
                 details.ChargeableWeight = weight;
                 details.NumberOfPieces = 1;
@@ -914,6 +926,8 @@ namespace FastwayShopifyAppV3.Controllers
                 details.DescriptionOfGoods = "Test API";
                 details.GoodsOriginCountry = "NZ";
                 
+                //USER INPUT
+                //MONEY
                 var money = new AramexShipping.Money();
                 money.CurrencyCode = "NZD";
                 money.Value = 10;
@@ -923,6 +937,9 @@ namespace FastwayShopifyAppV3.Controllers
                 details.CashAdditionalAmount = money;
                 details.CollectAmount = money;
 
+                details.DescriptionOfGoods = Descriptions;
+
+                //Items USER INPUT
                 var item = new AramexShipping.ShipmentItem();
                 item.Quantity = 1;
                 item.Weight = weight;
@@ -931,22 +948,29 @@ namespace FastwayShopifyAppV3.Controllers
                 lItems.Add(item);
 
                 details.Items = lItems.ToArray();
-
+                //end Items
 
                 shipment.Details = details;
-
+                //end shipment details
+                
+                //form shipment array
                 List<Shipment> sms = new List<Shipment>();
                 sms.Add(shipment);
-
                 var shipments = sms.ToArray();
-
+                //form shipment request
                 var req = new ShipmentCreationRequest(cInfo, transaction, shipments, lInfo);
 
                 try
                 {
-                    AramexAPI api = new AramexAPI();
+                    var sService = new AramexShipping.Service_1_0Client();
+                    sService.Open();
+                    ShipmentCreationResponse res = await sService.CreateShipmentsAsync(req);
+                    sService.Close();
 
-                    AramexShipping.ShipmentCreationResponse res = await api.CreateShipments(req);
+
+                    //AramexAPI api = new AramexAPI();
+
+                    //AramexShipping.ShipmentCreationResponse res = await api.CreateShipments(req);
 
                     if (res != null)
                     {
@@ -992,7 +1016,7 @@ namespace FastwayShopifyAppV3.Controllers
                 {
                     return Json(new
                     {
-                        Shipments = e.Message + "Inside"
+                        Errors = e.Message
                     });
                 }
             } catch (Exception e)
@@ -1007,6 +1031,6 @@ namespace FastwayShopifyAppV3.Controllers
             
         }
 
-        //END ARAMEX
+//END ARAMEX
     }
 }
