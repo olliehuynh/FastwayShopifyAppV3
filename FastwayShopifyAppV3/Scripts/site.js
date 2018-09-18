@@ -6,21 +6,8 @@ if (addressString === "NoAddress") {
     document.getElementById("warning1").innerText = "NO DELIVERY ADDRESS FOUND, PLEASE CHECK WITH YOUR CUSTOMER AND INPUT ACCORDINGLY";
     document.getElementById("warning1").style.display = "block";
 } else if (addressString === "MoreThanOne") {
-    if (document.getElementById("shopUrl").value === "fastway-test-2.myshopify.com" ||
-        document.getElementById("shopUrl").value === "mytreat-co-nz.myshopify.com" ||
-        document.getElementById("shopUrl").value === "boltofcloth.myshopify.com" ||
-        document.getElementById("shopUrl").value === "ejuicevapor.myshopify.com" ||
-        document.getElementById("shopUrl").value === "nzhealthclub.myshopify.com" ||
-        document.getElementById("shopUrl").value === "otago-chocolate-company.myshopify.com" ||
-        document.getElementById("shopUrl").value === "patney.myshopify.com" ||
-        document.getElementById("shopUrl").value === "fastway-test-sa.myshopify.com") {
         enableBulkPrint();
         loadOrders();
-    } else {
-        disableAllFields();
-        document.getElementById("warning3").innerText = "THIS IS CURRENTLY IN TEST, PLEASE TRY AGAIN LATER";
-        document.getElementById("warning3").style.display = "block";
-    }
 } else if (addressString === "International") {
     disableAllFields();
     document.getElementById("warning3").innerText = "THIS IS AN INTERNATIONAL ADDRESS, PLEASE CONTACT YOUR LOCAL FASTWAY DEPOT FOR MORE INFORMATION";

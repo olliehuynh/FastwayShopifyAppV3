@@ -368,6 +368,7 @@ namespace FastwayShopifyAppV3.Engine
                 case 6:
                     trackingCompany = "Fastway Couriers (NZ) Ltd.";
                     trackingUrl = "https://www.fastway.co.nz/track/track-your-parcel?l=";
+                    //trackingUrl = "https://www.fastway.co.nz/tools/track?l=";
                     break;
                 case 24:
                     trackingCompany = "Fastway Couriers (South Africa) Ltd.";
@@ -462,6 +463,7 @@ namespace FastwayShopifyAppV3.Engine
                 case 6:
                     trackingCompany = "Fastway Couriers (NZ) Ltd.";
                     trackingUrl = "https://www.fastway.co.nz/track/track-your-parcel?l=";
+                    //trackingUrl = "https://www.fastway.co.nz/tools/track?l=";
                     break;
                 case 24:
                     trackingCompany = "Fastway Couriers (South Africa) Ltd.";
