@@ -25,9 +25,7 @@ namespace FastwayShopifyAppV3.Controllers
 
         /// <summary>
         /// Writing shopUrl in hidden field 'shopUrl' and return View()
-        /// NOTE: Will need to redirect customer to their shop admin Page
         /// </summary>
-        /// <param name="shopUrl">shopUrl acquired from ShopifyController: Install /or passed from other page</param>
         /// <returns>shopUrl</returns>
         public ActionResult Index(string shopUrl)
         {
@@ -36,9 +34,6 @@ namespace FastwayShopifyAppV3.Controllers
         }
         /// <summary>
         /// Writing shopUrl in hidden field 'shopUrl' and return View()
-        /// NOTE: Will need to redirect customer to their shop admin Page
-        /// </summary>
-        /// <param name="shopUrl">shopUrl acquired from ShopifyController: Install /or passed from other page</param>
         /// <returns></returns>
         public ActionResult Installed(string shopUrl)
         {
@@ -49,8 +44,6 @@ namespace FastwayShopifyAppV3.Controllers
         /// <summary>
         /// Listen to calls from shopify admin page, receive shop url and order ids. Parse orders and pass details to View()
         /// </summary>
-        /// <param name="shop">shopUrl received from Shopify</param>
-        /// <param name="ids">orderIds received from Shopify</param>
         /// <returns></returns>
         public async Task<ActionResult> NewConsignment(string shop, string[] ids)
         {
@@ -185,8 +178,6 @@ namespace FastwayShopifyAppV3.Controllers
         /// <summary>
         /// Listen to calls from shopify admin page, receive shop url and order ids. Parse orders and pass details to View()
         /// </summary>
-        /// <param name="shop"></param>
-        /// <param name="id"></param>
         /// <returns></returns>
         public async Task<ActionResult> NewInternationalConsignment(string shop, string[] ids)
         {
@@ -234,13 +225,6 @@ namespace FastwayShopifyAppV3.Controllers
         /// <summary>
         /// Listen to query from NewConsignment controler, query and response with available services
         /// </summary>
-        /// <param name="ShopUrl">web Url of the store</param>
-        /// <param name="Address1">delivery address1</param>
-        /// <param name="Suburb">delivery suburb</param>
-        /// <param name="Postcode">delivery postcode</param>
-        /// <param name="Region">delivery region</param>
-        /// <param name="Weight">parcel weight</param>
-        /// <param name="Type">parcel type</param>
         /// <returns></returns>
         [HttpPost]
         public JsonResult LabelQuery(string ShopUrl, string Address1, string Address2, string Suburb, string Postcode, string Region, float Weight, string Type)
@@ -336,9 +320,6 @@ namespace FastwayShopifyAppV3.Controllers
         /// <summary>
         /// V2 of LabelPrinting using generate-label call instead of generate-label-for-labelnumber
         /// </summary>
-        /// <param name="ShopUrl"></param>
-        /// <param name="DeliveryDetails"></param>
-        /// <param name="PackagingDetails"></param>
         /// <returns></returns>
         [HttpPost]
         public JsonResult LabelPrintingV2(string ShopUrl, string DeliveryDetails, string PackagingDetails, bool Saturday)
@@ -441,9 +422,6 @@ namespace FastwayShopifyAppV3.Controllers
         /// <summary>
         /// Controller to fulfill orders as required.
         /// </summary>
-        /// <param name="ShopUrl">web url of the store</param>
-        /// <param name="OrderIds">orderIds to be fulfilled</param>
-        /// <param name="LabelNumbers">Label numbers to be added</param>
         /// <returns></returns>
         public async Task<ActionResult> OrdersFulfillment(string ShopUrl, string OrderIds, string LabelNumbers, string NotifyFlag)
         {
@@ -515,7 +493,6 @@ namespace FastwayShopifyAppV3.Controllers
         /// <summary>
         /// Controller to retrieve customer preferences
         /// </summary>
-        /// <param name="shopUrl">web url of the store</param>
         /// <returns></returns>
         public ActionResult Preferences(string shopUrl)
         {
@@ -536,12 +513,6 @@ namespace FastwayShopifyAppV3.Controllers
         /// <summary>
         /// Listen to query from front-end to update preferences and response accordingly
         /// </summary>
-        /// <param name="ShopUrl">web url of the store</param>
-        /// <param name="StoreName">Name of store to display on label</param>
-        /// <param name="StoreAddress1">Store address to display on label</param>
-        /// <param name="Suburb">Store suburb to display on label</param>
-        /// <param name="Postcode">Store postcode to display on label</param>
-        /// <param name="ApiKey">Fastway Apikey to make calls</param>
         /// <returns></returns>
         [HttpPost]
         public JsonResult UpdatePreferences(string ShopUrl, string StoreName, string StoreAddress1, string Suburb, string Postcode,string Phone, string ApiKey, int CountryCode)
@@ -578,14 +549,6 @@ namespace FastwayShopifyAppV3.Controllers
         /// <summary>
         /// Query Labels for multi print
         /// </summary>
-        /// <param name="ShopUrl"></param>
-        /// <param name="Address1"></param>
-        /// <param name="Address2"></param>
-        /// <param name="Suburb"></param>
-        /// <param name="Postcode"></param>
-        /// <param name="Weight"></param>
-        /// <param name="Instruction"></param>
-        /// <param name="Type"></param>
         /// <returns></returns>
         [HttpPost]
         public JsonResult MultiLabelQuery(string ShopUrl, string Address1, string Address2, string Suburb, string Postcode, float Weight, string Instruction, string Type)
@@ -611,7 +574,8 @@ namespace FastwayShopifyAppV3.Controllers
             label.countryCode = storeDetails.CountryCode;
 
             List<string> labelNumbers = new List<string>();
-
+            string destRF = "";
+            
             try
             {
                 if (Type != "Parcel")
@@ -648,6 +612,7 @@ namespace FastwayShopifyAppV3.Controllers
                         l = getLabel.LabelQueryV2(label);
                         labelNumbers.Add(l.labelNumber);
                         labelNumbers.Add(l.ruralNumber);
+                        destRF = l.toRfName;
                     }
                 }
                 else
@@ -661,6 +626,7 @@ namespace FastwayShopifyAppV3.Controllers
                     l = getLabel.LabelQueryV2(label);
                     labelNumbers.Add(l.labelNumber);
                     labelNumbers.Add(l.ruralNumber);
+                    destRF = l.toRfName;
                 }
             }
             catch (Exception)
@@ -671,17 +637,14 @@ namespace FastwayShopifyAppV3.Controllers
             {//return details about availabel service
                 BaseLabel = labelNumbers[0],
                 RuralLabel = labelNumbers[1],
-                Service = label.labelColour
+                Service = label.labelColour,
+                DestRF = destRF
             });
         }
 
         /// <summary>
-        /// 
+        /// Listen to query from NewConsignment Controller and response with labels acquired from Fastway API
         /// </summary>
-        /// <param name="ShopUrl"></param>
-        /// <param name="DeliveryDetails"></param>
-        /// <param name="PackagingDetails"></param>
-        /// <param name="Saturday"></param>
         /// <returns></returns>
         [HttpPost]
         public JsonResult MultiLabelPrinting(string ShopUrl, string Instruction, float Weight, string Labels, string Reference, string FullDetails)
@@ -703,7 +666,7 @@ namespace FastwayShopifyAppV3.Controllers
             label.fromAddress1 = storeDetails.StoreAddress1;
             label.fromCity = storeDetails.Suburb;
             label.fromPostcode = storeDetails.Postcode;
-            label.weight = (double)Weight;
+            label.weight = Math.Ceiling(Weight * 100)/100;
             label.specialInstruction1 = Instruction;
             label.countryCode = storeDetails.CountryCode;
 
@@ -744,6 +707,8 @@ namespace FastwayShopifyAppV3.Controllers
                     l.labelNumber = ls[i]["BaseLabel"].ToString();
                     l.ruralNumber = ls[i]["RuralLabel"].ToString();
 
+                    l.toRfName = ls[i]["Destination"].ToString();
+
                     labelDetails.Add(l);
                 }
                 
@@ -776,7 +741,10 @@ namespace FastwayShopifyAppV3.Controllers
         }
 
         //START ARAMEX
-        
+        /// <summary>
+        /// Validate address details and response with suggestions if any
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public async Task<JsonResult> AddressValidation(string Address1, string Address2, string Suburb, string Postcode, string CountryCode)
         {
@@ -829,6 +797,10 @@ namespace FastwayShopifyAppV3.Controllers
             }
         }
 
+        /// <summary>
+        /// Create a shipment using Aramex API and response with coresponding labels
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public async Task<JsonResult> CreateAramexShipment(string CompanyName, string Address1, string Address2, string Suburb, string Postcode, string CountryCode, string Phone, string Email, string Descriptions)
         {
@@ -1031,6 +1003,6 @@ namespace FastwayShopifyAppV3.Controllers
             
         }
 
-//END ARAMEX
+        //END ARAMEX
     }
 }

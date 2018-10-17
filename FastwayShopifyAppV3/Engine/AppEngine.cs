@@ -678,11 +678,7 @@ namespace FastwayShopifyAppV3.Engine
                         s.Saturday = o["result"]["isSaturdayDeliveryAvailable"].ToString();
                         labels.Add(s);
                     }
-
                 }
-
-
-
             }
             //returning list of usable label for process
             return labels;

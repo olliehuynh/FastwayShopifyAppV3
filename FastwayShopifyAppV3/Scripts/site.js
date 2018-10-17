@@ -562,6 +562,7 @@ function printLabels() {
                         data: JSON.stringify(printDetails),
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
+                        async: false,
                         success: function (data) {
                             window.open("data:application/pdf;base64, " + data.PdfBase64Stream, '', "height=600,width=800");
                             window.location = "OrdersFulfillment?shopUrl=" + document.getElementById("shopUrl").value + "&orderIds=" + document.getElementById("orderDetails").value + "&labelNumbers=" + data.Labels + "&notifyFlag=" + notifyFlag;
@@ -634,7 +635,7 @@ function loadOrders() {
 function loadOneOrder(table, order, row) {
     var row = table.insertRow(row);
     row.classList.add('consignmentItems');
-    var cells = ["Name", "Address1", "Address2", "Suburb", "Postcode", "Label", "Rural", "Service"];
+    var cells = ["Name", "Address1", "Address2", "Suburb", "Postcode", "Label", "Rural", "Service", "Destination"];
     for (var i = 0; i < cells.length; i++) {
         var newCell = row.insertCell(-1);
         createOrderCell(newCell, cells[i], row - 1, order);
@@ -678,6 +679,10 @@ function createOrderCell(cell, type, i, order) {
         case "Service":
             cell.classList.add('col-xs-1');
             input.disabled = true;
+            break;
+        case "Destination":
+            input.disabled = true;
+            input.style.display = "none";
             break;
     }
     if (input.value.length > 30) {
@@ -797,6 +802,7 @@ function queryCallback(tds, i, weight) {
                 tds[5].children[0].value = data.BaseLabel;
                 tds[6].children[0].value = data.RuralLabel;
                 tds[7].children[0].value = data.Service;
+                tds[8].children[0].value = data.DestRF;
                 document.getElementById('load').style.visibility = "hidden";
             },
             error: function () {
@@ -847,7 +853,8 @@ function bulkPrintLabels() {
             '"Postcode":"' + tds[4].children[0].value + '",' +
             '"BaseLabel":"' + tds[5].children[0].value + '",' +
             '"RuralLabel":"' + tds[6].children[0].value + '",' +
-            '"Service":"' + tds[7].children[0].value + '"' +
+            '"Service":"' + tds[7].children[0].value + '",' +
+            '"Destination":"' + tds[8].children[0].value + '"' +
             '}';
         if (i != rowCount - 1) {
             labelDetails += ',';
@@ -873,6 +880,7 @@ function bulkPrintLabels() {
             data: JSON.stringify(multiLabelDetails),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
+            async: false,
             success: function (data) {
                 document.getElementById('load').style.visibility = "hidden";
                 window.open("data:application/pdf;base64, " + data.PdfBase64Stream, '', "height=600,width=800");
