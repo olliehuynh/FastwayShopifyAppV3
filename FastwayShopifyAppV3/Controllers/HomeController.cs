@@ -88,6 +88,23 @@ namespace FastwayShopifyAppV3.Controllers
                 if (k.ShippingAddress != null)
                 {//if shipping address exist, add to list of delivery details
                     bool check = true;
+                    //check if order is international
+                    switch (cCode)
+                    {
+                        case 6:
+                            if (k.ShippingAddress.Country != "New Zealand")
+                            {
+                                check = false;
+                            }
+                            break;
+                        case 1:
+                            if (k.ShippingAddress.Country != "Australia")
+                            {
+                                check = false;
+                            }
+                            break;
+                    }
+                    //check if duplicate addresses
                     if (deliveryAddress.Count > 0)
                     {
                         for (var l = 0; l < deliveryAddress.Count; l++)
@@ -95,6 +112,7 @@ namespace FastwayShopifyAppV3.Controllers
                             if (deliveryAddress[l].Name == k.ShippingAddress.Name)
                             {
                                 check = false;
+                                break;
                             }
                         }
                     }
