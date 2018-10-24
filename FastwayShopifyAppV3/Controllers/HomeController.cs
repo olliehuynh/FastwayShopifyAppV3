@@ -736,7 +736,10 @@ namespace FastwayShopifyAppV3.Controllers
             }
             catch (Exception e)
             {//error
-                throw e;
+                return Json(new
+                {//return status success
+                    Error = e.Message
+                });
             }
         }
 

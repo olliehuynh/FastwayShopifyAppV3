@@ -489,7 +489,7 @@ function addressCheck() {
 }
 
 function printLabels() {
-    if (document.getElementById('tbxDeliveryAddress').value.length > 30 || document.getElementById('tbxDeliveryAddress1').value.length > 30) {
+    if (document.getElementById('tbxDeliveryAddress').value.length > 30 || document.getElementById('tbxDeliveryAddress1').value.length > 30 || document.getElementById('tbxCustomerName').value.length > 30) {
         document.getElementById('warning3').innerText = "Max length for address details are 30 characters, please check and retry";
         document.getElementById('warning3').style.display = "block";
     }
@@ -844,8 +844,18 @@ function bulkPrintLabels() {
     var labelDetails = '[';
     for (var i = 1; i < rowCount; i++) {
         var tds = trs[i].getElementsByTagName("td");
+        var company = ""
+        if (addresses[i - 1].Company) {
+            if (addresses[i - 1].Company.length > 30) {
+                var str = addresses[i - 1].Company;
+                company = str.substr(0, 30);
+            } else {
+                company = addresses[i - 1].Company;
+            }
+        } 
+         
         labelDetails += '{' +
-            '"Company":"' + addresses[i - 1].Company + '",' +
+            '"Company":"' + company + '",' +
             '"Name":"' + tds[0].children[0].value + '",' +
             '"Address1":"' + tds[1].children[0].value + '",' +
             '"Address2":"' + tds[2].children[0].value + '",' +
@@ -885,9 +895,9 @@ function bulkPrintLabels() {
                 document.getElementById('load').style.visibility = "hidden";
                 window.open("data:application/pdf;base64, " + data.PdfBase64Stream, '', "height=600,width=800");
             },
-            error: function () {
+            error: function (data) {
                 document.getElementById('load').style.visibility = "hidden";
-                alert("There was an error!");
+                alert(data.Error);
             }
         }
     );
