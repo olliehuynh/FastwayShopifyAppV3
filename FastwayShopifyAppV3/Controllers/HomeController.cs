@@ -24,16 +24,17 @@ namespace FastwayShopifyAppV3.Controllers
         string secretKey = Engine.ShopifyAppEngine.ShopifySecretKey;
 
         /// <summary>
-        /// Writing shopUrl in hidden field 'shopUrl' and return View()
+        /// Index controller
+        /// Write shopUrl as a hidden imput to front-end for further queries
         /// </summary>
-        /// <returns>shopUrl</returns>
         public ActionResult Index(string shopUrl)
         {
             Response.Write("<input id='shopUrl' type='hidden' value='" + shopUrl + "'>");
             return View();
         }
         /// <summary>
-        /// Writing shopUrl in hidden field 'shopUrl' and return View()
+        /// Installed controller
+        /// Write shopUrl as a hidden input to front-end for further queries
         /// <returns></returns>
         public ActionResult Installed(string shopUrl)
         {
@@ -42,9 +43,12 @@ namespace FastwayShopifyAppV3.Controllers
         }
 
         /// <summary>
-        /// Listen to calls from shopify admin page, receive shop url and order ids. Parse orders and pass details to View()
+        /// NewConsignment controller
+        /// Based on the specified order IDs by Shopify, write required variables
+        /// to front-end in hidden inputs for further queries
+        /// Used for both single or multiple orders
+        /// Filter out international orders
         /// </summary>
-        /// <returns></returns>
         public async Task<ActionResult> NewConsignment(string shop, string[] ids)
         {
             //Get order numbers
@@ -194,9 +198,12 @@ namespace FastwayShopifyAppV3.Controllers
         }
 
         /// <summary>
-        /// Listen to calls from shopify admin page, receive shop url and order ids. Parse orders and pass details to View()
+        /// NewInternationalConsignment controller
+        /// Based on the specified order IDs by Shopify, write required variables
+        /// to front-end in hidden inputs for further queries
+        /// International only process one order at a time
+        /// Filter out domestic orders
         /// </summary>
-        /// <returns></returns>
         public async Task<ActionResult> NewInternationalConsignment(string shop, string[] ids)
         {
             //Get order numbers
@@ -239,11 +246,10 @@ namespace FastwayShopifyAppV3.Controllers
 
         }
 
-
         /// <summary>
-        /// Listen to query from NewConsignment controler, query and response with available services
+        /// Method to respond to Ajax queries with available services
+        /// based on address details from specified order
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
         public JsonResult LabelQuery(string ShopUrl, string Address1, string Address2, string Suburb, string Postcode, string Region, float Weight, string Type)
         {
@@ -336,9 +342,10 @@ namespace FastwayShopifyAppV3.Controllers
         }
 
         /// <summary>
-        /// V2 of LabelPrinting using generate-label call instead of generate-label-for-labelnumber
+        /// Method to respond to Ajax queries with pdf labels
+        /// based on address details and tracking numbers for specified order
+        /// This is an improved version to fix some limitation with printlabels call.
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
         public JsonResult LabelPrintingV2(string ShopUrl, string DeliveryDetails, string PackagingDetails, bool Saturday)
         {
@@ -354,8 +361,6 @@ namespace FastwayShopifyAppV3.Controllers
             label.fromCompany = conn.GetStringValues(ShopUrl, "StoreName");
             label.countryCode = conn.GetIntergerValues(ShopUrl, "CountryCode");
             label.fromPhone = conn.GetStringValues(ShopUrl, "Phone");
-
-            
 
             //parse delivery details
             JObject d = JObject.Parse(DeliveryDetails);
@@ -438,9 +443,10 @@ namespace FastwayShopifyAppV3.Controllers
         }
 
         /// <summary>
-        /// Controller to fulfill orders as required.
+        /// OrdersFulfillment controller
+        /// Make Shopify fulfillment calls with given order ids and tracking numbers
+        /// Write shopUrl to hidden input to front-end for further queries
         /// </summary>
-        /// <returns></returns>
         public async Task<ActionResult> OrdersFulfillment(string ShopUrl, string OrderIds, string LabelNumbers, string NotifyFlag)
         {
             //Db connection to query store details
@@ -508,11 +514,14 @@ namespace FastwayShopifyAppV3.Controllers
             Response.Write("<input id='shopUrl' type='hidden'  value='" + ShopUrl + "'>");//passing shopUrl to View() for further queries
             return View();
         }
+
         /// <summary>
-        /// Controller to retrieve customer preferences
+        /// Preferences controller
+        /// Controller to retrieve customer preferences and show to front-end for editting
+        /// Write shopUrl and store details to front-end for further queries
         /// </summary>
-        /// <returns></returns>
         public ActionResult Preferences(string shopUrl)
+
         {
             //object to get store data from DB
             StoreRecord details = new StoreRecord();
@@ -528,10 +537,10 @@ namespace FastwayShopifyAppV3.Controllers
             Response.Write("<input id='shopDetails' type='hidden' value='" + storeDetails + "'>");
             return View();
         }
+
         /// <summary>
-        /// Listen to query from front-end to update preferences and response accordingly
+        /// Method to respond to Ajax queries and update store details
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
         public JsonResult UpdatePreferences(string ShopUrl, string StoreName, string StoreAddress1, string Suburb, string Postcode,string Phone, string ApiKey, int CountryCode)
         {
@@ -564,10 +573,12 @@ namespace FastwayShopifyAppV3.Controllers
 
 
         }
+
         /// <summary>
-        /// Query Labels for multi print
+        /// Method to respond to Ajax queries with label numbers
+        /// for each of the orders specified
+        /// for bulk print feature
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
         public JsonResult MultiLabelQuery(string ShopUrl, string Address1, string Address2, string Suburb, string Postcode, float Weight, string Instruction, string Type)
         {
@@ -661,9 +672,9 @@ namespace FastwayShopifyAppV3.Controllers
         }
 
         /// <summary>
-        /// Listen to query from NewConsignment Controller and response with labels acquired from Fastway API
+        /// Method to respond to Ajax quesries with pdf labels 
+        /// based on labels numbers and details provided
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
         public JsonResult MultiLabelPrinting(string ShopUrl, string Instruction, float Weight, string Labels, string Reference, string FullDetails)
         {
@@ -763,9 +774,9 @@ namespace FastwayShopifyAppV3.Controllers
 
         //START ARAMEX
         /// <summary>
-        /// Validate address details and response with suggestions if any
+        /// Method to respond to Ajax queries with address validation result
+        /// for Aramex consignments
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
         public async Task<JsonResult> AddressValidation(string Address1, string Address2, string Suburb, string Postcode, string CountryCode)
         {
@@ -819,7 +830,8 @@ namespace FastwayShopifyAppV3.Controllers
         }
 
         /// <summary>
-        /// Create a shipment using Aramex API and response with coresponding labels
+        /// Method to respond to Ajax queries with pdf labels
+        /// for Aramex consignments
         /// </summary>
         /// <returns></returns>
         [HttpPost]

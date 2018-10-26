@@ -17,6 +17,11 @@ using FastwayShopifyAppV3.AramexShipping;
 
 namespace FastwayShopifyAppV3.Engine
 {
+    /// <summary>
+    /// Static application values including
+    /// 1. Shopify app credentials
+    /// 2. DB connection string
+    /// </summary>
     public class ShopifyAppEngine
     {
         public static string ShopifySecretKey { get; } =
@@ -32,15 +37,14 @@ namespace FastwayShopifyAppV3.Engine
             ConfigurationManager.AppSettings.Get("ApplicationUrl");
     }
     /// <summary>
-    /// Database communication class
+    /// A class to handle database query
+    /// Query improvement might be needed at some later stage
     /// </summary>
     public class DbEngine
     {
         /// <summary>
         /// Insert new shop into database once Installation confirmed
         /// </summary>
-        /// <param name="shop">web url to store</param>
-        /// <param name="token">Shopify Token received</param>
         public void InsertNewShop(string shop, string token)
         {
             using (SqlConnection newCon = new SqlConnection(ShopifyAppEngine.ConnectionString))
@@ -53,10 +57,8 @@ namespace FastwayShopifyAppV3.Engine
         }
         /// <summary>
         /// Update a string value on specified column
+        /// of a specified store
         /// </summary>
-        /// <param name="shop">web url to store as search key</param>
-        /// <param name="column">colum to update</param>
-        /// <param name="value">value to be updated to</param>
         public void UpdateStringValues(string shop, string column, string value)
         {
             using (SqlConnection newCon = new SqlConnection(ShopifyAppEngine.ConnectionString))
@@ -69,10 +71,8 @@ namespace FastwayShopifyAppV3.Engine
         }
         /// <summary>
         /// Update an interger value on specified column
+        /// of a specified store
         /// </summary>
-        /// <param name="shop">web url to store as search key</param>
-        /// <param name="column">colum to update</param>
-        /// <param name="value">value to be updated to</param>
         public void UpdateIntergerValues(string shop, string column, int value)
         {
             using (SqlConnection newCon = new SqlConnection(ShopifyAppEngine.ConnectionString))
@@ -84,10 +84,8 @@ namespace FastwayShopifyAppV3.Engine
             }
         }
         /// <summary>
-        /// Query all data from a shop
+        /// Retrieve all saved data of the specified store
         /// </summary>
-        /// <param name="shop">web url to store as search key</param>
-        /// <returns></returns>
         public StoreRecord GetShopRecord(string shop)
         {
             List<StoreRecord> thisShop = new List<StoreRecord>();
@@ -132,11 +130,9 @@ namespace FastwayShopifyAppV3.Engine
 
         }
         /// <summary>
-        /// Query a string value on specific column
+        /// Query a string value on specified column
+        /// from a specified store
         /// </summary>
-        /// <param name="shop">web url to store as search key</param>
-        /// <param name="column">colum to query</param>
-        /// <returns></returns>
         public string GetStringValues(string shop, string column)
         {
             string result="";
@@ -163,11 +159,9 @@ namespace FastwayShopifyAppV3.Engine
             return result;
         }
         /// <summary>
-        /// Query an integer value on specific column
+        /// Query an integer value on specified column
+        /// from a specified store
         /// </summary>
-        /// <param name="shop">web url to store as search key</param>
-        /// <param name="column">colum to query</param>
-        /// <returns></returns>
         public int GetIntergerValues(string shop, string column)
         {
             int result = -1;
@@ -190,10 +184,9 @@ namespace FastwayShopifyAppV3.Engine
             return result;
         }
         /// <summary>
-        /// Return a boolean value if shop is found in the DB
+        /// Return a boolean value whether a specified store
+        /// is found in the DB
         /// </summary>
-        /// <param name="shop">web url to store as search key</param>
-        /// <returns></returns>
         public bool ExistingShop(string shop)
         {
             using (SqlConnection newCon = new SqlConnection(ShopifyAppEngine.ConnectionString))
@@ -214,10 +207,8 @@ namespace FastwayShopifyAppV3.Engine
             }
         }
         /// <summary>
-        /// 
+        /// Query for customer parcels from specified store
         /// </summary>
-        /// <param name="shop"></param>
-        /// <returns></returns>
         public List<CustomParcel> GetCustomParcel(string shop)
         {
             List<CustomParcel> customParcels = new List<CustomParcel>();
@@ -254,10 +245,8 @@ namespace FastwayShopifyAppV3.Engine
         }
     }
 
-
-
     /// <summary>
-    /// 
+    /// Class to present custom parcels
     /// </summary>
     public class CustomParcel
     {
@@ -274,7 +263,8 @@ namespace FastwayShopifyAppV3.Engine
     }
 
     /// <summary>
-    /// Simplified class for Store records from API response
+    /// Class for Store records, include selected items
+    /// from the Shopify API response
     /// </summary>
     public class StoreRecord
     {
@@ -293,18 +283,17 @@ namespace FastwayShopifyAppV3.Engine
         public int CountryCode { get; set; }
         //public string CustomParcels { get; set; }
     }
+
     /// <summary>
-    /// Class to manage Shopify API calls
+    /// Class to make Shopify API calls
     /// </summary>
     public class ShopifyAPI
     {
         /// <summary>
-        /// Method to retrieve a single order with given details
+        /// Method to retrieve a single order
+        /// from specified store
+        /// with specified Shopify system order ID
         /// </summary>
-        /// <param name="shop">web url to store</param>
-        /// <param name="token">store authentication token</param>
-        /// <param name="orderId">Id of the order to be query</param>
-        /// <returns>A Shopify Order object</returns>
         public async Task<Order> GetOrder(string shop, string token, string orderId)
         {
             Order order = new Order();
@@ -316,12 +305,10 @@ namespace FastwayShopifyAppV3.Engine
             return order;
         }
         /// <summary>
-        /// Method to retrieve a single fulfillment with given details
+        /// Method to retrieve a single fulfillment
+        /// from specified store
+        /// with specified Shopify system order ID
         /// </summary>
-        /// <param name="shop">web url to store</param>
-        /// <param name="token">store authentication token</param>
-        /// <param name="orderId">Id of the order to be query</param>
-        /// <returns>A string contains fulfillmentId(s)</returns>
         public async Task<string> GetFulfillment(string shop, string token, string orderId)
         {
             var service = new FulfillmentService(shop, token);
@@ -345,13 +332,12 @@ namespace FastwayShopifyAppV3.Engine
             return fulfillmentIds;
         }
         /// <summary>
-        /// Method to fulfill an order if no fulfillment has been created for this orderId
+        /// Method to fulfill an order
+        /// from specified store
+        /// with specified Shopify system order ID
+        /// when no fulfillment has been created for this orderId
+        /// with tracking number and option to notify receiver
         /// </summary>
-        /// <param name="shop">web url to store</param>
-        /// <param name="token">store authentication token</param>
-        /// <param name="orderId">Id of the order to be query</param>
-        /// <param name="labelNumbers">a string contains label number(s) to be added to the fulfillment </param>
-        /// <returns>fulfillment id as string</returns>
         public async Task<string> NewFulfillment(string shop, string token, string orderId, string labelNumbers, string notifyCustomer)
         {
             var trackingCompany = "";
@@ -435,14 +421,12 @@ namespace FastwayShopifyAppV3.Engine
             return fulfillment.Id.ToString();
         }
         /// <summary>
-        /// Method to update a fulfillment with tracking numbers if order has been partly fulfilled
+        /// Method to fulfill an order
+        /// from specified store
+        /// with specified Shopify system order ID
+        /// when no fulfillment has been created for this orderId
+        /// with updated tracking number and option to notify receiver
         /// </summary>
-        /// <param name="shop">web url to store</param>
-        /// <param name="token">store authentication token</param>
-        /// <param name="orderId">Id of the order to be query</param>
-        /// <param name="fulfillmentId">Id of the fulfillment has been done</param>
-        /// <param name="labelNumbers">a string contains label number(s) to be added to the fulfillment </param>
-        /// <returns>fulfillment id as string</returns>
         public async Task<string> UpdateFulfillment(string shop, string token, string orderId, string fulfillmentId, string labelNumbers, string notifyCustomer)
         {
             //FulfillmentService object to query
@@ -514,7 +498,8 @@ namespace FastwayShopifyAppV3.Engine
         
     }
     /// <summary>
-    /// Simplified class for usable labels from API response
+    /// Class for Usable label details, inlcude selected data
+    /// from the Fastway API response
     /// </summary>
     public class UsableLabel
     {
@@ -535,12 +520,12 @@ namespace FastwayShopifyAppV3.Engine
         public string Saturday { get; set; }
     }
     /// <summary>
-    /// Class to manage Fastway API calls
+    /// Class to make Fastway API calls
     /// </summary>
     public class FastwayAPI
     {
         /// <summary>
-        /// Structure to maintain label details while querying
+        /// Structure represents parameters necessary for Fastway API calls.
         /// </summary>
         public struct Labeldetails
         {
@@ -580,10 +565,10 @@ namespace FastwayShopifyAppV3.Engine
             public string printType;
         }
         /// <summary>
-        /// Method to query for availabel service providing all details
+        /// Make consignor-consignee call to query available services
+        /// Return a list of UsableLabel
+        /// For specified Labeldetails
         /// </summary>
-        /// <param name="details">Label Details struct object to hold all label details</param>
-        /// <returns>a list of Usablelabels to be processed</returns>
         public List<UsableLabel> ServiceQuery(Labeldetails details)
         {
             //RestClient objet to ustilise RESTAPI call
@@ -791,11 +776,10 @@ namespace FastwayShopifyAppV3.Engine
         //}
 
         /// <summary>
-        /// Method to query for pdf version of labels
+        /// Query pdf labels with specified details including 2 phases
+        /// 1. Query for label numbers
+        /// 2. Query for pdf labels with given label numbers
         /// </summary>
-        /// <param name="labels">list of labels deails</param>
-        /// <param name="doc">pdf document to append more label</param>
-        /// <returns>reutnr</returns>
         public PdfDocument PrintLabels(List<Labeldetails> labels, PdfDocument doc)
         {
             var client = new RestClient();
@@ -968,11 +952,9 @@ namespace FastwayShopifyAppV3.Engine
             }
         }
         /// <summary>
-        /// Method to query for pdf version of labels for Bulk Print features
+        /// Query pdf labels for bulk print feature
+        /// with specified label numbers and details
         /// </summary>
-        /// <param name="labels"></param>
-        /// <param name="doc"></param>
-        /// <returns></returns>
         public PdfDocument PrintMultipleLabels(List<Labeldetails> labels, PdfDocument doc)
         {
             try
@@ -1160,10 +1142,10 @@ namespace FastwayShopifyAppV3.Engine
         //}
 
         /// <summary>
-        /// Method to query for labels details V2 to use generate-label call instead of generate-label-for-labelnumbers
+        /// Method to query for labels details V2 to use generate-label call
+        /// instead of generate-label-for-labelnumbers
+        /// with given Labeldetails
         /// </summary>
-        /// <param name="details"></param>
-        /// <returns>return a label details objects</returns>
         public Labeldetails LabelQueryV2(Labeldetails details)
         {
             //RestClient to make API calls
@@ -1241,10 +1223,9 @@ namespace FastwayShopifyAppV3.Engine
         }
 
         /// <summary>
-        /// tidy up code to populate RestRequest to query label images
+        /// Method to populate the required parameters
+        /// NOTE: Just to tidy up repeating code
         /// </summary>
-        /// <param name="req"></param>
-        /// <param name="label"></param>
         public void RequestPopulating(RestRequest req, Labeldetails label)
         {
             req.AddParameter("api_key", label.apiKey);
@@ -1273,10 +1254,17 @@ namespace FastwayShopifyAppV3.Engine
     }
 
     /// <summary>
-    /// Aramex API
+    /// Class to make Aramex API calls
     /// </summary>
     public class AramexAPI
     {
+        /// <summary>
+        /// Method used to validate the address from Shopify
+        /// Return
+        /// 1. Null if address is velified
+        /// 2. Empty list if Aramex API couldn't revifed the address
+        /// 3. A list of suggestions if Aramex API found some similarities
+        /// </summary>
         public async Task<List<AramexLocation.Address>> AddressValidation(AramexLocation.Address add, AramexLocation.ClientInfo client)
         {
             List<AramexLocation.Address> result = new List<AramexLocation.Address>();
@@ -1310,6 +1298,10 @@ namespace FastwayShopifyAppV3.Engine
             }
         }
 
+        /// <summary>
+        /// Method used to create a shipment with specified details
+        /// Return a ShipmentCreationResponse which inlude a PDF labels link if success
+        /// </summary>
         public async Task<AramexShipping.ShipmentCreationResponse> CreateShipments(AramexShipping.ShipmentCreationRequest req)
         {
             var sService = new AramexShipping.Service_1_0Client();
