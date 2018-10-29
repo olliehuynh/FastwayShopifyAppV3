@@ -31,10 +31,6 @@
   <string>externalFilesFolder</string>
   <string>templateLocale</string>
   <string>fileNamingConvention</string>
-  <string>generateVbSyntax</string>
-  <string>generateCsharpSyntax</string>
-  <string>generateCppSyntax</string>
-  <string>generateJscriptSyntax</string>
   <string>helpTitle</string>
   <string>customTopics</string>
   <string>ListNamespacesWithShortNames</string>

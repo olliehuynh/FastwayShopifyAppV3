@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="GENERATOR" content="VSdocman - documentation generator; http://www.helixoft.com" />
-	<title>Service_1_0Client.ValidateAddress Method</title>
+	<title>Transaction Field</title>
 
 	<link rel="stylesheet" type="text/css" href="msdn2017/msdn2017.css"></link>
 	<script src="msdn2017/msdn2017.js" type="text/javascript"></script>
@@ -60,7 +60,7 @@ function replaceTitleAndUrl(win, title, url) {
 <!--HEADER START-->
   <div id="header">
   	<div id="runningHeaderText">FastwayShopifyAppV3 Reference</div>
-  	<h1 class="title">Service_1_0Client.ValidateAddress Method</h1>
+  	<h1 class="title">Transaction Field</h1>
   	<div id="headerLinks">
 
 	<a href="#seeAlsoSection">See Also</a>
@@ -136,7 +136,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeVB">
-					<pre xml:space="preserve" class="brush: vb">Public Function ValidateAddress( _&nbsp;<br />   ByVal <i>ClientInfo</i> As <a target="_top" href="topic_0000000000000008.html" onclick="this.target='';return true;">ClientInfo</a>, _&nbsp;<br />   ByRef <i>Transaction</i> As <a target="_top" href="topic_0000000000000015.html" onclick="this.target='';return true;">Transaction</a>, _&nbsp;<br />   ByVal <i>Address</i> As <a target="_top" href="topic_000000000000001E.html" onclick="this.target='';return true;">Address</a>, _&nbsp;<br />   ByRef <i>HasErrors</i> As <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.boolean.aspx">Boolean</a>, _&nbsp;<br />   ByRef <i>SuggestedAddresses</i> As <a target="_top" href="topic_000000000000001E.html" onclick="this.target='';return true;">Address</a>() _&nbsp;<br />) As <a target="_top" href="topic_0000000000000031.html" onclick="this.target='';return true;">Notification</a>() Implements  _&nbsp;<br />   <a target="_top" href=".html" onclick="this.target='';return true;">Service_1_0.ValidateAddress</a></pre>			
+					<pre xml:space="preserve" class="brush: vb">&lt;System.ServiceModel.MessageBodyMember(Namespace=&quot;http://ws.aramex.net/ShippingAPI/v1/&quot;, Order=1)&gt; _&nbsp;<br />Public Transaction As <a target="_top" href="topic_000000000000001F.html" onclick="this.target='';return true;">Transaction</a></pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -175,7 +175,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeCsharp">
-					<pre xml:space="preserve" class="brush: csharp">public <a target="_top" href="topic_0000000000000031.html" onclick="this.target='';return true;">Notification</a>[] ValidateAddress(&nbsp;<br />   <a target="_top" href="topic_0000000000000008.html" onclick="this.target='';return true;">ClientInfo</a> <i>ClientInfo</i>,&nbsp;<br />   ref <a target="_top" href="topic_0000000000000015.html" onclick="this.target='';return true;">Transaction</a> <i>Transaction</i>,&nbsp;<br />   <a target="_top" href="topic_000000000000001E.html" onclick="this.target='';return true;">Address</a> <i>Address</i>,&nbsp;<br />   out <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.boolean.aspx">bool</a> <i>HasErrors</i>,&nbsp;<br />   out <a target="_top" href="topic_000000000000001E.html" onclick="this.target='';return true;">Address</a>[] <i>SuggestedAddresses</i>&nbsp;<br />)</pre>			
+					<pre xml:space="preserve" class="brush: csharp">[System.ServiceModel.MessageBodyMember(Namespace=&quot;http://ws.aramex.net/ShippingAPI/v1/&quot;, Order=1)]&nbsp;<br />public <a target="_top" href="topic_000000000000001F.html" onclick="this.target='';return true;">Transaction</a> Transaction</pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -215,7 +215,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeCpp">
-					<pre xml:space="preserve" class="brush: cpp">public: &nbsp;<br />array&lt; <a target="_top" href="topic_0000000000000031.html" onclick="this.target='';return true;">Notification</a>^ &gt;^ ValidateAddress(&nbsp;<br />   <a target="_top" href="topic_0000000000000008.html" onclick="this.target='';return true;">ClientInfo</a>^ <i>ClientInfo</i>,&nbsp;<br />   <a target="_top" href="topic_0000000000000015.html" onclick="this.target='';return true;">Transaction</a>^&amp; <i>Transaction</i>,&nbsp;<br />   <a target="_top" href="topic_000000000000001E.html" onclick="this.target='';return true;">Address</a>^ <i>Address</i>,&nbsp;<br />   <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.boolean.aspx">bool</a>&amp; <i>HasErrors</i>,&nbsp;<br />   array&lt; <a target="_top" href="topic_000000000000001E.html" onclick="this.target='';return true;">Address</a>^ &gt;^&amp; <i>SuggestedAddresses</i>&nbsp;<br />) </pre>			
+					<pre xml:space="preserve" class="brush: cpp">[System.ServiceModel.MessageBodyMember(Namespace=&quot;http://ws.aramex.net/ShippingAPI/v1/&quot;, Order=1)]&nbsp;<br />public: &nbsp;<br /><a target="_top" href="topic_000000000000001F.html" onclick="this.target='';return true;">Transaction</a>^ Transaction;</pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -254,7 +254,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeJScript">
-					<pre xml:space="preserve" class="brush: js">public function ValidateAddress(&nbsp;<br />    <i>ClientInfo</i> : <a target="_top" href="topic_0000000000000008.html" onclick="this.target='';return true;">ClientInfo</a>,&nbsp;<br />    <i>Transaction</i> : <a target="_top" href="topic_0000000000000015.html" onclick="this.target='';return true;">Transaction</a>,&nbsp;<br />    <i>Address</i> : <a target="_top" href="topic_000000000000001E.html" onclick="this.target='';return true;">Address</a>,&nbsp;<br />    <i>HasErrors</i> : <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.boolean.aspx">boolean</a>,&nbsp;<br />    <i>SuggestedAddresses</i> : <a target="_top" href="topic_000000000000001E.html" onclick="this.target='';return true;">Address</a>[]&nbsp;<br />) : <a target="_top" href="topic_0000000000000031.html" onclick="this.target='';return true;">Notification</a>[];</pre>			
+					<pre xml:space="preserve" class="brush: js">public &nbsp;<br />   System.ServiceModel.MessageBodyMember(Namespace=&quot;http://ws.aramex.net/ShippingAPI/v1/&quot;, Order=1)&nbsp;<br />Transaction : <a target="_top" href="topic_000000000000001F.html" onclick="this.target='';return true;">Transaction</a></pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -265,82 +265,11 @@ function replaceTitleAndUrl(win, title, url) {
 	</div>
 
 
-<h4 class="subHeading">
-	Parameters</h4><dl paramName="ClientInfo">
-	<dt>
-		<span class="parameter">
-			ClientInfo
-		</span>
-	</dt>
-	<dd>
-		Type: <a target="_top" href="topic_0000000000000008.html" onclick="this.target='';return true;">ClientInfo</a> 
-		<p>
-			 
-		</p>
-	</dd>
-</dl>
-<dl paramName="Transaction">
-	<dt>
-		<span class="parameter">
-			Transaction
-		</span>
-	</dt>
-	<dd>
-		Type: <a target="_top" href="topic_0000000000000015.html" onclick="this.target='';return true;">Transaction</a> 
-		<p>
-			 
-		</p>
-	</dd>
-</dl>
-<dl paramName="Address">
-	<dt>
-		<span class="parameter">
-			Address
-		</span>
-	</dt>
-	<dd>
-		Type: <a target="_top" href="topic_000000000000001E.html" onclick="this.target='';return true;">Address</a> 
-		<p>
-			 
-		</p>
-	</dd>
-</dl>
-<dl paramName="HasErrors">
-	<dt>
-		<span class="parameter">
-			HasErrors
-		</span>
-	</dt>
-	<dd>
-		Type: <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.boolean.aspx">bool</a> 
-		<p>
-			 
-		</p>
-	</dd>
-</dl>
-<dl paramName="SuggestedAddresses">
-	<dt>
-		<span class="parameter">
-			SuggestedAddresses
-		</span>
-	</dt>
-	<dd>
-		Type: <a target="_top" href="topic_000000000000001E.html" onclick="this.target='';return true;">Address</a>[] 
-		<p>
-			 
-		</p>
-	</dd>
-</dl>
-
-<p />
 
 	<h4 class="subHeading">
-		Return Value</h4>
-	Type: <a target="_top" href="topic_0000000000000031.html" onclick="this.target='';return true;">Notification</a>[] 
+		Field Value</h4>
+	Type: <a target="_top" href="topic_000000000000001F.html" onclick="this.target='';return true;">Transaction</a> 
 	
-
-	<h4 class="subHeading">
-		Implements</h4><a href="#">Service_1_0.ValidateAddress</a><br />
 
 
 
@@ -428,7 +357,7 @@ function replaceTitleAndUrl(win, title, url) {
 
 	<div id="seeAlsoSection" class="section">	
 		<div>
-			<a href="topic_00000000000000C9.html">Service_1_0Client Class</a><br />
+			<a href="topic_00000000000000CD.html">CitiesFetchingRequest Class</a><br />
 
 
 
@@ -455,4 +384,3 @@ function replaceTitleAndUrl(win, title, url) {
 		</script>	
   </body>
 </html>
-

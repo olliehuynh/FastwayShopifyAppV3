@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="GENERATOR" content="VSdocman - documentation generator; http://www.helixoft.com" />
-	<title>IsServiced Field</title>
+	<title>CountryFetchingRequest(ClientInfo, Transaction, String) Constructor</title>
 
 	<link rel="stylesheet" type="text/css" href="msdn2017/msdn2017.css"></link>
 	<script src="msdn2017/msdn2017.js" type="text/javascript"></script>
@@ -60,7 +60,7 @@ function replaceTitleAndUrl(win, title, url) {
 <!--HEADER START-->
   <div id="header">
   	<div id="runningHeaderText">FastwayShopifyAppV3 Reference</div>
-  	<h1 class="title">IsServiced Field</h1>
+  	<h1 class="title">CountryFetchingRequest(ClientInfo, Transaction, String) Constructor</h1>
   	<div id="headerLinks">
 
 	<a href="#seeAlsoSection">See Also</a>
@@ -136,7 +136,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeVB">
-					<pre xml:space="preserve" class="brush: vb">&lt;System.ServiceModel.MessageBodyMember(Namespace=&quot;http://ws.aramex.net/ShippingAPI/v1/&quot;, Order=3)&gt; _&nbsp;<br />Public IsServiced As <a target="_top" href="http://msdn2.microsoft.com/en-us/library/b3h38hb0.aspx">Nullable</a>(Of <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.boolean.aspx">Boolean</a>)</pre>			
+					<pre xml:space="preserve" class="brush: vb">Public Sub New( _&nbsp;<br />   ByVal <i>ClientInfo</i> As <a target="_top" href="topic_0000000000000008.html" onclick="this.target='';return true;">ClientInfo</a>, _&nbsp;<br />   ByVal <i>Transaction</i> As <a target="_top" href="topic_000000000000001F.html" onclick="this.target='';return true;">Transaction</a>, _&nbsp;<br />   ByVal <i>Code</i> As <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.string.aspx">String</a> _&nbsp;<br />)</pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -175,7 +175,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeCsharp">
-					<pre xml:space="preserve" class="brush: csharp">[System.ServiceModel.MessageBodyMember(Namespace=&quot;http://ws.aramex.net/ShippingAPI/v1/&quot;, Order=3)]&nbsp;<br />public <a target="_top" href="http://msdn2.microsoft.com/en-us/library/b3h38hb0.aspx">Nullable</a>&lt;<a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.boolean.aspx">bool</a>&gt; IsServiced</pre>			
+					<pre xml:space="preserve" class="brush: csharp">public CountryFetchingRequest(&nbsp;<br />   <a target="_top" href="topic_0000000000000008.html" onclick="this.target='';return true;">ClientInfo</a> <i>ClientInfo</i>,&nbsp;<br />   <a target="_top" href="topic_000000000000001F.html" onclick="this.target='';return true;">Transaction</a> <i>Transaction</i>,&nbsp;<br />   <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.string.aspx">string</a> <i>Code</i>&nbsp;<br />)</pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -215,7 +215,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeCpp">
-					<pre xml:space="preserve" class="brush: cpp">[System.ServiceModel.MessageBodyMember(Namespace=&quot;http://ws.aramex.net/ShippingAPI/v1/&quot;, Order=3)]&nbsp;<br />public: &nbsp;<br /><a target="_top" href="http://msdn2.microsoft.com/en-us/library/b3h38hb0.aspx">Nullable</a>&lt;<a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.boolean.aspx">bool</a>&gt; IsServiced;</pre>			
+					<pre xml:space="preserve" class="brush: cpp">public: &nbsp;<br />CountryFetchingRequest(&nbsp;<br />   <a target="_top" href="topic_0000000000000008.html" onclick="this.target='';return true;">ClientInfo</a>^ <i>ClientInfo</i>,&nbsp;<br />   <a target="_top" href="topic_000000000000001F.html" onclick="this.target='';return true;">Transaction</a>^ <i>Transaction</i>,&nbsp;<br />   <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.string.aspx">String</a>^ <i>Code</i>&nbsp;<br />) </pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -254,7 +254,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeJScript">
-					<pre xml:space="preserve" class="brush: js">JScript does not support generic types and methods.</pre>			
+					<pre xml:space="preserve" class="brush: js">public function CountryFetchingRequest(&nbsp;<br />    <i>ClientInfo</i> : <a target="_top" href="topic_0000000000000008.html" onclick="this.target='';return true;">ClientInfo</a>,&nbsp;<br />    <i>Transaction</i> : <a target="_top" href="topic_000000000000001F.html" onclick="this.target='';return true;">Transaction</a>,&nbsp;<br />    <i>Code</i> : <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.string.aspx">String</a>&nbsp;<br />);</pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -265,11 +265,49 @@ function replaceTitleAndUrl(win, title, url) {
 	</div>
 
 
+<h4 class="subHeading">
+	Parameters</h4><dl paramName="ClientInfo">
+	<dt>
+		<span class="parameter">
+			ClientInfo
+		</span>
+	</dt>
+	<dd>
+		Type: <a target="_top" href="topic_0000000000000008.html" onclick="this.target='';return true;">ClientInfo</a> 
+		<p>
+			 
+		</p>
+	</dd>
+</dl>
+<dl paramName="Transaction">
+	<dt>
+		<span class="parameter">
+			Transaction
+		</span>
+	</dt>
+	<dd>
+		Type: <a target="_top" href="topic_000000000000001F.html" onclick="this.target='';return true;">Transaction</a> 
+		<p>
+			 
+		</p>
+	</dd>
+</dl>
+<dl paramName="Code">
+	<dt>
+		<span class="parameter">
+			Code
+		</span>
+	</dt>
+	<dd>
+		Type: <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.string.aspx">string</a> 
+		<p>
+			 
+		</p>
+	</dd>
+</dl>
 
-	<h4 class="subHeading">
-		Field Value</h4>
-	Type: <a target="_top" href="http://msdn2.microsoft.com/en-us/library/b3h38hb0.aspx">Nullable</a>&lt;<a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.boolean.aspx">bool</a>&gt; 
-	
+<p />
+
 
 
 
@@ -357,7 +395,7 @@ function replaceTitleAndUrl(win, title, url) {
 
 	<div id="seeAlsoSection" class="section">	
 		<div>
-			<a href="topic_00000000000000C1.html">AddressServiceabilityResponse Class</a><br />
+			<a href="topic_00000000000000C0.html">CountryFetchingRequest Class</a><br />
 
 
 
@@ -384,3 +422,4 @@ function replaceTitleAndUrl(win, title, url) {
 		</script>	
   </body>
 </html>
+

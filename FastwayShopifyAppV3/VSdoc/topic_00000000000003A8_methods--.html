@@ -241,7 +241,9 @@ Gets the <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.
 	</td>
 	<td>
 
-Method to query for labels details V2 to use generate-label call instead of generate-label-for-labelnumbers
+Method to query for labels details V2 to use generate-label call
+instead of generate-label-for-labelnumbers
+with given Labeldetails
 
 	</td>
 </tr>
@@ -301,7 +303,9 @@ Creates a shallow copy of the current <a target="_top" href="http://msdn2.micros
 	</td>
 	<td>
 
-Method to query for pdf version of labels
+Query pdf labels with specified details including 2 phases
+1. Query for label numbers
+2. Query for pdf labels with given label numbers
 
 	</td>
 </tr>
@@ -329,7 +333,8 @@ Method to query for pdf version of labels
 	</td>
 	<td>
 
-Method to query for pdf version of labels for Bulk Print features
+Query pdf labels for bulk print feature
+with specified label numbers and details
 
 	</td>
 </tr>
@@ -357,7 +362,8 @@ Method to query for pdf version of labels for Bulk Print features
 	</td>
 	<td>
 
-tidy up code to populate RestRequest to query label images
+Method to populate the required parameters
+NOTE: Just to tidy up repeating code
 
 	</td>
 </tr>
@@ -385,7 +391,9 @@ tidy up code to populate RestRequest to query label images
 	</td>
 	<td>
 
-Method to query for availabel service providing all details
+Make consignor-consignee call to query available services
+Return a list of UsableLabel
+For specified Labeldetails
 
 	</td>
 </tr>

@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="GENERATOR" content="VSdocman - documentation generator; http://www.helixoft.com" />
-	<title>Labeldetails Structure</title>
+	<title>ProcessedShipmentDetails.Services Property</title>
 
 	<link rel="stylesheet" type="text/css" href="msdn2017/msdn2017.css"></link>
 	<script src="msdn2017/msdn2017.js" type="text/javascript"></script>
@@ -60,7 +60,7 @@ function replaceTitleAndUrl(win, title, url) {
 <!--HEADER START-->
   <div id="header">
   	<div id="runningHeaderText">FastwayShopifyAppV3 Reference</div>
-  	<h1 class="title">Labeldetails Structure</h1>
+  	<h1 class="title">ProcessedShipmentDetails.Services Property</h1>
   	<div id="headerLinks">
 
 	<a href="#seeAlsoSection">See Also</a>
@@ -74,11 +74,10 @@ function replaceTitleAndUrl(win, title, url) {
       <div id="mainBody">
         <p />
        
-        Structure to maintain label details while querying
 
 
         <p /><strong>Namespace:</strong>
-<a href="topic_000000000000036D.html">FastwayShopifyAppV3.Engine</a>
+<a href="topic_0000000000000221.html">FastwayShopifyAppV3.AramexShipping</a>
 
 
 
@@ -137,7 +136,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeVB">
-					<pre xml:space="preserve" class="brush: vb">Public Structure Labeldetails</pre>			
+					<pre xml:space="preserve" class="brush: vb">&lt;System.Runtime.Serialization.DataMember(IsRequired=true, Order=15)&gt; _&nbsp;<br />Public Property Services() As <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.string.aspx">String</a></pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -176,7 +175,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeCsharp">
-					<pre xml:space="preserve" class="brush: csharp">public struct Labeldetails</pre>			
+					<pre xml:space="preserve" class="brush: csharp">[System.Runtime.Serialization.DataMember(IsRequired=true, Order=15)]&nbsp;<br />public <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.string.aspx">string</a> Services {get; set;}</pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -216,7 +215,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeCpp">
-					<pre xml:space="preserve" class="brush: cpp">public value struct Labeldetails</pre>			
+					<pre xml:space="preserve" class="brush: cpp">[System.Runtime.Serialization.DataMember(IsRequired=true, Order=15)]&nbsp;<br />public: &nbsp;<br />property <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.string.aspx">String</a>^ Services {&nbsp;<br /> <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.string.aspx">String</a>^ get( );&nbsp;<br /> void set(&nbsp;<br />   <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.string.aspx">String</a>^ value&nbsp;<br /> );&nbsp;<br />}</pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -255,7 +254,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeJScript">
-					<pre xml:space="preserve" class="brush: js">JScript suports the use of structures, but not the declaration of new ones.</pre>			
+					<pre xml:space="preserve" class="brush: js">public &nbsp;<br />   System.Runtime.Serialization.DataMember(IsRequired=true, Order=15)&nbsp;<br />function get Services() : <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.string.aspx">String</a>;&nbsp;<br />public &nbsp;<br />   System.Runtime.Serialization.DataMember(IsRequired=true, Order=15)&nbsp;<br />function set Services(value : <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.string.aspx">String</a>);</pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -267,6 +266,11 @@ function replaceTitleAndUrl(win, title, url) {
 
 
 
+	<h4 class="subHeading">
+		Property Value</h4>
+	Type: <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.string.aspx">string</a> 
+	
+
 
 
 
@@ -284,570 +288,6 @@ function replaceTitleAndUrl(win, title, url) {
 </div>
 
 
-
-
-
-
-
-
-
-
-  
-
-<!-- Classes -->
-
-<!-- Classes End -->
-
-<!-- Standard Modules -->
-
-<!-- Standard Modules End -->
-
-  
-
-
-
-
-
-<div class="section_container">
-	<div class="section_heading">
-		<span><a href="javascript:void(0)" title="Collapse" onclick="toggleSection(this);">Fields</a></span>
-		<div><hr /></div>
-	</div>
-
-	<div id="FieldsSection" class="section">	
-  <table class="memberListTable">
-    <tr>
-      <th></th>
-      <th>
-        Name
-      </th>
-      <th>
-        Description
-      </th>
-    </tr>
-
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003AA.html">apiKey</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003C3.html">countryCode</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003AE.html">excess</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003BC.html">fromAddress1</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003BD.html">fromCity</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003BB.html">fromCompany</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003BF.html">fromPhone</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003BE.html">fromPostcode</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003AB.html">labelColour</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003C2.html">labelDate</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003AC.html">labelNumber</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003C4.html">printType</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003C0.html">reference</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003AF.html">ruralNumber</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003B1.html">saturday</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003B0.html">saturdayNumber</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003C1.html">specialInstruction1</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003B3.html">toAddress1</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003B4.html">toAddress2</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003B5.html">toCity</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003B2.html">toCompany</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003B7.html">toContactName</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003B8.html">toContactPhone</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003BA.html">toEmail</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003B6.html">toPostcode</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003B9.html">toRfName</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-	<tr class="
-	
-	
-	">
-	  <td>
-		    <img alt="Public field" title="Public field" src="msdn2017/pubfield.png"></img>
-	    
-	
-	    
-	  </td>
-	  <td>
-	    <a href="topic_00000000000003AD.html">weight</a>
-	  </td>
-	  <td>
-	
-	
-	
-		</td>
-	</tr>
-
-  </table>
-
-  <a href="#mainBody">
-    Top
-  </a>
-
-	</div>					
-</div>
 
 
 
@@ -909,7 +349,6 @@ function replaceTitleAndUrl(win, title, url) {
 	</div>					
 </div>
 
-
 <div class="section_container">
 	<div class="section_heading">
 		<span><a href="javascript:void(0)" title="Collapse" onclick="toggleSection(this);">See Also</a></span>
@@ -918,10 +357,14 @@ function replaceTitleAndUrl(win, title, url) {
 
 	<div id="seeAlsoSection" class="section">	
 		<div>
-	<a href="topic_000000000000036D.html">FastwayShopifyAppV3.Engine Namespace</a><br />
+			<a href="topic_0000000000000387.html">ProcessedShipmentDetails Class</a><br />
 
 
-	
+
+<a href="topic_0000000000000221.html">FastwayShopifyAppV3.AramexShipping Namespace</a><br />
+
+
+			
 
 		</div>
 	</div>					

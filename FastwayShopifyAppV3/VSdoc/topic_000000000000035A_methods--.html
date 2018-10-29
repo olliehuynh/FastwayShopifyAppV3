@@ -119,7 +119,8 @@ function replaceTitleAndUrl(win, title, url) {
 	</td>
 	<td>
 
-Validate address details and response with suggestions if any
+Method to respond to Ajax queries with address validation result
+for Aramex consignments
 
 	</td>
 </tr>
@@ -320,7 +321,8 @@ Creates an action invoker.
 	</td>
 	<td>
 
-Create a shipment using Aramex API and response with coresponding labels
+Method to respond to Ajax queries with pdf labels
+for Aramex consignments
 
 	</td>
 </tr>
@@ -916,7 +918,8 @@ Returns an instance of the <a target="_top" href="http://msdn2.microsoft.com/en-
 	</td>
 	<td>
 
-Writing shopUrl in hidden field 'shopUrl' and return View()
+Index controller
+Write shopUrl as a hidden imput to front-end for further queries
 
 	</td>
 </tr>
@@ -1181,7 +1184,9 @@ Creates a <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system
 	</td>
 	<td>
 
-V2 of LabelPrinting using generate-label call instead of generate-label-for-labelnumber
+Method to respond to Ajax queries with pdf labels
+based on address details and tracking numbers for specified order
+This is an improved version to fix some limitation with printlabels call.
 
 	</td>
 </tr>
@@ -1209,7 +1214,8 @@ V2 of LabelPrinting using generate-label call instead of generate-label-for-labe
 	</td>
 	<td>
 
-Listen to query from NewConsignment controler, query and response with available services
+Method to respond to Ajax queries with available services
+based on address details from specified order
 
 	</td>
 </tr>
@@ -1269,7 +1275,8 @@ Creates a shallow copy of the current <a target="_top" href="http://msdn2.micros
 	</td>
 	<td>
 
-Listen to query from NewConsignment Controller and response with labels acquired from Fastway API
+Method to respond to Ajax quesries with pdf labels
+based on labels numbers and details provided
 
 	</td>
 </tr>
@@ -1297,7 +1304,9 @@ Listen to query from NewConsignment Controller and response with labels acquired
 	</td>
 	<td>
 
-Query Labels for multi print
+Method to respond to Ajax queries with label numbers
+for each of the orders specified
+for bulk print feature
 
 	</td>
 </tr>
@@ -1325,7 +1334,11 @@ Query Labels for multi print
 	</td>
 	<td>
 
-Listen to calls from shopify admin page, receive shop url and order ids. Parse orders and pass details to View()
+NewConsignment controller
+Based on the specified order IDs by Shopify, write required variables
+to front-end in hidden inputs for further queries
+Used for both single or multiple orders
+Filter out international orders
 
 	</td>
 </tr>
@@ -1353,7 +1366,11 @@ Listen to calls from shopify admin page, receive shop url and order ids. Parse o
 	</td>
 	<td>
 
-Listen to calls from shopify admin page, receive shop url and order ids. Parse orders and pass details to View()
+NewInternationalConsignment controller
+Based on the specified order IDs by Shopify, write required variables
+to front-end in hidden inputs for further queries
+International only process one order at a time
+Filter out domestic orders
 
 	</td>
 </tr>
@@ -1637,7 +1654,9 @@ Called before the action result that is returned by an action method is executed
 	</td>
 	<td>
 
-Controller to fulfill orders as required.
+OrdersFulfillment controller
+Make Shopify fulfillment calls with given order ids and tracking numbers
+Write shopUrl to hidden input to front-end for further queries
 
 	</td>
 </tr>
@@ -1765,7 +1784,9 @@ Creates a <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system
 	</td>
 	<td>
 
-Controller to retrieve customer preferences
+Preferences controller
+Controller to retrieve customer preferences and show to front-end for editting
+Write shopUrl and store details to front-end for further queries
 
 	</td>
 </tr>
@@ -2953,7 +2974,7 @@ Updates the specified model instance using values from the value provider, a pre
 	</td>
 	<td>
 
-Listen to query from front-end to update preferences and response accordingly
+Method to respond to Ajax queries and update store details
 
 	</td>
 </tr>

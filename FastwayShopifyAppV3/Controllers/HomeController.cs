@@ -35,7 +35,7 @@ namespace FastwayShopifyAppV3.Controllers
         /// <summary>
         /// Installed controller
         /// Write shopUrl as a hidden input to front-end for further queries
-        /// <returns></returns>
+        /// </summary>
         public ActionResult Installed(string shopUrl)
         {
             Response.Write("<input id='shopUrl' type='hidden' value='" + shopUrl + "'>");
@@ -53,6 +53,11 @@ namespace FastwayShopifyAppV3.Controllers
         {
             //Get order numbers
             string orders = Request.QueryString["ids[]"];
+            if (orders == null)
+            {
+                orders = Request.QueryString["ids[][]"];
+            }
+
             //required objects
             List<string> orderIds = new List<string>();//list of orderIds
             List<string> processingOrderIds = new List<string>();//list of orderIds

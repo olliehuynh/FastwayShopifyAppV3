@@ -119,7 +119,11 @@ function replaceTitleAndUrl(win, title, url) {
 	</td>
 	<td>
 
-
+Method used to validate the address from Shopify
+Return
+1. Null if address is velified
+2. Empty list if Aramex API couldn't revifed the address
+3. A list of suggestions if Aramex API found some similarities
 
 	</td>
 </tr>
@@ -147,7 +151,8 @@ function replaceTitleAndUrl(win, title, url) {
 	</td>
 	<td>
 
-
+Method used to create a shipment with specified details
+Return a ShipmentCreationResponse which inlude a PDF labels link if success
 
 	</td>
 </tr>

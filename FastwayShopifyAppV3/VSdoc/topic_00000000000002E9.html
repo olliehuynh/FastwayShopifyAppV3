@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="GENERATOR" content="VSdocman - documentation generator; http://www.helixoft.com" />
-	<title>PickupCreationRequest(ClientInfo, Transaction, Pickup, LabelInfo) Constructor</title>
+	<title>extensionDataField Field</title>
 
 	<link rel="stylesheet" type="text/css" href="msdn2017/msdn2017.css"></link>
 	<script src="msdn2017/msdn2017.js" type="text/javascript"></script>
@@ -60,7 +60,7 @@ function replaceTitleAndUrl(win, title, url) {
 <!--HEADER START-->
   <div id="header">
   	<div id="runningHeaderText">FastwayShopifyAppV3 Reference</div>
-  	<h1 class="title">PickupCreationRequest(ClientInfo, Transaction, Pickup, LabelInfo) Constructor</h1>
+  	<h1 class="title">extensionDataField Field</h1>
   	<div id="headerLinks">
 
 	<a href="#seeAlsoSection">See Also</a>
@@ -77,7 +77,7 @@ function replaceTitleAndUrl(win, title, url) {
 
 
         <p /><strong>Namespace:</strong>
-<a href="topic_000000000000017E.html">FastwayShopifyAppV3.AramexShipping</a>
+<a href="topic_0000000000000221.html">FastwayShopifyAppV3.AramexShipping</a>
 
 
 
@@ -136,7 +136,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeVB">
-					<pre xml:space="preserve" class="brush: vb">Public Sub New( _&nbsp;<br />   ByVal <i>ClientInfo</i> As <a target="_top" href="topic_000000000000017F.html" onclick="this.target='';return true;">ClientInfo</a>, _&nbsp;<br />   ByVal <i>Transaction</i> As <a target="_top" href="topic_000000000000018C.html" onclick="this.target='';return true;">Transaction</a>, _&nbsp;<br />   ByVal <i>Pickup</i> As <a target="_top" href="topic_000000000000026B.html" onclick="this.target='';return true;">Pickup</a>, _&nbsp;<br />   ByVal <i>LabelInfo</i> As <a target="_top" href="topic_000000000000022E.html" onclick="this.target='';return true;">LabelInfo</a> _&nbsp;<br />)</pre>			
+					<pre xml:space="preserve" class="brush: vb">&lt;System.NonSerialized()&gt; _&nbsp;<br />Private extensionDataField As <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.runtime.serialization.extensiondataobject.aspx">ExtensionDataObject</a></pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -175,7 +175,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeCsharp">
-					<pre xml:space="preserve" class="brush: csharp">public PickupCreationRequest(&nbsp;<br />   <a target="_top" href="topic_000000000000017F.html" onclick="this.target='';return true;">ClientInfo</a> <i>ClientInfo</i>,&nbsp;<br />   <a target="_top" href="topic_000000000000018C.html" onclick="this.target='';return true;">Transaction</a> <i>Transaction</i>,&nbsp;<br />   <a target="_top" href="topic_000000000000026B.html" onclick="this.target='';return true;">Pickup</a> <i>Pickup</i>,&nbsp;<br />   <a target="_top" href="topic_000000000000022E.html" onclick="this.target='';return true;">LabelInfo</a> <i>LabelInfo</i>&nbsp;<br />)</pre>			
+					<pre xml:space="preserve" class="brush: csharp">[System.NonSerialized()]&nbsp;<br />private <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.runtime.serialization.extensiondataobject.aspx">ExtensionDataObject</a> extensionDataField</pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -215,7 +215,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeCpp">
-					<pre xml:space="preserve" class="brush: cpp">public: &nbsp;<br />PickupCreationRequest(&nbsp;<br />   <a target="_top" href="topic_000000000000017F.html" onclick="this.target='';return true;">ClientInfo</a>^ <i>ClientInfo</i>,&nbsp;<br />   <a target="_top" href="topic_000000000000018C.html" onclick="this.target='';return true;">Transaction</a>^ <i>Transaction</i>,&nbsp;<br />   <a target="_top" href="topic_000000000000026B.html" onclick="this.target='';return true;">Pickup</a>^ <i>Pickup</i>,&nbsp;<br />   <a target="_top" href="topic_000000000000022E.html" onclick="this.target='';return true;">LabelInfo</a>^ <i>LabelInfo</i>&nbsp;<br />) </pre>			
+					<pre xml:space="preserve" class="brush: cpp">[System.NonSerialized()]&nbsp;<br />private: &nbsp;<br /><a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.runtime.serialization.extensiondataobject.aspx">ExtensionDataObject</a>^ extensionDataField;</pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -254,7 +254,7 @@ function replaceTitleAndUrl(win, title, url) {
 				</div>
 				
 				<div class="codeSnippetCode codeJScript">
-					<pre xml:space="preserve" class="brush: js">public function PickupCreationRequest(&nbsp;<br />    <i>ClientInfo</i> : <a target="_top" href="topic_000000000000017F.html" onclick="this.target='';return true;">ClientInfo</a>,&nbsp;<br />    <i>Transaction</i> : <a target="_top" href="topic_000000000000018C.html" onclick="this.target='';return true;">Transaction</a>,&nbsp;<br />    <i>Pickup</i> : <a target="_top" href="topic_000000000000026B.html" onclick="this.target='';return true;">Pickup</a>,&nbsp;<br />    <i>LabelInfo</i> : <a target="_top" href="topic_000000000000022E.html" onclick="this.target='';return true;">LabelInfo</a>&nbsp;<br />);</pre>			
+					<pre xml:space="preserve" class="brush: js">private &nbsp;<br />   System.NonSerialized()&nbsp;<br />extensionDataField : <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.runtime.serialization.extensiondataobject.aspx">ExtensionDataObject</a></pre>			
 				</div>
 				<div class="codeSnippetCode codeNA">
 					<pre xml:space="preserve">This language is not supported or no code example is available.</pre>			
@@ -265,62 +265,11 @@ function replaceTitleAndUrl(win, title, url) {
 	</div>
 
 
-<h4 class="subHeading">
-	Parameters</h4><dl paramName="ClientInfo">
-	<dt>
-		<span class="parameter">
-			ClientInfo
-		</span>
-	</dt>
-	<dd>
-		Type: <a target="_top" href="topic_000000000000017F.html" onclick="this.target='';return true;">ClientInfo</a> 
-		<p>
-			 
-		</p>
-	</dd>
-</dl>
-<dl paramName="Transaction">
-	<dt>
-		<span class="parameter">
-			Transaction
-		</span>
-	</dt>
-	<dd>
-		Type: <a target="_top" href="topic_000000000000018C.html" onclick="this.target='';return true;">Transaction</a> 
-		<p>
-			 
-		</p>
-	</dd>
-</dl>
-<dl paramName="Pickup">
-	<dt>
-		<span class="parameter">
-			Pickup
-		</span>
-	</dt>
-	<dd>
-		Type: <a target="_top" href="topic_000000000000026B.html" onclick="this.target='';return true;">Pickup</a> 
-		<p>
-			 
-		</p>
-	</dd>
-</dl>
-<dl paramName="LabelInfo">
-	<dt>
-		<span class="parameter">
-			LabelInfo
-		</span>
-	</dt>
-	<dd>
-		Type: <a target="_top" href="topic_000000000000022E.html" onclick="this.target='';return true;">LabelInfo</a> 
-		<p>
-			 
-		</p>
-	</dd>
-</dl>
 
-<p />
-
+	<h4 class="subHeading">
+		Field Value</h4>
+	Type: <a target="_top" href="http://msdn2.microsoft.com/en-us/library/system.runtime.serialization.extensiondataobject.aspx">ExtensionDataObject</a> 
+	
 
 
 
@@ -408,11 +357,11 @@ function replaceTitleAndUrl(win, title, url) {
 
 	<div id="seeAlsoSection" class="section">	
 		<div>
-			<a href="topic_00000000000002E3.html">PickupCreationRequest Class</a><br />
+			<a href="topic_00000000000002E8.html">Contact Class</a><br />
 
 
 
-<a href="topic_000000000000017E.html">FastwayShopifyAppV3.AramexShipping Namespace</a><br />
+<a href="topic_0000000000000221.html">FastwayShopifyAppV3.AramexShipping Namespace</a><br />
 
 
 			
@@ -435,4 +384,3 @@ function replaceTitleAndUrl(win, title, url) {
 		</script>	
   </body>
 </html>
-
