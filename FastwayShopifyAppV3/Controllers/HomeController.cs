@@ -145,7 +145,7 @@ namespace FastwayShopifyAppV3.Controllers
             string stringOrderReference = string.Join(",",processingOrderPreferences);
 
 
-            //creating json about delivery address to pass back to View()
+            //Forming data to pass back
             string address = "";
             string note = "";
             string addresses = "";

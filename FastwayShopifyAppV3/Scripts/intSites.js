@@ -199,6 +199,7 @@ function printAramexLabels() {
             data: JSON.stringify(addressDetails),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
+            async: false,
             success: function (data) {
                 if (data.Errors) {
                     alert(data.Errors);
