@@ -844,7 +844,7 @@ function bulkPrintLabels() {
     var labelDetails = '[';
     for (var i = 1; i < rowCount; i++) {
         var tds = trs[i].getElementsByTagName("td");
-        var company = ""
+        var company = "";
         if (addresses[i - 1].Company) {
             if (addresses[i - 1].Company.length > 30) {
                 var str = addresses[i - 1].Company;
@@ -866,7 +866,7 @@ function bulkPrintLabels() {
             '"Service":"' + tds[7].children[0].value + '",' +
             '"Destination":"' + tds[8].children[0].value + '"' +
             '}';
-        if (i != rowCount - 1) {
+        if (i !== rowCount - 1) {
             labelDetails += ',';
         }
     }
@@ -893,7 +893,20 @@ function bulkPrintLabels() {
             async: false,
             success: function (data) {
                 document.getElementById('load').style.visibility = "hidden";
-                window.open("data:application/pdf;base64, " + data.PdfBase64Stream, '', "height=600,width=800");
+
+                //document.getElementById('labels').src = "data: application / pdf; base64," + data.PdfBase64Stream;
+                //document.getElementById('labels').style.display = "block";
+                 
+                document.getElementById('labelContainer').innerHTML = 
+                    '<object id="labelPdf"' +
+                    'width="400" height="570" type="application/pdf"' +
+                    'data="data:application/pdf;base64,' + data.PdfBase64Stream + '">' +
+                    '<span>PDF plugin is not available.</span>' +
+                    '</object>';
+
+                document.getElementById("tblOrders").style.display = "none";
+                document.getElementById("orderControlPanel").style.display = "none";
+
             },
             error: function (data) {
                 document.getElementById('load').style.visibility = "hidden";

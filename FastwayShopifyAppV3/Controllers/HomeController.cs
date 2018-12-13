@@ -49,14 +49,22 @@ namespace FastwayShopifyAppV3.Controllers
         /// Used for both single or multiple orders
         /// Filter out international orders
         /// </summary>
-        public async Task<ActionResult> NewConsignment(string shop, string[] ids)
+        public async Task<ActionResult> NewConsignment(string shop, string[] ids, string id)
         {
             //Get order numbers
-            string orders = Request.QueryString["ids[]"];
-            if (orders == null)
+            string orders;
+            if (id != null)
             {
-                orders = Request.QueryString["ids[][]"];
+                orders = id;
+            } else
+            {
+                orders = Request.QueryString["ids[]"];
+                if (orders == null)
+                {
+                    orders = Request.QueryString["ids[][]"];
+                }
             }
+            
 
             //required objects
             List<string> orderIds = new List<string>();//list of orderIds
@@ -66,7 +74,7 @@ namespace FastwayShopifyAppV3.Controllers
             List<ShopifySharp.Address> deliveryAddress = new List<ShopifySharp.Address>();//list of delivery details
             List<string> emails = new List<string>();//list of emails addresses
 
-            if (orders == null)//No order select (in case customer reach this page from outside of their admin page
+            if (orders == null||orders=="")//No order select (in case customer reach this page from outside of their admin page
             {
                 return View();//NOTE: might need to redirect them to their admin page
             }
@@ -748,21 +756,22 @@ namespace FastwayShopifyAppV3.Controllers
                 
             }
 
-            PdfDocument doc = new PdfDocument();
-            if (labelDetails.Count > 0)
-            {
-                FastwayAPI getBase = new FastwayAPI();
-                doc = getBase.PrintMultipleLabels(labelDetails, doc);
-            }
-
-            MemoryStream pdfStream = new MemoryStream();
-            doc.Save(pdfStream, false);
-            byte[] pdfBytes = pdfStream.ToArray();
-
-            var pdfString = Convert.ToBase64String(pdfBytes);
-
             try
             {
+                PdfDocument doc = new PdfDocument();
+                if (labelDetails.Count > 0)
+                {
+                    FastwayAPI getBase = new FastwayAPI();
+                    doc = getBase.PrintMultipleLabels(labelDetails, doc);
+                }
+
+                MemoryStream pdfStream = new MemoryStream();
+                doc.Save(pdfStream, false);
+                byte[] pdfBytes = pdfStream.ToArray();
+
+                var pdfString = Convert.ToBase64String(pdfBytes);
+
+            
                 return Json(new
                 {//return status success
                     PdfBase64Stream = pdfString

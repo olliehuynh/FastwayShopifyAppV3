@@ -210,7 +210,7 @@
                                                     </select>
                                                 </td>
                                                 <td class="col-xs-1" style="padding:1px;">
-                                                    <input id="customWeight" class="form-control" type="number" onchange="weightError()"/>
+                                                    <input id="customWeight" class="form-control" type="number" onchange="weightError()" />
                                                 </td>
                                                 <td class="col-xs-1" style="padding:1px;">
                                                     <input id="customLength" class="form-control" type="number" />
@@ -231,15 +231,17 @@
                 </div>
                 <div class="col-xs-3">
                     <label>
-                        <input id="notifyBlukCbx" name="satCbx" type="checkbox" checked/>
+                        <input id="notifyBlukCbx" name="satCbx" type="checkbox" checked />
                         Notify customers
                     </label>
                     <label style="display:none">
-                        <input id="referenceOptionCbx" name="satCbx" type="checkbox" checked/>
+                        <input id="referenceOptionCbx" name="satCbx" type="checkbox" checked />
                         Use order number as references
                     </label>
                 </div>
             </div>
+            <iframe id="labels" src="" style="width: 400px; height: 560px; display:none"></iframe>
+            <div id="labelContainer"></div>
             <div class="row" id="multiLabelControlPanel" style="display:none;padding-bottom:50px">
                 <div class="col-xs-6" style="padding-top:1em">
                     <a class="btn btn-danger" onclick="queryLabels()">
@@ -253,8 +255,10 @@
                     </a>
                 </div>
             </div>
+
         </div>
     </div>
+    
 </div>
 
 
